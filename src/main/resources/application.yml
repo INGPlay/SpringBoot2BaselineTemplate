@@ -1,0 +1,30 @@
+spring:
+    profiles:
+        group:
+            local:
+                -
+
+            dev:
+                -
+
+            prod:
+                -
+---
+spring:
+    profiles:
+        activate:
+            on-profile: local
+
+---
+
+spring:
+    profiles:
+        activate:
+            on-profile: dev
+
+---
+spring:
+    profiles:
+        activate:
+            on-profile: prod
+
