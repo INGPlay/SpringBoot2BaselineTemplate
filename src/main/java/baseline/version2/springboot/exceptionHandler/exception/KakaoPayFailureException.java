@@ -1,6 +1,6 @@
 package baseline.version2.springboot.exceptionHandler.exception;
 
-import com.mall.spring_shopping.exceptionHandler.exception.abs.AbstractCustomException;
+import baseline.version2.springboot.exceptionHandler.exception.abs.AbstractCustomException;
 import org.springframework.http.HttpStatus;
 
 public class KakaoPayFailureException extends AbstractCustomException {

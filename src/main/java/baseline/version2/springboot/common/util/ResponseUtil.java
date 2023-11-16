@@ -1,6 +1,6 @@
 package baseline.version2.springboot.common.util;
 
-import com.mall.spring_shopping.common.util.response.ResponseForm;
+import baseline.version2.springboot.common.util.response.ResponseForm;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,11 +1,5 @@
 package baseline.version2.springboot.config.security.handler;
 
-import com.mall.spring_shopping.account.domain.RecordLoginDTO;
-import com.mall.spring_shopping.account.domain.subType.LoginResultEnum;
-import com.mall.spring_shopping.account.repository.AccountRepository;
-import com.mall.spring_shopping.account.service.AccountService;
-import com.mall.spring_shopping.common.entity.Account;
-import com.mall.spring_shopping.exceptionHandler.exception.UnauthorizedOAuthException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;

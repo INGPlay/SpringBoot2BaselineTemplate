@@ -28,7 +28,7 @@ public class SecurityConfig {
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
     private final CustomLogoutHandler customLogoutHandler;
 
-    private final CustomOAuth2UserService customOAuth2UserService;
+//    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer(){
@@ -55,15 +55,15 @@ public class SecurityConfig {
                         .successHandler(customAuthenticationSuccessHandler)
                         .failureHandler(customAuthenticationFailureHandler)
                 )
-                .oauth2Login(o -> o
-                        .loginPage("/account/login")
-                        .userInfoEndpoint(u -> u
-                                .userService(customOAuth2UserService)
-                        )
-                        .failureUrl("/account/login?fail")
-                        .successHandler(customAuthenticationSuccessHandler)
-                        .failureHandler(customAuthenticationFailureHandler)
-                )
+//                .oauth2Login(o -> o
+//                        .loginPage("/account/login")
+//                        .userInfoEndpoint(u -> u
+//                                .userService(customOAuth2UserService)
+//                        )
+//                        .failureUrl("/account/login?fail")
+//                        .successHandler(customAuthenticationSuccessHandler)
+//                        .failureHandler(customAuthenticationFailureHandler)
+//                )
                 .logout(l -> l
                         .logoutUrl("/account/logout")
                         .logoutSuccessUrl("/")

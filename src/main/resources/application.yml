@@ -2,13 +2,13 @@ spring:
     profiles:
         group:
             local:
-                -
+                - local
 
             dev:
-                -
+                - dev
 
             prod:
-                -
+                - prod
 ---
 spring:
     profiles:

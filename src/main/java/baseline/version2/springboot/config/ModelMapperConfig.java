@@ -1,5 +1,6 @@
 package baseline.version2.springboot.config;
 
+import baseline.version2.springboot.common.ActiveStatusEnum;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.convention.NameTokenizers;
