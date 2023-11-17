@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class RootController {
 
-    @ResponseBody
     @GetMapping
-    public String page(TempDTO tempDTO){
-        return tempDTO.getStatus().getText();
+    public String rootPage(){
+        return "index";
     }
 }
