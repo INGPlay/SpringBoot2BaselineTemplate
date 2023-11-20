@@ -1,7 +1,7 @@
 package baseline.version2.springboot.example.apiController;
 
-import baseline.version2.springboot.example.domain.EditExampleDTO;
-import baseline.version2.springboot.example.domain.ResponseVO;
+import baseline.version2.springboot.example.domain.dto.EditExampleDTO;
+import baseline.version2.springboot.example.domain.dto.ResponseVO;
 import baseline.version2.springboot.example.service.ExampleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
