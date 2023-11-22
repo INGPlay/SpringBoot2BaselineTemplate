@@ -1,4 +1,4 @@
-package baseline.version2.springboot.common;
+package baseline.version2.springboot.common.subType;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,10 +1,9 @@
-package baseline.version2.springboot.common;
+package baseline.version2.springboot.common.subType;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public enum ActiveStatusEnum implements EnumBase {
+public enum ActiveStatus implements EnumBase {
     ACTIVE("활성화"),
     INACTIVE("비활성화")
     ;

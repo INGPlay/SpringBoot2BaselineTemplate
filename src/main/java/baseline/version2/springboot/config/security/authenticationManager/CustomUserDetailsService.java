@@ -1,5 +1,8 @@
 package baseline.version2.springboot.config.security.authenticationManager;
 
+import baseline.version2.springboot.account.domain.subType.OAuthTypeEnum;
+import baseline.version2.springboot.account.repository.querydsl.QueryAccountRepository;
+import baseline.version2.springboot.common.entity.Account;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,13 +23,26 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
+    private final HttpServletRequest httpsServletRequest;
+    private final QueryAccountRepository queryAccountRepository;
+
     // Form 로그인
     @Override
     public UserDetails loadUserByUsername(String accountName) throws UsernameNotFoundException {
 
-        return null;
-//        return new AccountContext(
-//                account.getId(), account.getAccountName(), account.getAccountPassword(), roles
-//        );
+        log.info("accountName : {}", accountName);
+        log.info("login ip : {}", httpsServletRequest.getRemoteAddr());
+
+        Account account = queryAccountRepository.selectAccountOne(accountName, OAuthTypeEnum.LOCAL).orElseThrow(
+                () -> new UsernameNotFoundException("UsernameNotFoundException")
+        );
+
+        List<GrantedAuthority> roles = new ArrayList<>();
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + account.getAccountRole().name());
+        roles.add(authority);
+
+        return new AccountContext(
+                account.getAccountId(), account.getAccountName(), account.getAccountPassword(), roles
+        );
     }
 }

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>로그인 페이지</title>
+
+    <th:block th:replace="fragment/common :: commonStatic"></th:block>
+
+</head>
+<body>
+
+<th:block th:replace="fragment/header :: commonHeader"></th:block>
+
+<div class="uk-container">
+
+    <div class="uk-flex uk-flex-center">
+
+        <div class="uk-form-horizontal uk-width-medium uk-margin-top">
+
+            <h2 class="uk-text-center">로그인</h2>
+
+            <div th:if="${param.successMessage}">
+                <span th:text="${param.successMessage}" class="uk-text-success uk-text-large"></span>
+            </div>
+            <div th:if="${param.errorMessage}">
+                <span th:text="${param.errorMessage}" class="uk-text-warning"></span>
+            </div>
+
+            <form th:action="@{/account/login-process}" method="POST">
+
+                <div class="uk-margin">
+                    <legend class="uk-legend">계정이름</legend>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon" uk-icon="icon: user"></span>
+                        <input class="uk-input" type="text" aria-label="Not clickable icon" name="accountName">
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <legend class="uk-legend">비밀번호</legend>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                        <input class="uk-input" type="password" aria-label="Not clickable icon" name="accountPassword">
+                    </div>
+                </div>
+
+                <div class="uk-flex uk-flex-center">
+                    <button class="uk-button uk-button-primary" type="submit">로그인</button>
+                </div>
+
+                <!-- OAuth 로그인 -->
+<!--                <div class="uk-flex uk-flex-center uk-margin-top uk-thumbnav">-->
+
+<!--                    <a href="/oauth2/authorization/naver">-->
+<!--                        <img th:src="@{/img/naver_login_short.png}" width="135" height="67">-->
+<!--                    </a>-->
+
+<!--                    <a href="/oauth2/authorization/kakao">-->
+<!--                        <img th:src="@{/img/kakao_login_short.png}" width="100" height="67">-->
+<!--                    </a>-->
+
+<!--                </div>-->
+            </form>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
