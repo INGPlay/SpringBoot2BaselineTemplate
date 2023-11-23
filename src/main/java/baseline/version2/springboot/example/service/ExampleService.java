@@ -6,7 +6,8 @@ import baseline.version2.springboot.example.domain.dto.EditExampleDTO;
 import baseline.version2.springboot.example.domain.dto.ResponseVO;
 import baseline.version2.springboot.example.repository.ExampleRepository;
 import baseline.version2.springboot.example.repository.queryDsl.QueryExampleRepository;
-import baseline.version2.springboot.exceptionHandler.exception.NotFoundCustomException;
+import baseline.version2.springboot.exceptionHandler.exception.ServiceLayerException;
+import baseline.version2.springboot.exceptionHandler.subType.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class ExampleService {
 
     public ResponseVO findOne(Long id){
         Example example = exampleRepository.findById(id).orElseThrow(
-                () -> new NotFoundCustomException("값이 없습니다.")
+                () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)
         );
 
         return exampleMapper.entityToResponse(example);
@@ -50,7 +51,7 @@ public class ExampleService {
     public void updateOne(EditExampleDTO editExampleDTO){
 
         Example example = exampleRepository.findById(editExampleDTO.getId()).orElseThrow(
-                () -> new NotFoundCustomException("찾을 수 없습니다.")
+                () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)
         );
 
         exampleMapper.requestUpdate(editExampleDTO, example);
