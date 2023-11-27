@@ -48,7 +48,6 @@ dependencies {
 
 	implementation 'org.springframework.session:spring-session-data-redis'
 
-	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     compileOnly 'org.projectlombok:lombok'
@@ -65,7 +64,7 @@ dependencies {
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 //    runtimeOnly 'org.postgresql:postgresql'
 
-    // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+    // ModelMapper
     implementation 'org.modelmapper:modelmapper:3.1.1'
 
     // MapStruct
