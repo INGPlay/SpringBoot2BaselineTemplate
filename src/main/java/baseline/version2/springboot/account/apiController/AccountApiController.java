@@ -1,9 +1,8 @@
 package baseline.version2.springboot.account.apiController;
 
-import baseline.version2.springboot.account.domain.RegisterAccountDTO;
+import baseline.version2.springboot.account.domain.AccountDomain;
 import baseline.version2.springboot.account.repository.AccountRepository;
 import baseline.version2.springboot.account.service.AccountService;
-import baseline.version2.springboot.common.entity.Account;
 import baseline.version2.springboot.common.util.ResponseUtil;
 import baseline.version2.springboot.common.util.response.ResponseForm;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -32,7 +30,7 @@ public class AccountApiController {
     private final AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<ResponseForm> registerAccount(@RequestBody @Valid RegisterAccountDTO registerAccountDTO,
+    public ResponseEntity<ResponseForm> registerAccount(@RequestBody @Valid AccountDomain.RegisterAccountDTO registerAccountDTO,
                                                         BindingResult bindingResult){
         if (isNotValidateForRegister(registerAccountDTO, bindingResult)){
             return responseUtil.makeResponseEntity(bindingResult.getFieldErrors());
@@ -44,7 +42,7 @@ public class AccountApiController {
         return new ResponseEntity<>(responseForm, HttpStatus.OK);
     }
 
-    private boolean isNotValidateForRegister(RegisterAccountDTO registerAccountDTO, BindingResult bindingResult) {
+    private boolean isNotValidateForRegister(AccountDomain.RegisterAccountDTO registerAccountDTO, BindingResult bindingResult) {
 
         if (accountService.isInDb(registerAccountDTO.getAccountName())){
             FieldError fieldError = new FieldError("accountName", "accountName", "이미 등록된 계정이름입니다.");

@@ -1,7 +1,6 @@
 package baseline.version2.springboot.common.entity;
 
-import baseline.version2.springboot.account.domain.subType.OAuthTypeEnum;
-import baseline.version2.springboot.account.domain.subType.RoleEnum;
+import baseline.version2.springboot.account.domain.subType.AccountSub;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,9 +28,9 @@ public class Account {
 
     @Column
     @Enumerated(value = EnumType.STRING)
-    private OAuthTypeEnum oauthType;
+    private AccountSub.OAuthTypeEnum oauthType;
 
     @Column
     @Enumerated(value = EnumType.STRING)
-    private RoleEnum accountRole;
+    private AccountSub.RoleEnum accountRole;
 }

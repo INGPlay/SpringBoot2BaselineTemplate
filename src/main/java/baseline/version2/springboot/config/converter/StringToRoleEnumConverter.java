@@ -1,12 +1,12 @@
 package baseline.version2.springboot.config.converter;
 
-import baseline.version2.springboot.account.domain.subType.RoleEnum;
-import baseline.version2.springboot.common.subType.EnumBase;
+import baseline.version2.springboot.account.domain.subType.AccountSub;
+import baseline.version2.springboot.common.domain.subType.EnumBase;
 import org.springframework.core.convert.converter.Converter;
 
-public class StringToRoleEnumConverter implements Converter<String, RoleEnum> {
+public class StringToRoleEnumConverter implements Converter<String, AccountSub.RoleEnum> {
     @Override
-    public RoleEnum convert(String s) {
-        return EnumBase.getEnumFromString(RoleEnum.class, s);
+    public AccountSub.RoleEnum convert(String s) {
+        return EnumBase.getEnumFromString(AccountSub.RoleEnum.class, s);
     }
 }

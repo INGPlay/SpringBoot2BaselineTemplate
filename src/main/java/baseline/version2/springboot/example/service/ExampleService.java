@@ -2,8 +2,7 @@ package baseline.version2.springboot.example.service;
 
 import baseline.version2.springboot.common.entity.Example;
 import baseline.version2.springboot.example.domain.ExampleMapper;
-import baseline.version2.springboot.example.domain.dto.EditExampleDTO;
-import baseline.version2.springboot.example.domain.dto.ResponseVO;
+import baseline.version2.springboot.example.domain.dto.ExampleDomain;
 import baseline.version2.springboot.example.repository.ExampleRepository;
 import baseline.version2.springboot.example.repository.queryDsl.QueryExampleRepository;
 import baseline.version2.springboot.exceptionHandler.exception.ServiceLayerException;
@@ -28,7 +27,7 @@ public class ExampleService {
     private final QueryExampleRepository queryExampleRepository;
     private final ExampleRepository exampleRepository;
 
-    public ResponseVO findOne(Long id){
+    public ExampleDomain.ResponseVO findOne(Long id){
         Example example = exampleRepository.findById(id).orElseThrow(
                 () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)
         );
@@ -36,19 +35,19 @@ public class ExampleService {
         return exampleMapper.entityToResponse(example);
     }
 
-    public List<ResponseVO> findList(){
+    public List<ExampleDomain.ResponseVO> findList(){
         List<Example> all = exampleRepository.findAll();
         return all.stream().map(example -> exampleMapper.entityToResponse(example))
                 .collect(Collectors.toList());
     }
 
-    public void insertOne(EditExampleDTO editExampleDTO){
+    public void insertOne(ExampleDomain.EditDTO editExampleDTO){
         Example example = exampleMapper.requestInsert(editExampleDTO);
 
         exampleRepository.save(example);
     }
 
-    public void updateOne(EditExampleDTO editExampleDTO){
+    public void updateOne(ExampleDomain.EditDTO editExampleDTO){
 
         Example example = exampleRepository.findById(editExampleDTO.getId()).orElseThrow(
                 () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)

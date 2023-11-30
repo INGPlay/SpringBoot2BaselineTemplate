@@ -1,7 +1,7 @@
 package baseline.version2.springboot.account.service;
 
-import baseline.version2.springboot.account.domain.RegisterAccountDTO;
-import baseline.version2.springboot.account.domain.subType.OAuthTypeEnum;
+import baseline.version2.springboot.account.domain.AccountDomain;
+import baseline.version2.springboot.account.domain.subType.AccountSub;
 import baseline.version2.springboot.account.repository.AccountRepository;
 import baseline.version2.springboot.account.repository.querydsl.QueryAccountRepository;
 import baseline.version2.springboot.common.entity.Account;
@@ -27,13 +27,13 @@ public class AccountService {
         return accountRepository.findByAccountName(accountName).isPresent();
     }
 
-    public Long insertLocalAccount(RegisterAccountDTO registerAccountDTO){
+    public Long insertLocalAccount(AccountDomain.RegisterAccountDTO registerAccountDTO){
         Account account = new Account();
         account.setAccountName(registerAccountDTO.getAccountName());
         account.setAccountPassword(passwordEncoder.encode(registerAccountDTO.getAccountPassword()));
         account.setAccountDisplayName(registerAccountDTO.getAccountDisplayName());
         account.setAccountRole(registerAccountDTO.getAccountRole());
-        account.setOauthType(OAuthTypeEnum.LOCAL);
+        account.setOauthType(AccountSub.OAuthTypeEnum.LOCAL);
 
         Account savedAccount = accountRepository.save(account);
 

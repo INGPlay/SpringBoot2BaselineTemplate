@@ -1,7 +1,6 @@
 package baseline.version2.springboot.example.apiController;
 
-import baseline.version2.springboot.example.domain.dto.EditExampleDTO;
-import baseline.version2.springboot.example.domain.dto.ResponseVO;
+import baseline.version2.springboot.example.domain.dto.ExampleDomain;
 import baseline.version2.springboot.example.service.ExampleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,24 +16,24 @@ public class ExampleRestController {
     private final ExampleService exampleService;
 
     @GetMapping("/{id}")
-    public ResponseVO selectOne(@PathVariable Long id){
+    public ExampleDomain.ResponseVO selectOne(@PathVariable Long id){
         return exampleService.findOne(id);
     }
 
     @GetMapping
-    public List<ResponseVO> selectList(){
+    public List<ExampleDomain.ResponseVO> selectList(){
         return exampleService.findList();
     }
 
     @PostMapping
-    public String insert(@RequestBody EditExampleDTO editExampleDTO){
+    public String insert(@RequestBody ExampleDomain.EditDTO editExampleDTO){
         exampleService.insertOne(editExampleDTO);
 
         return "ok";
     }
 
     @PutMapping
-    public String update(@RequestBody EditExampleDTO editExampleDTO){
+    public String update(@RequestBody ExampleDomain.EditDTO editExampleDTO){
 
         exampleService.updateOne(editExampleDTO);
 

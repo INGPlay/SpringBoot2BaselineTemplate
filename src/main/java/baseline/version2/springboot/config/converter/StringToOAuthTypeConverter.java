@@ -1,12 +1,12 @@
 package baseline.version2.springboot.config.converter;
 
-import baseline.version2.springboot.account.domain.subType.OAuthTypeEnum;
-import baseline.version2.springboot.common.subType.EnumBase;
+import baseline.version2.springboot.account.domain.subType.AccountSub;
+import baseline.version2.springboot.common.domain.subType.EnumBase;
 import org.springframework.core.convert.converter.Converter;
 
-public class StringToOAuthTypeConverter implements Converter<String, OAuthTypeEnum> {
+public class StringToOAuthTypeConverter implements Converter<String, AccountSub.OAuthTypeEnum> {
     @Override
-    public OAuthTypeEnum convert(String s) {
-        return EnumBase.getEnumFromString(OAuthTypeEnum.class, s);
+    public AccountSub.OAuthTypeEnum convert(String s) {
+        return EnumBase.getEnumFromString(AccountSub.OAuthTypeEnum.class, s);
     }
 }

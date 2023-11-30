@@ -1,6 +1,6 @@
 package baseline.version2.springboot.config.security.authenticationManager;
 
-import baseline.version2.springboot.account.domain.subType.OAuthTypeEnum;
+import baseline.version2.springboot.account.domain.subType.AccountSub;
 import baseline.version2.springboot.account.repository.querydsl.QueryAccountRepository;
 import baseline.version2.springboot.common.entity.Account;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         log.info("accountName : {}", accountName);
         log.info("login ip : {}", httpsServletRequest.getRemoteAddr());
 
-        Account account = queryAccountRepository.selectAccountOne(accountName, OAuthTypeEnum.LOCAL).orElseThrow(
+        Account account = queryAccountRepository.selectAccountOne(accountName, AccountSub.OAuthTypeEnum.LOCAL).orElseThrow(
                 () -> new UsernameNotFoundException("UsernameNotFoundException")
         );
 

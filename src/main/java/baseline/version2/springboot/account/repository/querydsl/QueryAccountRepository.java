@@ -1,6 +1,6 @@
 package baseline.version2.springboot.account.repository.querydsl;
 
-import baseline.version2.springboot.account.domain.subType.OAuthTypeEnum;
+import baseline.version2.springboot.account.domain.subType.AccountSub;
 import baseline.version2.springboot.common.entity.Account;
 import baseline.version2.springboot.common.entity.QAccount;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -17,7 +17,7 @@ public class QueryAccountRepository {
 
     QAccount account = QAccount.account;
 
-    public Optional<Account> selectAccountOne(String accountName, OAuthTypeEnum oauthType){
+    public Optional<Account> selectAccountOne(String accountName, AccountSub.OAuthTypeEnum oauthType){
 
         return Optional.ofNullable(
                 jpaQueryFactory.selectFrom(account)
