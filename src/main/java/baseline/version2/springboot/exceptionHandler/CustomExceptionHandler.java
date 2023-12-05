@@ -15,6 +15,7 @@ public class CustomExceptionHandler {
     protected String exception(RuntimeException exception,
                                HttpServletRequest httpServletRequest,
                                RedirectAttributes redirectAttributes){
+        log.error("[RuntimeException] {}", exception.getStackTrace()[0]);
         redirectAttributes.addFlashAttribute("referer", getReferer(httpServletRequest));
         redirectAttributes.addFlashAttribute("errorMessage", exception.getMessage());
         return "redirect:/exception";

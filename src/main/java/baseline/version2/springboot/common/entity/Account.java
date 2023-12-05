@@ -1,6 +1,7 @@
 package baseline.version2.springboot.common.entity;
 
 import baseline.version2.springboot.account.domain.subType.AccountSub;
+import baseline.version2.springboot.common.entity.base.DateTimeBase;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "account")
 @Getter @Setter
-public class Account {
+public class Account extends DateTimeBase {
     @Id
     @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

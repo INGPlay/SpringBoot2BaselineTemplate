@@ -5,3 +5,7 @@
 
 
 ## 배포 시 DB 시간 맞추기
+
+## Date vs LocalDateTime
+- LocalDateTime 가 다 좋은데 온갖 호환 문제가 일어남.(Redis 변환, Controller로 받는 경우 등)
+- 모두 대처는 가능하나, 번거로움.

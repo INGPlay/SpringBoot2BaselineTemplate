@@ -19,24 +19,6 @@ public class ResponseUtil {
      * @return {
      *     "result" : true,
      *     "data" : {
-     *         "contents" : contents
-     *     }
-     * }
-     */
-    public ResponseEntity<ResponseForm> makeResponseEntity(Object contents) {
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("contents", contents);
-        ResponseForm responseForm = new ResponseForm(true, data);
-
-        return new ResponseEntity<>(responseForm, HttpStatus.OK);
-    }
-
-    /**
-     *
-     * @param contents
-     * @return {
-     *     "result" : true,
-     *     "data" : {
      *         "contents" : contents,
      *         "pagination" : {
      *             "page" : page,
@@ -67,18 +49,6 @@ public class ResponseUtil {
 
     /**
      *
-     * @return {
-     *     "result" : true
-     * }
-     */
-    public ResponseEntity<ResponseForm> makeResponseEntity(){
-        ResponseForm responseForm = new ResponseForm(true);
-
-        return new ResponseEntity<>(responseForm, HttpStatus.OK);
-    }
-
-    /**
-     *
      * @param result
      * @return {
      *     "result" : result
@@ -90,6 +60,50 @@ public class ResponseUtil {
         return new ResponseEntity<>(responseForm, HttpStatus.OK);
     }
 
+    /**
+     *
+     * @return {
+     *     "result" : true
+     * }
+     */
+    public ResponseEntity<ResponseForm> makeResponseEntity(){
+        return makeResponseEntity(true);
+    }
+
+    /**
+     *
+     * @param result
+     * @param contents
+     * @return {
+     *     "result" : result,
+     *     "data" : {
+     *         "contents" : contents
+     *     }
+     * }
+     */
+    public ResponseEntity<ResponseForm> makeResponseEntity(boolean result, Object contents){
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("contents", contents);
+        ResponseForm responseForm = new ResponseForm(result, data);
+
+        return new ResponseEntity<>(responseForm, HttpStatus.OK);
+    }
+
+    /**
+     *
+     * @param contents
+     * @return {
+     *     "result" : true,
+     *     "data" : {
+     *         "contents" : contents
+     *     }
+     * }
+     */
+    public ResponseEntity<ResponseForm> makeResponseEntity(Object contents) {
+        return makeResponseEntity(true, contents);
+    }
+
+    // -------------------------------------------------------------------------------------------------------------
 
     public ResponseEntity<ExceptionForm> makeExceptionEntity(Object errorMessage) {
         HashMap<String, Object> data = new HashMap<>();

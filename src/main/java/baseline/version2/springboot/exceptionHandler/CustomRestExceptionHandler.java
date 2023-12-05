@@ -17,6 +17,7 @@ public class CustomRestExceptionHandler {
 
     @ExceptionHandler(ServiceLayerException.class)
     protected ResponseEntity<?> serviceLayerException(ServiceLayerException serviceLayerException){
+        log.error("[ServiceLayerException] {}", serviceLayerException.getStackTrace()[0]);
         return responseUtil.makeExceptionEntity(serviceLayerException.getServiceException());
     }
 }

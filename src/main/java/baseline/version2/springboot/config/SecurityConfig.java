@@ -53,7 +53,7 @@ public class SecurityConfig {
                         .passwordParameter("accountPassword")
                         .loginProcessingUrl("/account/login-process")
                         .successHandler(customAuthenticationSuccessHandler)
-                        .failureHandler(customAuthenticationFailureHandler)
+//                        .failureHandler(customAuthenticationFailureHandler)
                 )
 //                .oauth2Login(o -> o
 //                        .loginPage("/account/login")

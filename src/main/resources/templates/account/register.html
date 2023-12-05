@@ -97,7 +97,7 @@
         })
         .done(function(response) {
 
-            if (response.result){
+            if (!response.result){
                 let selectorList = document.getElementById("accountForm").querySelectorAll("input:not([class='uk-radio'])");
                 selectorList.forEach(function (selector) {
                     selector.classList.remove('uk-form-danger')
@@ -119,6 +119,8 @@
                     }
 
                 })
+            } else {
+                location.href = "/account/login?successMessage=가입에 성공하였습니다.";
             }
 
         }) 

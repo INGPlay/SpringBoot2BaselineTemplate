@@ -33,13 +33,12 @@ public class AccountApiController {
     public ResponseEntity<ResponseForm> registerAccount(@RequestBody @Valid AccountDomain.RegisterAccountDTO registerAccountDTO,
                                                         BindingResult bindingResult){
         if (isNotValidateForRegister(registerAccountDTO, bindingResult)){
-            return responseUtil.makeResponseEntity(bindingResult.getFieldErrors());
+            return responseUtil.makeResponseEntity(false, bindingResult.getFieldErrors());
         }
 
         accountService.insertLocalAccount(registerAccountDTO);
-        ResponseForm responseForm = new ResponseForm(true);
 
-        return new ResponseEntity<>(responseForm, HttpStatus.OK);
+        return responseUtil.makeResponseEntity();
     }
 
     private boolean isNotValidateForRegister(AccountDomain.RegisterAccountDTO registerAccountDTO, BindingResult bindingResult) {
