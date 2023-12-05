@@ -1,7 +1,7 @@
 package baseline.version2.springboot.common;
 
-import baseline.version2.springboot.account.domain.AccountDomain;
-import baseline.version2.springboot.account.domain.subType.AccountSub;
+import baseline.version2.springboot.account.domain.AccountRequest;
+import baseline.version2.springboot.account.domain.AccountSub;
 import baseline.version2.springboot.account.repository.AccountRepository;
 import baseline.version2.springboot.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +19,13 @@ public class Inititalizer implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
 
         if (isInAccountName("admin")) {
-            AccountDomain.RegisterAccountDTO managerDTO = new AccountDomain.RegisterAccountDTO();
-            managerDTO.setAccountRole(AccountSub.RoleEnum.MANAGER);
+            AccountRequest.RegisterAccountDTO managerDTO = new AccountRequest.RegisterAccountDTO();
+            managerDTO.setAccountRole(AccountSub.RoleEnum.ADMIN);
             managerDTO.setAccountName("admin");
             managerDTO.setAccountPassword("admin");
             managerDTO.setAccountDisplayName("ADMIN");
-            accountService.insertLocalAccount(managerDTO);
+            managerDTO.setOauthType(AccountSub.OAuthTypeEnum.LOCAL);
+            accountService.createAccount(managerDTO);
         }
     }
 

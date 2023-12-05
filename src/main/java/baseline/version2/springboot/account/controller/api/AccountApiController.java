@@ -1,13 +1,13 @@
-package baseline.version2.springboot.account.apiController;
+package baseline.version2.springboot.account.controller.api;
 
-import baseline.version2.springboot.account.domain.AccountDomain;
+import baseline.version2.springboot.account.domain.AccountRequest;
+import baseline.version2.springboot.account.domain.AccountSub;
 import baseline.version2.springboot.account.repository.AccountRepository;
 import baseline.version2.springboot.account.service.AccountService;
 import baseline.version2.springboot.common.util.ResponseUtil;
 import baseline.version2.springboot.common.util.response.ResponseForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -30,18 +30,19 @@ public class AccountApiController {
     private final AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<ResponseForm> registerAccount(@RequestBody @Valid AccountDomain.RegisterAccountDTO registerAccountDTO,
+    public ResponseEntity<ResponseForm> registerAccount(@RequestBody @Valid AccountRequest.RegisterAccountDTO registerAccountDTO,
                                                         BindingResult bindingResult){
         if (isNotValidateForRegister(registerAccountDTO, bindingResult)){
             return responseUtil.makeResponseEntity(false, bindingResult.getFieldErrors());
         }
 
-        accountService.insertLocalAccount(registerAccountDTO);
+        registerAccountDTO.setOauthType(AccountSub.OAuthTypeEnum.LOCAL);
+        accountService.createAccount(registerAccountDTO);
 
         return responseUtil.makeResponseEntity();
     }
 
-    private boolean isNotValidateForRegister(AccountDomain.RegisterAccountDTO registerAccountDTO, BindingResult bindingResult) {
+    private boolean isNotValidateForRegister(AccountRequest.RegisterAccountDTO registerAccountDTO, BindingResult bindingResult) {
 
         if (accountService.isInDb(registerAccountDTO.getAccountName())){
             FieldError fieldError = new FieldError("accountName", "accountName", "이미 등록된 계정이름입니다.");

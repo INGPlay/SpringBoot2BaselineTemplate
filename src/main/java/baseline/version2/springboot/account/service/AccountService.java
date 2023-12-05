@@ -1,12 +1,13 @@
 package baseline.version2.springboot.account.service;
 
-import baseline.version2.springboot.account.domain.AccountDomain;
-import baseline.version2.springboot.account.domain.subType.AccountSub;
+import baseline.version2.springboot.account.domain.AccountRequest;
+import baseline.version2.springboot.account.domain.AccountMapper;
 import baseline.version2.springboot.account.repository.AccountRepository;
-import baseline.version2.springboot.account.repository.querydsl.QueryAccountRepository;
+import baseline.version2.springboot.account.repository.querydsl.AccountQRepository;
 import baseline.version2.springboot.common.entity.Account;
+import baseline.version2.springboot.exceptionHandler.exception.ServiceLayerException;
+import baseline.version2.springboot.exceptionHandler.subType.ServiceException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -18,25 +19,34 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AccountService {
 
-    private final PasswordEncoder passwordEncoder;
+    private final AccountMapper accountMapper;
 
     private final AccountRepository accountRepository;
-    private final QueryAccountRepository queryAccountRepository;
+    private final AccountQRepository accountQRepository;
 
     public Boolean isInDb(String accountName){
         return accountRepository.findByAccountName(accountName).isPresent();
     }
 
-    public Long insertLocalAccount(AccountDomain.RegisterAccountDTO registerAccountDTO){
-        Account account = new Account();
-        account.setAccountName(registerAccountDTO.getAccountName());
-        account.setAccountPassword(passwordEncoder.encode(registerAccountDTO.getAccountPassword()));
-        account.setAccountDisplayName(registerAccountDTO.getAccountDisplayName());
-        account.setAccountRole(registerAccountDTO.getAccountRole());
-        account.setOauthType(AccountSub.OAuthTypeEnum.LOCAL);
+    public Long createAccount(AccountRequest.RegisterAccountDTO registerAccountDTO){
+        Account account = accountMapper.createAccount(registerAccountDTO);
 
         Account savedAccount = accountRepository.save(account);
 
         return savedAccount.getAccountId();
+    }
+
+    public Long updateAccount(String accountName, AccountRequest.UpdateAccountDTO updateAccountDTO){
+        Account account = accountRepository.findByAccountName(accountName).orElseThrow(
+                () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)
+        );
+
+        accountMapper.updateAccount(updateAccountDTO, account);
+        Account updateAccount = accountRepository.save(account);
+        return updateAccount.getAccountId();
+    }
+
+    public void deleteAccount(String accountName){
+        accountRepository.deleteByAccountName(accountName);
     }
 }

@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
     public Optional<Account> findByAccountName(String accountName);
+
+    public void deleteByAccountName(String accountName);
 }

@@ -23,7 +23,7 @@
                 <span th:text="${param.successMessage}" class="uk-text-success uk-text-large"></span>
             </div>
             <div th:if="${param.errorMessage}">
-                <span th:text="${param.errorMessage}" class="uk-text-warning"></span>
+                <span th:text="${param.errorMessage}" class="uk-text-warning uk-text-large"></span>
             </div>
 
             <form th:action="@{/account/login-process}" method="POST">

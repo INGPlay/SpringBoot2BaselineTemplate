@@ -24,6 +24,7 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 
+        setDefaultFailureUrl("/account/login?errorMessage=" + URLEncoder.encode("로그인에 실패하였습니다.", StandardCharsets.UTF_8));
         super.onAuthenticationFailure(request, response, exception);
     }
 }

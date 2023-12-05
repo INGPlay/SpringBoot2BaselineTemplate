@@ -1,4 +1,4 @@
-package baseline.version2.springboot.account.domain.subType;
+package baseline.version2.springboot.account.domain;
 
 import baseline.version2.springboot.common.domain.subType.EnumBase;
 import lombok.AllArgsConstructor;

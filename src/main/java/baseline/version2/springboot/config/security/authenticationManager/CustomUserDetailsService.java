@@ -1,7 +1,9 @@
 package baseline.version2.springboot.config.security.authenticationManager;
 
-import baseline.version2.springboot.account.domain.subType.AccountSub;
-import baseline.version2.springboot.account.repository.querydsl.QueryAccountRepository;
+import baseline.version2.springboot.account.domain.AccountResponse;
+import baseline.version2.springboot.account.domain.AccountSub;
+import baseline.version2.springboot.account.repository.querydsl.AccountQRepository;
+import baseline.version2.springboot.account.service.AccountService;
 import baseline.version2.springboot.common.entity.Account;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +26,7 @@ import java.util.List;
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final HttpServletRequest httpsServletRequest;
-    private final QueryAccountRepository queryAccountRepository;
+    private final AccountQRepository accountQRepository;
 
     // Form 로그인
     @Override
@@ -33,7 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         log.info("accountName : {}", accountName);
         log.info("login ip : {}", httpsServletRequest.getRemoteAddr());
 
-        Account account = queryAccountRepository.selectAccountOne(accountName, AccountSub.OAuthTypeEnum.LOCAL).orElseThrow(
+        Account account = accountQRepository.selectAccountOne(accountName, AccountSub.OAuthTypeEnum.LOCAL).orElseThrow(
                 () -> new UsernameNotFoundException("UsernameNotFoundException")
         );
 
