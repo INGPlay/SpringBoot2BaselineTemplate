@@ -24,7 +24,7 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final AccountQRepository accountQRepository;
 
-    public Boolean isInDb(String accountName){
+    public Boolean isAccountInDb(String accountName){
         return accountRepository.findByAccountName(accountName).isPresent();
     }
 

@@ -43,7 +43,7 @@ public class AccountApiController {
 
     private boolean isNotValidateForRegister(AccountRequest.RegisterAccountDTO registerAccountDTO, BindingResult bindingResult) {
 
-        if (accountService.isInDb(registerAccountDTO.getAccountName())){
+        if (accountService.isAccountInDb(registerAccountDTO.getAccountName())){
             FieldError fieldError = new FieldError("accountName", "accountName", "이미 등록된 계정이름입니다.");
             bindingResult.addError(fieldError);
         }
