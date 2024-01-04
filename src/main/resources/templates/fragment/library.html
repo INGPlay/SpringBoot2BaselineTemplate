@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:fragment="tui-grid">
+    <!--datePicker-->
+    <link rel="stylesheet" href="/library/tui/css/tui-date-picker.css" />
+    <script src="/library/tui/js/tui-date-picker.js"></script>
+
+    <!--Grid-->
+    <link rel="stylesheet" href="/library/tui/css/tui-grid.css" />
+    <script src="/library/tui/js/tui-grid.js"></script>
+</th:block>
+
+<th:block th:fragment="seat-chart">
+    <link rel="stylesheet" href="/library/seat-chart/css/seatchart.min.css" />
+    <script src="/library/seat-chart/js/seatchart.min.js"></script>
+</th:block>
+
+<!-- jquery 의존성 -->
+<th:block th:fragment="jq-seat-charts">
+    <link rel="stylesheet" href="/library/jq-seat/css/jquery.seat-charts.css" />
+    <script src="/library/jq-seat/js/jquery.seat-charts.js"></script>
+</th:block>
+
+</html>

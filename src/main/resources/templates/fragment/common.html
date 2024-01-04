@@ -3,14 +3,9 @@
                 xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <th:block th:fragment="commonStatic">
+    <script src="/library/jquery/jquery-3.7.1.min.js"></script>
 
-    <script th:src="@{/js/api/jquery-3.7.1.min.js}"></script>
-
-    <link rel="stylesheet" th:href="@{/css/uikit.min.css}" />
-    <script th:src="@{/js/ui/uikit.min.js}"></script>
-    <script th:src="@{/js/ui/uikit-icons.min.js}"></script>
-
-<!--    CSRF 자동 등록 -->
+    <!-- csrf 헤더 추가 -->
     <script type="application/javascript" th:inline="javascript">
         $(function () {
             let csrfHeader = /*[[${_csrf.headerName}]]*/ null;
@@ -21,18 +16,7 @@
         });
     </script>
 
-    <script src="/js/api/api.js"></script>
-
-</th:block>
-
-<th:block th:fragment="toastUi">
-<!--    datePicker-->
-    <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
-    <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
-
-<!--    Grid-->
-    <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
-    <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+    <script src="/library/jquery/api/api.js"></script>
 </th:block>
 
 </html>
