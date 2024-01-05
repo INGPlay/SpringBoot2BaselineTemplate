@@ -1,5 +1,7 @@
 package baseline.version3.springboot.config;
 
+import baseline.version3.springboot.config.properties.RedisProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -25,21 +27,15 @@ import java.time.Duration;
 @Configuration
 @EnableRedisRepositories
 @EnableRedisHttpSession
+@RequiredArgsConstructor
 public class RedisConfig {
 
-    @Value("${spring.redis.host}")
-    private String redisHost;
-
-    @Value("${spring.redis.port}")
-    private int redisPort;
-
-    @Value("${spring.redis.password}")
-    private String redisPassword;
+    private final RedisProperties redisProperties;
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory(){
-        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(redisHost, redisPort);
-        redisStandaloneConfiguration.setPassword(RedisPassword.of(redisPassword));
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(redisProperties.host(), redisProperties.port());
+        redisStandaloneConfiguration.setPassword(RedisPassword.of(redisProperties.password()));
         return new LettuceConnectionFactory(redisStandaloneConfiguration);
     }
 

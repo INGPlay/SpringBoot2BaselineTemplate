@@ -4,9 +4,11 @@ import baseline.version3.springboot.config.security.authenticationManager.Custom
 import baseline.version3.springboot.config.security.handler.CustomAuthenticationFailureHandler;
 import baseline.version3.springboot.config.security.handler.CustomAuthenticationSuccessHandler;
 import baseline.version3.springboot.config.security.handler.CustomLogoutHandler;
+import baseline.version3.springboot.config.security.handler.KeycloakLogoutHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
@@ -26,6 +28,7 @@ public class SecurityConfig {
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
     private final CustomLogoutHandler customLogoutHandler;
+    private final KeycloakLogoutHandler keycloakLogoutHandler;
 
 //    private final CustomOAuth2UserService customOAuth2UserService;
 
@@ -95,6 +98,35 @@ public class SecurityConfig {
         return http.build();
     }
 
+//    @Bean
+    public SecurityFilterChain keycloakChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests(a -> a
+                        // 기본 페이지
+                        .requestMatchers("/account/login", "/account/register", "/error").authenticated()
+                )
+                .oauth2Login()
+                .and()
+                .logout(l -> l
+                        .logoutUrl("/account/logout")
+                        .logoutSuccessUrl("/")
+                        .deleteCookies("JSESSIONID", "remember-me")
+                        .addLogoutHandler(keycloakLogoutHandler)
+                )
+                .sessionManagement(m -> m
+                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                )
+                .exceptionHandling(e ->
+                        e.accessDeniedPage("/?dinied")
+                )
+                .headers(h -> h
+                        .xssProtection()
+                        .and()
+                        .contentSecurityPolicy("script-src 'self'")
+                );
+
+        return http.build();
+    }
 
     @Bean
     public MethodSecurityExpressionHandler methodSecurityExpressionHandler(RoleHierarchy roleHierarchy) {
