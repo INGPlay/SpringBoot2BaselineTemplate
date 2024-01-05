@@ -100,3 +100,15 @@ tasks.named('bootBuildImage') {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// Compile Option
+compileJava {
+    options.compilerArgs += ['-Amapstruct.defaultComponentModel=spring']
+}
+compileTestJava {
+    options.compilerArgs += ['-Amapstruct.defaultComponentModel=spring']
+}
+test {
+    useJUnitPlatform()
+    jvmArgs(['-Amapstruct.defaultComponentModel=spring'])
+}
