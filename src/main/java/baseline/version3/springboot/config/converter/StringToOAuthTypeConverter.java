@@ -1,6 +1,6 @@
 package baseline.version3.springboot.config.converter;
 
-import baseline.version3.springboot.account.domain.AccountSub;
+import baseline.version3.springboot.project.account.domain.AccountSub;
 import baseline.version3.springboot.common.domain.subType.EnumBase;
 import org.springframework.core.convert.converter.Converter;
 

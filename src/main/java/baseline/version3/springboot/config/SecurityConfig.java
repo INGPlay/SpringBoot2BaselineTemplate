@@ -6,6 +6,7 @@ import baseline.version3.springboot.config.security.handler.CustomAuthentication
 import baseline.version3.springboot.config.security.handler.CustomLogoutHandler;
 import baseline.version3.springboot.config.security.handler.KeycloakLogoutHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -41,6 +42,7 @@ public class SecurityConfig {
     }
 
     @Bean
+    @ConditionalOnProperty(value = "custom.account.type", havingValue = "form", matchIfMissing = false)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests(a -> a
@@ -98,7 +100,8 @@ public class SecurityConfig {
         return http.build();
     }
 
-//    @Bean
+    @Bean
+    @ConditionalOnProperty(value = "custom.account.type", havingValue = "keycloak", matchIfMissing = false)
     public SecurityFilterChain keycloakChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests(a -> a

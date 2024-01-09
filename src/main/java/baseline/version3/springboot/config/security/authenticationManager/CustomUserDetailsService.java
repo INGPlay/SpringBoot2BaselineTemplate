@@ -1,8 +1,8 @@
 package baseline.version3.springboot.config.security.authenticationManager;
 
-import baseline.version3.springboot.account.domain.AccountSub;
-import baseline.version3.springboot.account.repository.querydsl.AccountQRepository;
-import baseline.version3.springboot.common.entity.Account;
+import baseline.version3.springboot.project.account.domain.AccountSub;
+import baseline.version3.springboot.project.account.repository.querydsl.AccountQRepository;
+import baseline.version3.springboot.entity.Account;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

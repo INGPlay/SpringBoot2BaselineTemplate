@@ -1,9 +1,9 @@
 package baseline.version3.springboot.common;
 
-import baseline.version3.springboot.account.domain.AccountRequest;
-import baseline.version3.springboot.account.domain.AccountSub;
-import baseline.version3.springboot.account.repository.AccountRepository;
-import baseline.version3.springboot.account.service.AccountService;
+import baseline.version3.springboot.project.account.domain.AccountRequest;
+import baseline.version3.springboot.project.account.domain.AccountSub;
+import baseline.version3.springboot.project.account.repository.AccountRepository;
+import baseline.version3.springboot.project.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;

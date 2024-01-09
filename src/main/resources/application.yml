@@ -3,6 +3,7 @@ spring:
         group:
             local:
                 - local
+                - custom
 
             dev:
                 - dev
