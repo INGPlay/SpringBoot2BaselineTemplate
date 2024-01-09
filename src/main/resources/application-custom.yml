@@ -1,3 +1,5 @@
 custom:
     account:
-        type: form
+        type: form      # form , keycloak
+    page:
+        intro: /index   # 기본 페이지
