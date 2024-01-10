@@ -1,5 +1,6 @@
 package baseline.version3.springboot.entity.pageAdmin;
 
+import baseline.version3.springboot.entity.base.DateTimeBase;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,13 +9,13 @@ import lombok.Setter;
 @Entity
 @Table(name = "page_admin_page_authority_condition")
 @Getter @Setter
-public class PageAuthorityCondition {
+public class PageAuthorityCondition extends DateTimeBase {
 
     // 권한 id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "page_authority_condition_id" ,nullable = false)
-    private Integer pageAuthorityConditionId;
+    private Long pageAuthorityConditionId;
 
     // 권한 코드
     @Column(name = "page_authority_condition_code" ,nullable = false ,length = 64)

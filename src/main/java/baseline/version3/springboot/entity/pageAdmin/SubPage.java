@@ -1,5 +1,6 @@
 package baseline.version3.springboot.entity.pageAdmin;
 
+import baseline.version3.springboot.entity.base.DateTimeBase;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,13 +9,13 @@ import lombok.Setter;
 @Entity
 @Table(name = "page_admin_sub_page")
 @Getter @Setter
-public class SubPage {
+public class SubPage extends DateTimeBase {
 
     // 하위 페이지 id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sub_page_id" ,nullable = false)
-    private Integer subPageId;
+    private Long subPageId;
 
     // 하위 페이지 제목
     @Column(name = "sub_page_title" ,nullable = false ,length = 128)

@@ -1,5 +1,6 @@
 package baseline.version3.springboot.entity.pageAdmin;
 
+import baseline.version3.springboot.entity.base.DateTimeBase;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,13 +9,13 @@ import lombok.Setter;
 @Entity
 @Table(name = "page_admin_authority_hierachy")
 @Getter @Setter
-public class AuthorityHierachy {
+public class AuthorityHierachy extends DateTimeBase {
 
     // 권한 계층 id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "authority_hierachy_id" ,nullable = false)
-    private Integer authorityHierachyId;
+    private Long authorityHierachyId;
 
     // 권한 계층 상위 code
     @Column(name = "authority_hierachy_parent_code" ,nullable = false ,length = 64)

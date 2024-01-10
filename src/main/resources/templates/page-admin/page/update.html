@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>상위 페이지 수정</title>
+
+    <th:block th:replace="~{fragment/common :: commonStatic}"></th:block>
+    <th:block th:replace="~{fragment/framework :: uikit}"></th:block>
+    <th:block th:replace="~{fragment/framework :: bootstrap}"></th:block>
+
+</head>
+<body>
+
+<th:block th:replace="~{fragment/header :: commonHeader}"></th:block>
+
+<div class="container mt-3">
+    <div class="d-flex justify-content-center">
+        <span class="fs-3 fw-bold">등록 페이지</span>
+    </div>
+
+    <div class="d-flex justify-content-center mt-3">
+        <div class="row w-50">
+            <div class="col">
+
+                <form method="post" class="row g-3" th:action th:object="${requestUpdate}">
+                    <input type="hidden" name="parentPageId" th:field="*{parentPageId}">
+                    <div class="col-md-6">
+                        <label for="parentPageTitle" class="form-label">등록시간</label>
+                        <input type="text" class="form-control" id="registerDate"
+                               th:value="${registerDate}" disabled>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="parentPageTitle" class="form-label">최종 수정시간</label>
+                        <input type="text" class="form-control" id="lastModifyDate"
+                               th:value="${lastModifyDate}" disabled>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label for="parentPageTitle" class="form-label">페이지 명*</label>
+                        <input type="text" class="form-control" id="parentPageTitle" name="parentPageTitle"
+                               th:field="*{parentPageTitle}" th:errorclass="border-danger" required>
+                        <div class="form-text" th:errors="*{parentPageTitle}">validation</div>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="parentPageDescription" class="form-label">설명</label>
+                        <input type="text" class="form-control" id="parentPageDescription" name="parentPageDescription"
+                               th:field="*{parentPageDescription}">
+                        <div class="form-text" th:errors="*{parentPageDescription}">validation</div>
+                    </div>
+                    <div class="col-12">
+                        <label for="parentPageRootPath" class="form-label">루트 경로*</label>
+                        <input type="text" class="form-control" id="parentPageRootPath" name="parentPageRootPath" placeholder="/"
+                               th:field="*{parentPageRootPath}" th:errorclass="border-danger" required>
+                        <div class="form-text" th:errors="*{parentPageRootPath}">validation</div>
+                    </div>
+                    <div class="col-12">
+                        <label for="parentPageIndexPath" class="form-label">인덱스 페이지 경로</label>
+                        <input type="text" class="form-control" id="parentPageIndexPath" name="parentPageIndexPath" placeholder="/index"
+                               th:field="*{parentPageIndexPath}" th:errorclass="border-danger">
+                        <div class="form-text" th:errors="*{parentPageIndexPath}">validation</div>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">페이지 등록</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+
+<script type="application/javascript" th:inline="javascript">
+    // csrf token
+    let headers = {
+    /*[[${_csrf.headerName}]]*/
+    :
+    /*[[${_csrf.token}]]*/
+    }
+
+</script>
+</html>
