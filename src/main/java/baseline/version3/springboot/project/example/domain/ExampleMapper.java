@@ -1,7 +1,6 @@
 package baseline.version3.springboot.project.example.domain;
 
 import baseline.version3.springboot.entity.Example;
-import baseline.version3.springboot.project.example.domain.dto.ExampleDomain;
 import org.mapstruct.*;
 
 @Mapper(
@@ -11,10 +10,12 @@ import org.mapstruct.*;
 public interface ExampleMapper {
 
     @Mapping(source = "editExampleDTO.id", target="id", ignore=true)
-    Example requestInsert(ExampleDomain.EditDTO editExampleDTO);
+    Example requestInsert(ExampleRequest.Request editExampleDTO);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    public abstract void requestUpdate(ExampleDomain.EditDTO editExampleDTO, @MappingTarget Example example);
+    public abstract void requestUpdate(ExampleRequest.Request editExampleDTO, @MappingTarget Example example);
 
-    ExampleDomain.ResponseVO entityToResponse(Example example);
+    ExampleResponse.Response toResponse(Example example);
+
+    ExampleRequest.Event toEvent(ExampleRequest.Request request);
 }

@@ -24,6 +24,7 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final AccountQRepository accountQRepository;
 
+    @Transactional(readOnly = true)
     public Boolean isAccountInDb(String accountName){
         return accountRepository.findByAccountName(accountName).isPresent();
     }

@@ -1,20 +1,20 @@
-package baseline.version3.springboot.project.example.domain.dto;
+package baseline.version3.springboot.project.example.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-public class ExampleDomain {
+public class ExampleRequest {
 
     @Getter @Setter
-    public static class EditDTO {
+    public static class Request {
         private Long id;
         private String content;
     }
 
     @Getter
-    @AllArgsConstructor
-    public static class ResponseVO{
+    @Setter
+    public static class Event {
         private Long id;
         private String content;
     }
