@@ -1,13 +1,15 @@
 package baseline.version3.springboot.project.example.service;
 
 import baseline.version3.springboot.project.example.domain.ExampleMapper;
-import baseline.version3.springboot.project.example.domain.dto.ExampleDomain;
+import baseline.version3.springboot.project.example.domain.ExampleRequest;
 import baseline.version3.springboot.entity.Example;
+import baseline.version3.springboot.project.example.domain.ExampleResponse;
 import baseline.version3.springboot.project.example.repository.ExampleRepository;
 import baseline.version3.springboot.project.example.repository.queryDsl.QueryExampleRepository;
 import baseline.version3.springboot.exceptionHandler.exception.ServiceLayerException;
 import baseline.version3.springboot.exceptionHandler.subType.ServiceException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -27,27 +29,36 @@ public class ExampleService {
     private final QueryExampleRepository queryExampleRepository;
     private final ExampleRepository exampleRepository;
 
-    public ExampleDomain.ResponseVO findOne(Long id){
+    private final ApplicationEventPublisher applicationEventPublisher;
+
+    public void exampleEvent(ExampleRequest.Request request){
+        ExampleRequest.Event event = exampleMapper.toEvent(request);
+        applicationEventPublisher.publishEvent(event);
+    }
+
+    @Transactional(readOnly = true)
+    public ExampleResponse.Response findOne(Long id){
         Example example = exampleRepository.findById(id).orElseThrow(
                 () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)
         );
 
-        return exampleMapper.entityToResponse(example);
+        return exampleMapper.toResponse(example);
     }
 
-    public List<ExampleDomain.ResponseVO> findList(){
+    @Transactional(readOnly = true)
+    public List<ExampleResponse.Response> findList(){
         List<Example> all = exampleRepository.findAll();
-        return all.stream().map(example -> exampleMapper.entityToResponse(example))
+        return all.stream().map(example -> exampleMapper.toResponse(example))
                 .collect(Collectors.toList());
     }
 
-    public void insertOne(ExampleDomain.EditDTO editExampleDTO){
+    public void insertOne(ExampleRequest.Request editExampleDTO){
         Example example = exampleMapper.requestInsert(editExampleDTO);
 
         exampleRepository.save(example);
     }
 
-    public void updateOne(ExampleDomain.EditDTO editExampleDTO){
+    public void updateOne(ExampleRequest.Request editExampleDTO){
 
         Example example = exampleRepository.findById(editExampleDTO.getId()).orElseThrow(
                 () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)
