@@ -4,7 +4,10 @@ import baseline.version3.springboot.common.util.ResponseUtil;
 import baseline.version3.springboot.common.util.response.ResponseForm;
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageRequest;
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageResponse;
+import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageRequest;
+import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageResponse;
 import baseline.version3.springboot.pageAdmin.service.ParentPageService;
+import baseline.version3.springboot.pageAdmin.service.SubPageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -14,21 +17,24 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/parent-page/{subPageId}")
+@RequestMapping("/api/parent-page/{parentPageId}")
 @RequiredArgsConstructor
 public class SubPageApiController {
 
     private final ResponseUtil responseUtil;
-    private final ParentPageService parentPageService;
+    private final SubPageService subPageService;
     @GetMapping
-    public ResponseEntity<ResponseForm> list(@PathVariable Long subPageId){
-        List<ParentPageResponse.Response> list = parentPageService.findList();
+    public ResponseEntity<ResponseForm> list(@PathVariable Long parentPageId){
+
+        SubPageRequest.RequestDynamicQuery requestDynamicQuery = new SubPageRequest.RequestDynamicQuery();
+        requestDynamicQuery.setParentPageId(parentPageId);
+        List<SubPageResponse.Response> list = subPageService.findList(requestDynamicQuery);
         return responseUtil.makeResponseEntity(list);
     }
 
     @DeleteMapping
     public ResponseEntity<ResponseForm> delete(@RequestBody ParentPageRequest.RequestDelete requestDelete){
-        parentPageService.deleteParentPageById(requestDelete.getParentPageId());
+//        subPageService.deleteParentPageById(requestDelete.getParentPageId());
         return responseUtil.makeResponseEntity();
     }
 }

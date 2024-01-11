@@ -29,8 +29,8 @@ public class PageAuthorityCondition extends DateTimeBase {
     @Column(name = "page_authority_condition_description" ,length = 256)
     private String pageAuthorityConditionDescription;
 
-    @OneToOne
-    @JoinColumn(name = "sub_page_id", referencedColumnName = "sub_page_id")
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "sub_page_sub_page_id")
     private SubPage subPage;
 
 }

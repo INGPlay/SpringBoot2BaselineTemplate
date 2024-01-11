@@ -1,4 +1,4 @@
-package baseline.version3.springboot.pageAdmin.domain.subPage.parentPage;
+package baseline.version3.springboot.pageAdmin.domain.subPage;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -59,7 +59,5 @@ public class SubPageRequest {
     @Getter @Setter
     public static class RequestDynamicQuery {
         private Long parentPageId;
-        private Long notParentPageId;
-        private String parentPageRootPath;
     }
 }

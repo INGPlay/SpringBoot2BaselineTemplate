@@ -1,4 +1,4 @@
-package baseline.version3.springboot.pageAdmin.domain.subPage.parentPage;
+package baseline.version3.springboot.pageAdmin.domain.subPage;
 
 import baseline.version3.springboot.entity.pageAdmin.ParentPage;
 import org.mapstruct.*;

@@ -1,4 +1,4 @@
-package baseline.version3.springboot.pageAdmin.service.querdsl;
+package baseline.version3.springboot.pageAdmin.repository.querydsl;
 
 import baseline.version3.springboot.entity.pageAdmin.QParentPage;
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageRequest;
@@ -17,7 +17,7 @@ import java.util.Optional;
 public class QParentPageRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
-    QParentPage parentPage = QParentPage.parentPage;
+    private QParentPage parentPage = QParentPage.parentPage;
 
     public List<ParentPageResponse.Response> selectList(){
 

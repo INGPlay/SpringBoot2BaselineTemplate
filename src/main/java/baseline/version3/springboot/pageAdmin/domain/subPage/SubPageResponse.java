@@ -1,4 +1,4 @@
-package baseline.version3.springboot.pageAdmin.domain.subPage.parentPage;
+package baseline.version3.springboot.pageAdmin.domain.subPage;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -11,11 +11,11 @@ public class SubPageResponse {
     @Getter
     @AllArgsConstructor
     public static class Response {
-        private Long parentPageId;
-        private String parentPageTitle;
-        private String parentPageDescription;
-        private String parentPageRootPath;
-        private String parentPageIndexPath;
+        private Long subPageId;
+        private String subPageTitle;
+        private String subPageDescription;
+        private String subPagePath;
+        private String pageAuthorityConditionCode;
 
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         private Date registerDate;

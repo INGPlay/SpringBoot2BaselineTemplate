@@ -7,7 +7,7 @@ import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageMapper
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageRequest;
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageResponse;
 import baseline.version3.springboot.pageAdmin.repository.ParentPageRepository;
-import baseline.version3.springboot.pageAdmin.service.querdsl.QParentPageRepository;
+import baseline.version3.springboot.pageAdmin.repository.querydsl.QParentPageRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
@@ -23,9 +23,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ParentPageService {
 
-    private final ParentPageMapper parentPageMapper;
     private final ParentPageRepository parentPageRepository;
     private final QParentPageRepository qParentPageRepository;
+    private final ParentPageMapper parentPageMapper;
 
     public List<ParentPageResponse.Response> findList(){
         return qParentPageRepository.selectList();

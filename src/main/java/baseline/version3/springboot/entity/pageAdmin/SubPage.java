@@ -8,7 +8,8 @@ import lombok.Setter;
 /** 하위 페이지 | sub_page */
 @Entity
 @Table(name = "page_admin_sub_page")
-@Getter @Setter
+@Getter
+@Setter
 public class SubPage extends DateTimeBase {
 
     // 하위 페이지 id
@@ -30,6 +31,5 @@ public class SubPage extends DateTimeBase {
     private String subPagePath;
 
     @ManyToOne
-    @JoinColumn(name = "parent_page_id")
     private ParentPage parentPage;
 }
