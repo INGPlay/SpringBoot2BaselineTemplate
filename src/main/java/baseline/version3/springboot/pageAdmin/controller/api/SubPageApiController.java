@@ -14,14 +14,14 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/parent-page")
+@RequestMapping("/api/parent-page/{subPageId}")
 @RequiredArgsConstructor
-public class ParentPageApiController {
+public class SubPageApiController {
 
     private final ResponseUtil responseUtil;
     private final ParentPageService parentPageService;
     @GetMapping
-    public ResponseEntity<ResponseForm> list(){
+    public ResponseEntity<ResponseForm> list(@PathVariable Long subPageId){
         List<ParentPageResponse.Response> list = parentPageService.findList();
         return responseUtil.makeResponseEntity(list);
     }

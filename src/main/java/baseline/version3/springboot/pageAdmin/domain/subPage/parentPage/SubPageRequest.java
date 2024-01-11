@@ -1,4 +1,4 @@
-package baseline.version3.springboot.pageAdmin.domain.parentPage;
+package baseline.version3.springboot.pageAdmin.domain.subPage.parentPage;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-public class ParentPageRequest {
+public class SubPageRequest {
 
     @Getter @Setter
     public static class RequestInsert {

@@ -79,22 +79,22 @@
                         let path = "/page-admin/page/list/update?id=" + e.row.parentPageId;
                         return "<a href='" + path + "'>수정하기</a>"
                     },
-                    resizable : true
+                    resizable : false
                 },
                 {
-                    header : '페이지 명', name: 'parentPageTitle', width : 'auto', align: 'center',
+                    header : '페이지 명', name: 'parentPageTitle', width : 150, align: 'center',
                     resizable : true,
                     sortable : true,
                     filter: 'select'
                 },
                 {
-                    header: '루트 경로', name: 'parentPageRootPath', width: 'auto', align : 'center',
+                    header: '루트 경로', name: 'parentPageRootPath', width: 150, align : 'center',
                     resizable : true,
                     sortable : true,
                     filter: 'select'
                 },
                 {
-                    header: '인덱스 경로', name: 'parentPageIndexPath', width: 'auto', align: 'center',
+                    header: '인덱스 경로', name: 'parentPageIndexPath', width: 150, align: 'center',
                     resizable : true,
                     sortable : true,
                     filter: 'select'
@@ -132,19 +132,19 @@
                     resizable : true
                 },
                 {
-                    header : '페이지 명', name: 'subPageTitle', width : '200', align: 'center',
+                    header : '페이지 명', name: 'subPageTitle', width : '150', align: 'center',
                     resizable : true,
                     sortable : true,
                     filter: 'select'
                 },
                 {
-                    header: '서브 페이지 경로', name: 'subPagePath', width: 200, align : 'center',
+                    header: '서브 페이지 경로', name: 'subPagePath', width: 150, align : 'center',
                     resizable : true,
                     sortable : true,
                     filter: 'select'
                 },
                 {
-                    header: '권한코드', name: 'pageAuthorityConditionCode', width: 200, align : 'center',
+                    header: '권한코드', name: 'pageAuthorityConditionCode', width: 150, align : 'center',
                     resizable : true,
                     sortable : true,
                     filter: 'select'
