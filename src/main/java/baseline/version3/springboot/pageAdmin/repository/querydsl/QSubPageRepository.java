@@ -31,12 +31,14 @@ public class QSubPageRepository {
                                 subPage.subPageTitle,
                                 subPage.subPageDescription,
                                 subPage.subPagePath,
-                                pageAuthorityCondition.pageAuthorityConditionCode
+                                pageAuthorityCondition.pageAuthorityConditionCode,
+                                subPage.registerDate,
+                                subPage.lastModifyDate
                         )
                 )
                 .from(pageAuthorityCondition)
                 .rightJoin(pageAuthorityCondition.subPage, subPage)
-                .join(parentPage, subPage.parentPage)
+                .join(subPage.parentPage, parentPage)
                 .where(
                         parentPage.parentPageId.eq(requestDynamicQuery.getParentPageId())
                 )
