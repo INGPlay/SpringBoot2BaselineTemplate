@@ -11693,7 +11693,8 @@ and limitations under the License.
                 var tslib_1 = __webpack_require__(1);
                 var grid_1 = tslib_1.__importDefault(__webpack_require__(64));
                 __webpack_require__(143);
-                grid_1.default.setLanguage('en');
+                // grid_1.default.setLanguage('en');
+                grid_1.default.setLanguage('ko')
                 module.exports = grid_1.default;
 
 

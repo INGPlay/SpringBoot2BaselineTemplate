@@ -48,7 +48,6 @@
 
     const Grid = tui.Grid;
     Grid.applyTheme('striped'); // Call API of static method
-    Grid.setLanguage("ko")
 
     let gridTarget;
     let gridSub;
@@ -154,11 +153,12 @@
             data: {
                 api: {
                     readData: {
-                        url : '',
+                        url : '/api/parent-page/sub-page',
                         method : 'GET',
                         initParams : {}
                     }
                 },
+                initialRequest: false,
                 contentType: 'application/json',
                 headers : headers
             },
@@ -179,11 +179,17 @@
         //     gridTarget.readData(null, collectData("searchForm"), true)
         // })
         gridTarget.on('dblclick', function(ev) {
-            var record = {
-                start : [ev.rowKey, 0],
-                end : [ev.rowKey, gridTarget.getColumns().length]
+            let rowKey = ev.rowKey;
+            let record = {
+                start : [rowKey, 0],
+                end : [rowKey, gridTarget.getColumns().length]
             }
             gridTarget.setSelectionRange(record);
+
+            let data = {
+                parentPageId : gridTarget.getRow(rowKey).parentPageId
+            }
+            gridSub.readData(null, data, true);
         });
     }
 

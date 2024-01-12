@@ -17,17 +17,14 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/parent-page/{parentPageId}")
+@RequestMapping("/api/parent-page/sub-page")
 @RequiredArgsConstructor
 public class SubPageApiController {
 
     private final ResponseUtil responseUtil;
     private final SubPageService subPageService;
     @GetMapping
-    public ResponseEntity<ResponseForm> list(@PathVariable Long parentPageId){
-
-        SubPageRequest.RequestDynamicQuery requestDynamicQuery = new SubPageRequest.RequestDynamicQuery();
-        requestDynamicQuery.setParentPageId(parentPageId);
+    public ResponseEntity<ResponseForm> list(SubPageRequest.RequestDynamicQuery requestDynamicQuery){
         List<SubPageResponse.Response> list = subPageService.findList(requestDynamicQuery);
         return responseUtil.makeResponseEntity(list);
     }
