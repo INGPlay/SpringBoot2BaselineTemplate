@@ -1,6 +1,7 @@
 package baseline.version3.springboot.pageAdmin.domain.subPage;
 
 import baseline.version3.springboot.entity.pageAdmin.ParentPage;
+import baseline.version3.springboot.entity.pageAdmin.SubPage;
 import org.mapstruct.*;
 
 @Mapper(
@@ -9,7 +10,7 @@ import org.mapstruct.*;
 )
 public abstract class SubPageMapper {
 
-    public abstract ParentPage toInsertEntity(SubPageRequest.RequestInsert requestInsert);
+    public abstract SubPage toInsertEntity(SubPageRequest.RequestInsert requestInsert);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     public abstract void toUpdateEntity(SubPageRequest.RequestUpdate requestUpdate, @MappingTarget ParentPage parentPage);
