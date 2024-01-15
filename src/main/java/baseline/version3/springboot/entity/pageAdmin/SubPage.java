@@ -2,6 +2,7 @@ package baseline.version3.springboot.entity.pageAdmin;
 
 import baseline.version3.springboot.entity.base.DateTimeBase;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +17,7 @@ public class SubPage extends DateTimeBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sub_page_id" ,nullable = false)
+    @Setter(AccessLevel.NONE)
     private Long subPageId;
 
     // 하위 페이지 제목
@@ -30,6 +32,16 @@ public class SubPage extends DateTimeBase {
     @Column(name = "sub_page_path" ,nullable = false ,length = 512)
     private String subPagePath;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private ParentPage parentPage;
+
+    @OneToOne(mappedBy = "subPage", cascade = CascadeType.ALL)
+    private PageAuthorityCondition pageAuthorityCondition;
+
+    public void setPageAuthorityCondition(PageAuthorityCondition pageAuthorityCondition) {
+        if (pageAuthorityCondition != null){
+            pageAuthorityCondition.setSubPage(this);
+        }
+        this.pageAuthorityCondition = pageAuthorityCondition;
+    }
 }

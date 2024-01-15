@@ -38,10 +38,28 @@
                         <div class="form-text" th:errors="*{subPageDescription}">validation</div>
                     </div>
                     <div class="col-12">
-                        <label for="subPagePath" class="form-label">서브 페이지 경로*</label>
+                        <label for="subPagePath" class="form-label">서브 페이지 경로</label>
                         <input type="text" class="form-control" id="subPagePath" name="subPagePath" placeholder="/"
                                th:field="*{subPagePath}" th:errorclass="border-danger" required>
                         <div class="form-text" th:errors="*{subPagePath}">validation</div>
+                    </div>
+                    <div class="col-12">
+                        <label for="pageAuthorityConditionCode" class="form-label">권한 코드</label>
+                        <input type="text" class="form-control" id="pageAuthorityConditionCode" name="pageAuthorityConditionCode" placeholder=""
+                               th:field="*{pageAuthorityConditionCode}" th:errorclass="border-danger">
+                        <div class="form-text" th:errors="*{pageAuthorityConditionCode}">validation</div>
+                    </div>
+                    <div class="col-12">
+                        <label for="pageAuthorityConditionName" class="form-label">권한 이름</label>
+                        <input type="text" class="form-control" id="pageAuthorityConditionName" name="pageAuthorityConditionName" placeholder=""
+                               th:field="*{pageAuthorityConditionName}" th:errorclass="border-danger">
+                        <div class="form-text" th:errors="*{pageAuthorityConditionName}">validation</div>
+                    </div>
+                    <div class="col-12">
+                        <label for="subPagePath" class="form-label">권한 묘사</label>
+                        <input type="text" class="form-control" id="pageAuthorityConditionDescription" name="pageAuthorityConditionDescription" placeholder=""
+                               th:field="*{pageAuthorityConditionDescription}" th:errorclass="border-danger">
+                        <div class="form-text" th:errors="*{pageAuthorityConditionDescription}">validation</div>
                     </div>
                     <div class="col-12 d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary">페이지 등록</button>

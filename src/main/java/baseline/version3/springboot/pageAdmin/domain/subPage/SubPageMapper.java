@@ -1,5 +1,6 @@
 package baseline.version3.springboot.pageAdmin.domain.subPage;
 
+import baseline.version3.springboot.entity.pageAdmin.PageAuthorityCondition;
 import baseline.version3.springboot.entity.pageAdmin.ParentPage;
 import baseline.version3.springboot.entity.pageAdmin.SubPage;
 import baseline.version3.springboot.exceptionHandler.exception.ServiceLayerException;
@@ -17,7 +18,10 @@ public abstract class SubPageMapper {
     @Autowired
     protected ParentPageRepository parentPageRepository;
 
-    @Mapping(expression = "java( getParentPage(requestInsert.getParentPageId()) )", target = "parentPage")
+    @Mappings({
+            @Mapping(expression = "java( getParentPage(requestInsert) )", target = "parentPage"),
+            @Mapping(expression = "java( getPageAuthorityCondition(requestInsert) )", target = "pageAuthorityCondition")
+    })
     public abstract SubPage toInsertEntity(SubPageRequest.RequestInsert requestInsert);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
@@ -25,9 +29,11 @@ public abstract class SubPageMapper {
 
     public abstract SubPageResponse.Response toResponse(ParentPage parentPage);
 
-    protected ParentPage getParentPage(Long parentPageid){
-        return parentPageRepository.findById(parentPageid).orElseThrow(
+    protected ParentPage getParentPage(SubPageRequest.RequestInsert requestInsert){
+        return parentPageRepository.findById(requestInsert.getParentPageId()).orElseThrow(
                 () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)
         );
     }
+
+    protected abstract PageAuthorityCondition getPageAuthorityCondition(SubPageRequest.RequestInsert requestInsert);
 }

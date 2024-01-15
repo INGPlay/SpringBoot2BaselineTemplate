@@ -1,5 +1,6 @@
 package baseline.version3.springboot.pageAdmin.domain.subPage;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -23,6 +24,18 @@ public class SubPageRequest {
         @Pattern(regexp = "^/[a-zA-Z1-9/!@#$%^&*-]{0,}$", message = "첫 글자가 슬래쉬(/)가 아니거나, 허용되지 않은 기호를 사용하였습니다.")
         @Size(max = 128)
         private String subPagePath;
+
+        // 권한 코드
+        @Size(max = 64)
+        private String pageAuthorityConditionCode;
+
+        // 권한 이름
+        @Size(max = 128)
+        private String pageAuthorityConditionName;
+
+        // 권한 묘사
+        @Size(max = 256)
+        private String pageAuthorityConditionDescription;
     }
 
     @Getter @Setter

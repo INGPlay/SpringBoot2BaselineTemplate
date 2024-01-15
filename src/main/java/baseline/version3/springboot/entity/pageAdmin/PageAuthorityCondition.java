@@ -2,6 +2,7 @@ package baseline.version3.springboot.entity.pageAdmin;
 
 import baseline.version3.springboot.entity.base.DateTimeBase;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,23 +15,23 @@ public class PageAuthorityCondition extends DateTimeBase {
     // 권한 id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "page_authority_condition_id" ,nullable = false)
+    @Column(name = "page_authority_condition_id",nullable = false)
+    @Setter(AccessLevel.NONE)
     private Long pageAuthorityConditionId;
 
     // 권한 코드
-    @Column(name = "page_authority_condition_code" ,nullable = false ,length = 64)
+    @Column(name = "page_authority_condition_code", length = 64)
     private String pageAuthorityConditionCode;
 
     // 권한 이름
-    @Column(name = "page_authority_condition_name" ,nullable = false ,length = 128)
+    @Column(name = "page_authority_condition_name", length = 128)
     private String pageAuthorityConditionName;
 
     // 권한 묘사
-    @Column(name = "page_authority_condition_description" ,length = 256)
+    @Column(name = "page_authority_condition_description", length = 256)
     private String pageAuthorityConditionDescription;
 
-    @OneToOne(orphanRemoval = true)
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "sub_page_sub_page_id")
     private SubPage subPage;
-
 }
