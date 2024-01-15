@@ -22,10 +22,10 @@
 
     <div class="row mt-3">
         <div class="col">
-            <button onclick="location.href='/page-admin/page/register'" type="button" class="btn btn-dark btn-sm w-25 float-start">상위 추가</button>
+            <button type="button" id="addParentButton" class="btn btn-dark btn-sm w-25 float-start">상위 추가</button>
         </div>
         <div class="col">
-            <button type="button" class="btn btn-dark btn-sm w-25">하위 추가</button>
+            <button type="button" id="addSubButton" class="btn btn-dark btn-sm w-25">서브 페이지 추가</button>
         </div>
     </div>
 
@@ -51,6 +51,9 @@
 
     let gridTarget;
     let gridSub;
+
+    // static
+    let PARENT_PAGE_ID_SAVE;
 
     main()
 
@@ -186,11 +189,22 @@
             }
             gridTarget.setSelectionRange(record);
 
+            PARENT_PAGE_ID_SAVE = gridTarget.getRow(rowKey).parentPageId;
             let data = {
-                parentPageId : gridTarget.getRow(rowKey).parentPageId
+                parentPageId : PARENT_PAGE_ID_SAVE
             }
             gridSub.readData(null, data, true);
+
+            console.log(gridTarget.get)
         });
+
+        document.getElementById("addParentButton").addEventListener("click", function (e){
+            location.href='/page-admin/page/register'
+        })
+
+        document.getElementById("addSubButton").addEventListener("click", function (e){
+            location.href='/page-admin/page/sub/register?parentPageId=' + PARENT_PAGE_ID_SAVE;
+        })
     }
 
 

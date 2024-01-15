@@ -31,7 +31,7 @@ public class SubPageApiController {
 
     @DeleteMapping
     public ResponseEntity<ResponseForm> delete(@RequestBody ParentPageRequest.RequestDelete requestDelete){
-//        subPageService.deleteParentPageById(requestDelete.getParentPageId());
+        subPageService.deleteParentPageById(requestDelete.getParentPageId());
         return responseUtil.makeResponseEntity();
     }
 }

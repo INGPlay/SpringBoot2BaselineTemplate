@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>상위 페이지 등록</title>
+
+    <th:block th:replace="~{fragment/common :: commonStatic}"></th:block>
+    <th:block th:replace="~{fragment/framework :: uikit}"></th:block>
+    <th:block th:replace="~{fragment/framework :: bootstrap}"></th:block>
+
+</head>
+<body>
+
+<th:block th:replace="~{fragment/header :: commonHeader}"></th:block>
+
+<div class="container mt-3">
+    <div class="d-flex justify-content-center">
+        <span class="fs-3 fw-bold">서브 등록 페이지</span>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <div class="row w-50">
+            <div class="col">
+
+                <form method="post" class="row g-3" th:action th:object="${requestInsert}">
+                    <input type="hidden" th:field="*{parentPageId}" name="parentPageId">
+                    <div class="col-md-12">
+                        <label for="subPageTitle" class="form-label">서브 페이지 명*</label>
+                        <input type="text" class="form-control" id="subPageTitle" name="subPageTitle"
+                               th:field="*{subPageTitle}" th:errorclass="border-danger" required>
+                        <div class="form-text" th:errors="*{subPageTitle}">validation</div>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="subPageDescription" class="form-label">설명</label>
+                        <input type="text" class="form-control" id="subPageDescription" name="subPageDescription"
+                               th:field="*{subPageDescription}">
+                        <div class="form-text" th:errors="*{subPageDescription}">validation</div>
+                    </div>
+                    <div class="col-12">
+                        <label for="subPagePath" class="form-label">서브 페이지 경로*</label>
+                        <input type="text" class="form-control" id="subPagePath" name="subPagePath" placeholder="/"
+                               th:field="*{subPagePath}" th:errorclass="border-danger" required>
+                        <div class="form-text" th:errors="*{subPagePath}">validation</div>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">페이지 등록</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+
+<script type="application/javascript" th:inline="javascript">
+    // csrf token
+    let headers = {
+    /*[[${_csrf.headerName}]]*/
+    :
+    /*[[${_csrf.token}]]*/
+    }
+
+</script>
+</html>

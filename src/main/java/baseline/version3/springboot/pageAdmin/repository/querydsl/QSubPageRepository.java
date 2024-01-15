@@ -1,5 +1,6 @@
 package baseline.version3.springboot.pageAdmin.repository.querydsl;
 
+import baseline.version3.springboot.common.util.QueryDslNullableUtil;
 import baseline.version3.springboot.entity.pageAdmin.QPageAuthorityCondition;
 import baseline.version3.springboot.entity.pageAdmin.QParentPage;
 import baseline.version3.springboot.entity.pageAdmin.QSubPage;
@@ -11,12 +12,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
 public class QSubPageRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
+    private final QueryDslNullableUtil queryDslNullableUtil;
 
     private QParentPage parentPage = QParentPage.parentPage;
     private QSubPage subPage = QSubPage.subPage;
@@ -44,5 +47,32 @@ public class QSubPageRepository {
                 )
                 .fetch();
 
+    }
+
+    public Optional<SubPageResponse.Response> selectOne(SubPageRequest.RequestDynamicQueryOne requestDynamicQueryOne){
+        return Optional.ofNullable(
+                jpaQueryFactory
+                        .select(
+                                Projections.constructor(
+                                        SubPageResponse.Response.class,
+                                        subPage.subPageId,
+                                        subPage.subPageTitle,
+                                        subPage.subPageDescription,
+                                        subPage.subPagePath,
+                                        pageAuthorityCondition.pageAuthorityConditionCode,
+                                        subPage.registerDate,
+                                        subPage.lastModifyDate
+                                )
+                        )
+                        .from(pageAuthorityCondition)
+                        .rightJoin(pageAuthorityCondition.subPage, subPage)
+                        .join(subPage.parentPage, parentPage)
+                        .where(
+                                parentPage.parentPageId.eq(requestDynamicQueryOne.getParentPageId()),
+                                queryDslNullableUtil.eq(subPage.subPageId, requestDynamicQueryOne.getSubPageId()),
+                                queryDslNullableUtil.eq(subPage.subPagePath, requestDynamicQueryOne.getSubPagePath())
+                        )
+                        .fetchOne()
+        );
     }
 }

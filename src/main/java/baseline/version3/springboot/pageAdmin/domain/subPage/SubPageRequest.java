@@ -10,54 +10,55 @@ public class SubPageRequest {
 
     @Getter @Setter
     public static class RequestInsert {
+
+        @NotNull
+        private Long parentPageId;
+
         @Size(max = 128)
-        private String parentPageTitle;
+        private String subPageTitle;
 
         @Size(max = 1024)
-        private String parentPageDescription;
+        private String subPageDescription;
 
         @Pattern(regexp = "^/[a-zA-Z1-9/!@#$%^&*-]{0,}$", message = "첫 글자가 슬래쉬(/)가 아니거나, 허용되지 않은 기호를 사용하였습니다.")
         @Size(max = 128)
-        private String parentPageRootPath;
-
-        @Pattern(regexp = "^[a-zA-Z1-9/!@#$%^&*-]{0,}$", message = "허용되지 않은 기호를 사용하였습니다.")
-        @Size(max = 128)
-        private String parentPageIndexPath;
-
-        public String getParentPageIndexPath() {
-            // 인덱스 경로가 없다면, 루트 경로 반환
-            if (this.parentPageIndexPath == null || this.parentPageIndexPath.isEmpty()){
-                return this.parentPageRootPath;
-            }
-            return parentPageIndexPath;
-        }
+        private String subPagePath;
     }
 
     @Getter @Setter
     public static class RequestUpdate {
         @NotNull
         private Long parentPageId;
+        @NotNull
+        private Long subPageId;
 
         @Size(max = 128)
-        private String parentPageTitle;
+        private String subPageTitle;
+
         @Size(max = 1024)
-        private String parentPageDescription;
+        private String subPageDescription;
+
         @Pattern(regexp = "^/[a-zA-Z1-9/!@#$%^&*-]{0,}$", message = "첫 글자가 슬래쉬(/)가 아니거나, 허용되지 않은 기호를 사용하였습니다.")
         @Size(max = 128)
-        private String parentPageRootPath;
-        @Pattern(regexp = "^[a-zA-Z1-9/!@#$%^&*-]{0,}$", message = "허용되지 않은 기호를 사용하였습니다.")
-        @Size(max = 128)
-        private String parentPageIndexPath;
+        private String subPageRootPath;
     }
 
     @Getter @Setter
     public static class RequestDelete {
         @NotNull
-        private Long parentPageId;
+        private Long subPageId;
     }
 
     @Getter @Setter
     public static class RequestDynamicQuery {
         private Long parentPageId;
+    }
+
+    @Getter @Setter
+    public static class RequestDynamicQueryOne {
+        private Long parentPageId;
+        private Long subPageId;
+        private String subPagePath;
+        private String notSubPagePath;
     }
 }

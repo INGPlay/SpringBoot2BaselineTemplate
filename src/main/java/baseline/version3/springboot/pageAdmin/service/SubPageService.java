@@ -1,5 +1,6 @@
 package baseline.version3.springboot.pageAdmin.service;
 
+import baseline.version3.springboot.entity.pageAdmin.SubPage;
 import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageMapper;
 import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageRequest;
 import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageResponse;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Transactional
@@ -24,5 +26,18 @@ public class SubPageService {
 
     public List<SubPageResponse.Response> findList(SubPageRequest.RequestDynamicQuery requestDynamicQuery){
         return qSubPageRepository.selectList(requestDynamicQuery);
+    }
+
+    public Optional<SubPageResponse.Response> findOne(SubPageRequest.RequestDynamicQueryOne requestDynamicQuery){
+        return qSubPageRepository.selectOne(requestDynamicQuery);
+    }
+
+    public void registerSubPage(SubPageRequest.RequestInsert requestInsert){
+        SubPage entity = subPageMapper.toInsertEntity(requestInsert);
+        subPageRepository.save(entity);
+    }
+
+    public void deleteParentPageById(Long id){
+        subPageRepository.deleteById(id);
     }
 }
