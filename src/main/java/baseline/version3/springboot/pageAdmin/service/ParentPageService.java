@@ -35,11 +35,6 @@ public class ParentPageService {
     public Optional<ParentPageResponse.Response> findOne(ParentPageRequest.RequestDynamicQuery requestDynamicQuery){
         return qParentPageRepository.selectOne(requestDynamicQuery);
     }
-    public Optional<ParentPageResponse.Response> findOneByRoot(String rootPath) {
-        ParentPageRequest.RequestDynamicQuery requestDynamicQuery = new ParentPageRequest.RequestDynamicQuery();
-        requestDynamicQuery.setParentPageRootPath(rootPath);
-        return qParentPageRepository.selectOne(requestDynamicQuery);
-    }
 
     public Optional<ParentPageResponse.Response> findOneById(Long id){
         return qParentPageRepository.selectOneById(id);

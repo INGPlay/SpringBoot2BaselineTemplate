@@ -58,7 +58,9 @@ public class ParentPageController {
         String rootPath = requestInsert.getParentPageRootPath().strip();
         String indexPath = requestInsert.getParentPageIndexPath().strip();
 
-        if (parentPageService.findOneByRoot(rootPath).isPresent()){
+        ParentPageRequest.RequestDynamicQuery requestDynamicQuery = new ParentPageRequest.RequestDynamicQuery();
+        requestDynamicQuery.setParentPageRootPath(rootPath);
+        if (parentPageService.findOne(requestDynamicQuery).isPresent()){
             FieldError fieldError = new FieldError("duplicated", "parentPageRootPath", "이미 존재하는 루트 경로입니다.");
             bindingResult.addError(fieldError);
 
