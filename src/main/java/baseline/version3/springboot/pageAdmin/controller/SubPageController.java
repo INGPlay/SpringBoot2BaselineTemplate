@@ -52,13 +52,7 @@ public class SubPageController {
 
     private boolean isNotValidateForRegister(SubPageRequest.RequestInsert requestInsert, BindingResult bindingResult) {
 
-        SubPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new SubPageRequest.RequestDynamicQueryOne();
-        requestDynamicQueryOne.setParentPageId(requestInsert.getParentPageId());
-        requestDynamicQueryOne.setSubPagePath(requestInsert.getSubPagePath().strip());
-        if (subPageService.findOne(requestDynamicQueryOne).isPresent()){
-            FieldError fieldError = new FieldError("duplicated", "subPageRootPath", "이미 존재하는 루트 경로입니다.");
-            bindingResult.addError(fieldError);
-        }
+        validateDuplicateSubPagePath(requestInsert.getParentPageId(), requestInsert.getSubPagePath(), bindingResult);
 
         log.info("{}", bindingResult);
 
@@ -67,5 +61,15 @@ public class SubPageController {
         }
 
         return false;
+    }
+
+    private void validateDuplicateSubPagePath(Long parentPageId, String subPagePath, BindingResult bindingResult) {
+        SubPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new SubPageRequest.RequestDynamicQueryOne();
+        requestDynamicQueryOne.setParentPageId(parentPageId);
+        requestDynamicQueryOne.setSubPagePath(subPagePath);
+        if (subPageService.findOne(requestDynamicQueryOne).isPresent()){
+            FieldError fieldError = new FieldError("duplicated", "subPageRootPath", "이미 존재하는 루트 경로입니다.");
+            bindingResult.addError(fieldError);
+        }
     }
 }

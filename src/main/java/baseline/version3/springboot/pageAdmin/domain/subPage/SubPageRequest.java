@@ -27,15 +27,11 @@ public class SubPageRequest {
 
         // 권한 코드
         @Size(max = 64)
-        private String pageAuthorityConditionCode;
+        private String pageAuthorityCode;
 
-        // 권한 이름
-        @Size(max = 128)
-        private String pageAuthorityConditionName;
-
-        // 권한 묘사
-        @Size(max = 256)
-        private String pageAuthorityConditionDescription;
+        public void setSubPagePath(String subPagePath) {
+            this.subPagePath = subPagePath.strip();
+        }
     }
 
     @Getter @Setter
@@ -54,6 +50,14 @@ public class SubPageRequest {
         @Pattern(regexp = "^/[a-zA-Z1-9/!@#$%^&*-]{0,}$", message = "첫 글자가 슬래쉬(/)가 아니거나, 허용되지 않은 기호를 사용하였습니다.")
         @Size(max = 128)
         private String subPageRootPath;
+
+        // 권한 코드
+        @Size(max = 64)
+        private String pageAuthorityCode;
+
+        public void setSubPageRootPath(String subPageRootPath) {
+            this.subPageRootPath = subPageRootPath.strip();
+        }
     }
 
     @Getter @Setter

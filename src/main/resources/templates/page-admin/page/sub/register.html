@@ -20,46 +20,33 @@
     </div>
 
     <div class="d-flex justify-content-center">
+
         <div class="row w-50">
             <div class="col">
 
-                <form method="post" class="row g-3" th:action th:object="${requestInsert}">
-                    <input type="hidden" th:field="*{parentPageId}" name="parentPageId">
+                <form method="post" class="row g-3" th:action>
+                    <input type="hidden" th:value="${param.parentPageId}" name="parentPageId">
                     <div class="col-md-12">
                         <label for="subPageTitle" class="form-label">서브 페이지 명*</label>
-                        <input type="text" class="form-control" id="subPageTitle" name="subPageTitle"
-                               th:field="*{subPageTitle}" th:errorclass="border-danger" required>
-                        <div class="form-text" th:errors="*{subPageTitle}">validation</div>
+                        <input type="text" class="form-control" id="subPageTitle" name="subPageTitle" required>
+                        <div class="form-text">validation</div>
                     </div>
                     <div class="col-md-12">
                         <label for="subPageDescription" class="form-label">설명</label>
-                        <input type="text" class="form-control" id="subPageDescription" name="subPageDescription"
-                               th:field="*{subPageDescription}">
-                        <div class="form-text" th:errors="*{subPageDescription}">validation</div>
+                        <input type="text" class="form-control" id="subPageDescription" name="subPageDescription">
+                        <div class="form-text"></div>
                     </div>
                     <div class="col-12">
                         <label for="subPagePath" class="form-label">서브 페이지 경로</label>
-                        <input type="text" class="form-control" id="subPagePath" name="subPagePath" placeholder="/"
-                               th:field="*{subPagePath}" th:errorclass="border-danger" required>
-                        <div class="form-text" th:errors="*{subPagePath}">validation</div>
+                        <input type="text" class="form-control" id="subPagePath" name="subPagePath" placeholder="/" required>
+                        <div class="form-text"></div>
                     </div>
                     <div class="col-12">
-                        <label for="pageAuthorityConditionCode" class="form-label">권한 코드</label>
-                        <input type="text" class="form-control" id="pageAuthorityConditionCode" name="pageAuthorityConditionCode" placeholder=""
-                               th:field="*{pageAuthorityConditionCode}" th:errorclass="border-danger">
-                        <div class="form-text" th:errors="*{pageAuthorityConditionCode}">validation</div>
-                    </div>
-                    <div class="col-12">
-                        <label for="pageAuthorityConditionName" class="form-label">권한 이름</label>
-                        <input type="text" class="form-control" id="pageAuthorityConditionName" name="pageAuthorityConditionName" placeholder=""
-                               th:field="*{pageAuthorityConditionName}" th:errorclass="border-danger">
-                        <div class="form-text" th:errors="*{pageAuthorityConditionName}">validation</div>
-                    </div>
-                    <div class="col-12">
-                        <label for="subPagePath" class="form-label">권한 설명</label>
-                        <input type="text" class="form-control" id="pageAuthorityConditionDescription" name="pageAuthorityConditionDescription" placeholder=""
-                               th:field="*{pageAuthorityConditionDescription}" th:errorclass="border-danger">
-                        <div class="form-text" th:errors="*{pageAuthorityConditionDescription}">validation</div>
+                        <label for="pageAuthorityCode" class="form-label">권한 선택</label>
+                        <select id="pageAuthorityCode" name="pageAuthorityCode" class="form-select form-select-sm">
+                            <option>선택</option>
+                        </select>
+                        <div class="form-text"></div>
                     </div>
                     <div class="col-12 d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary">페이지 등록</button>
@@ -81,6 +68,16 @@
     :
     /*[[${_csrf.token}]]*/
     }
+
+    requestJsonAjaxPromise({
+        url: "/api/page-admin/auth",
+        method: "GET",
+        data: {}
+    }).then(function (response){
+        console.log(response)
+    }).catch(function (error){
+
+    })
 
 </script>
 </html>

@@ -1,6 +1,6 @@
 package baseline.version3.springboot.pageAdmin.service;
 
-import baseline.version3.springboot.entity.pageAdmin.ParentPage;
+import baseline.version3.springboot.pageAdmin.repository.entity.ParentPage;
 import baseline.version3.springboot.exceptionHandler.exception.ServiceLayerException;
 import baseline.version3.springboot.exceptionHandler.subType.ServiceException;
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageMapper;

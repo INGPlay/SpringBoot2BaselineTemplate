@@ -1,4 +1,4 @@
-package baseline.version3.springboot.entity.pageAdmin;
+package baseline.version3.springboot.pageAdmin.repository.entity;
 
 import baseline.version3.springboot.entity.base.DateTimeBase;
 import jakarta.persistence.*;
@@ -35,13 +35,8 @@ public class SubPage extends DateTimeBase {
     @ManyToOne(fetch = FetchType.LAZY)
     private ParentPage parentPage;
 
-    @OneToOne(mappedBy = "subPage", cascade = CascadeType.ALL)
-    private PageAuthorityCondition pageAuthorityCondition;
+    @ManyToOne
+    @JoinColumn(name = "page_authority_condition_page_authority_id")
+    private PageAuthority pageAuthority;
 
-    public void setPageAuthorityCondition(PageAuthorityCondition pageAuthorityCondition) {
-        if (pageAuthorityCondition != null){
-            pageAuthorityCondition.setSubPage(this);
-        }
-        this.pageAuthorityCondition = pageAuthorityCondition;
-    }
 }

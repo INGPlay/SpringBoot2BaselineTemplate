@@ -1,6 +1,6 @@
 package baseline.version3.springboot.pageAdmin.service;
 
-import baseline.version3.springboot.entity.pageAdmin.SubPage;
+import baseline.version3.springboot.pageAdmin.repository.entity.SubPage;
 import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageMapper;
 import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageRequest;
 import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageResponse;

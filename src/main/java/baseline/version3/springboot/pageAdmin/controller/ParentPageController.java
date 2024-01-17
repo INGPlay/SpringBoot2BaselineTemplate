@@ -55,32 +55,20 @@ public class ParentPageController {
 
     private boolean isNotValidateForRegister(ParentPageRequest.RequestInsert requestInsert, BindingResult bindingResult) {
 
-        String rootPath = requestInsert.getParentPageRootPath().strip();
-        String indexPath = requestInsert.getParentPageIndexPath().strip();
-
-        ParentPageRequest.RequestDynamicQuery requestDynamicQuery = new ParentPageRequest.RequestDynamicQuery();
-        requestDynamicQuery.setParentPageRootPath(rootPath);
-        if (parentPageService.findOne(requestDynamicQuery).isPresent()){
-            FieldError fieldError = new FieldError("duplicated", "parentPageRootPath", "이미 존재하는 루트 경로입니다.");
-            bindingResult.addError(fieldError);
-
-        } else {
-            if (!bindingResult.hasFieldErrors("parentPageRootPath")){
-                // 루트 경로가 앞에 포함되어 있는지 확인
-                if (indexPath != null && !indexPath.isEmpty() && !indexPath.startsWith(rootPath)){
-                    FieldError fieldError = new FieldError("isNotContainRootPath", "parentPageIndexPath", "인덱스 경로에 루트경로를 포함해주세요.");
-                    bindingResult.addError(fieldError);
-                }
-            }
-        }
+        validateDuplicateParentPageRootPath(requestInsert.getParentPageRootPath(), bindingResult);
 
         log.info("{}", bindingResult);
 
-        if (bindingResult.hasErrors()){
-            return true;
-        }
+        return bindingResult.hasErrors();
+    }
 
-        return false;
+    private void validateDuplicateParentPageRootPath(String parentPageRootPath, BindingResult bindingResult) {
+        ParentPageRequest.RequestDynamicQuery requestDynamicQuery = new ParentPageRequest.RequestDynamicQuery();
+        requestDynamicQuery.setParentPageRootPath(parentPageRootPath);
+        if (parentPageService.findOne(requestDynamicQuery).isPresent()){
+            FieldError fieldError = new FieldError("duplicated", "parentPageRootPath", "이미 존재하는 루트 경로입니다.");
+            bindingResult.addError(fieldError);
+        }
     }
 
 
@@ -133,32 +121,10 @@ public class ParentPageController {
 
     private boolean isNotValidateForUpdate(ParentPageRequest.RequestUpdate requestUpdate, BindingResult bindingResult) {
 
-        String rootPath = requestUpdate.getParentPageRootPath().strip();
-        String indexPath = requestUpdate.getParentPageIndexPath().strip();
-
-        ParentPageRequest.RequestDynamicQuery requestDynamicQuery = new ParentPageRequest.RequestDynamicQuery();
-        requestDynamicQuery.setNotParentPageId(requestUpdate.getParentPageId());
-        requestDynamicQuery.setParentPageRootPath(rootPath);
-        if (parentPageService.findOne(requestDynamicQuery).isPresent()){
-            FieldError fieldError = new FieldError("duplicated", "parentPageRootPath", "이미 존재하는 루트 경로입니다.");
-            bindingResult.addError(fieldError);
-
-        } else {
-            if (!bindingResult.hasFieldErrors("parentPageRootPath")){
-                // 루트 경로가 앞에 포함되어 있는지 확인
-                if (indexPath != null && !indexPath.isEmpty() && !indexPath.startsWith(rootPath)){
-                    FieldError fieldError = new FieldError("isNotContainRootPath", "parentPageIndexPath", "인덱스 경로에 루트경로를 포함해주세요.");
-                    bindingResult.addError(fieldError);
-                }
-            }
-        }
+        validateDuplicateParentPageRootPath(requestUpdate.getParentPageRootPath(), bindingResult);
 
         log.info("{}", bindingResult);
 
-        if (bindingResult.hasErrors()){
-            return true;
-        }
-
-        return false;
+        return bindingResult.hasErrors();
     }
 }

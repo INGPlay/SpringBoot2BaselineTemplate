@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>페이지 권한 등록</title>
+
+    <th:block th:replace="~{fragment/common :: commonStatic}"></th:block>
+    <th:block th:replace="~{fragment/framework :: uikit}"></th:block>
+    <th:block th:replace="~{fragment/framework :: bootstrap}"></th:block>
+    <th:block th:replace="~{fragment/library :: tui-grid}"></th:block>
+
+</head>
+<body>
+
+<th:block th:replace="~{fragment/header :: commonHeader}"></th:block>
+
+<div class="container mt-3">
+    <div class="d-flex justify-content-center">
+        <span class="fs-3 fw-bold">권한 등록 페이지</span>
+    </div>
+
+    <div class="d-flex justify-content-center">
+
+        <div class="row w-25 me-3">
+            <div class="col">
+
+                <form method="post" class="row g-3" th:action th:object="${requestInsert}">
+                    <div class="col-12">
+                        <label for="pageAuthorityCode" class="form-label">권한 코드*</label>
+                        <input type="text" class="form-control" id="pageAuthorityCode" name="pageAuthorityCode" placeholder=""
+                               th:field="*{pageAuthorityCode}" th:errorclass="border-danger">
+                        <div class="form-text" th:errors="*{pageAuthorityCode}">validation</div>
+                    </div>
+                    <div class="col-12">
+                        <label for="pageAuthorityName" class="form-label">권한 이름</label>
+                        <input type="text" class="form-control" id="pageAuthorityName" name="pageAuthorityName" placeholder=""
+                               th:field="*{pageAuthorityName}" th:errorclass="border-danger">
+                        <div class="form-text" th:errors="*{pageAuthorityName}">validation</div>
+                    </div>
+                    <div class="col-12">
+                        <label for="pageAuthorityDescription" class="form-label">권한 설명</label>
+                        <input type="text" class="form-control" id="pageAuthorityDescription" name="pageAuthorityDescription" placeholder=""
+                               th:field="*{pageAuthorityDescription}" th:errorclass="border-danger">
+                        <div class="form-text" th:errors="*{pageAuthorityDescription}">validation</div>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">권한 등록</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        <div id="gridTarget" class="w-50"></div>
+
+    </div>
+
+</div>
+
+</body>
+
+<script type="application/javascript" th:inline="javascript">
+    // csrf token
+    let headers = {
+    /*[[${_csrf.headerName}]]*/
+    :
+    /*[[${_csrf.token}]]*/
+    }
+
+    const Grid = tui.Grid;
+    Grid.applyTheme('striped'); // Call API of static method
+
+    let gridTarget;
+
+    main()
+
+    function main(){
+        initGrid()
+        initButtonEvent()
+        initInputEvent()
+
+        function initGrid(){
+            gridTarget = new Grid({
+                el: document.getElementById("gridTarget"),
+                rowHeaders: ['rowNum'],
+                columns: [
+                    {
+                        header: '권한 아이디', name: 'pageAuthorityId', align: 'center', hidden: true
+                    },
+                    {
+                        header: '삭제하기', width: 75, align: 'center',
+                        formatter : function (e){
+                            console.log(e)
+                            console.log(e.row.parentPageId)
+                            let path = "";
+                            return "<a href='" + path + "'>삭제하기</a>"
+                        },
+                        resizable : false
+                    },
+                    {
+                        header : '권한 코드', name: 'pageAuthorityCode', width : 150, align: 'center',
+                        resizable : true,
+                        sortable : true,
+                        filter: 'select'
+                    },
+                    {
+                        header: '권한명', name: 'pageAuthorityName', width: 150, align : 'center',
+                        resizable : true,
+                        sortable : true,
+                        filter: 'select'
+                    },
+                    {
+                        header: '권한 설명', name: 'pageAuthorityDescription', width: 150, align: 'center',
+                        resizable : true,
+                        sortable : true,
+                        filter: 'select'
+                    },
+                    {
+                        header: '등록일', name: 'registerDate', width: 150, align: 'center',
+                        resizable : true,
+                        sortable : true,
+                        filter: 'date'
+                    },
+                    {
+                        header: '수정일', name: 'lastModifyDate', width: 150, align: 'center',
+                        resizable : true,
+                        sortable : true,
+                        filter: 'date'
+                    },
+                ],
+                data: {
+                    api: {
+                        readData: {
+                            url : '/api/page-admin/auth',
+                            method : 'GET',
+                            initParams : {}
+                        }
+                    },
+                    contentType: 'application/json',
+                    headers : headers
+                },
+                pageOptions: {
+                    perPage: 30
+                },
+                bodyHeight: 300
+            })
+        }
+
+        function initButtonEvent(){
+
+        }
+
+        function initInputEvent(){
+
+        }
+    }
+
+
+</script>
+</html>

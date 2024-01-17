@@ -26,6 +26,7 @@
         </div>
         <div class="col">
             <button type="button" id="addSubButton" class="btn btn-dark btn-sm w-25">서브 페이지 추가</button>
+            <button type="button" id="addAuthButton" class="btn btn-default btn-sm w-25">권한 추가</button>
         </div>
     </div>
 
@@ -204,6 +205,10 @@
 
         document.getElementById("addSubButton").addEventListener("click", function (e){
             location.href='/page-admin/page/sub/register?parentPageId=' + PARENT_PAGE_ID_SAVE;
+        })
+
+        document.getElementById("addAuthButton").addEventListener("click", function (e){
+            location.href='/page-admin/page/auth/register';
         })
     }
 

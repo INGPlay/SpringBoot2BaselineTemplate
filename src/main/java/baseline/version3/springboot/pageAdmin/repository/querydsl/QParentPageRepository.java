@@ -1,9 +1,9 @@
 package baseline.version3.springboot.pageAdmin.repository.querydsl;
 
 import baseline.version3.springboot.common.util.QueryDslNullableUtil;
-import baseline.version3.springboot.entity.pageAdmin.QParentPage;
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageRequest;
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageResponse;
+import baseline.version3.springboot.pageAdmin.repository.entity.QParentPage;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

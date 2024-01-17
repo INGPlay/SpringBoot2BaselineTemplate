@@ -1,6 +1,6 @@
 package baseline.version3.springboot.pageAdmin.domain.parentPage;
 
-import baseline.version3.springboot.entity.pageAdmin.ParentPage;
+import baseline.version3.springboot.pageAdmin.repository.entity.ParentPage;
 import org.mapstruct.*;
 
 @Mapper(
