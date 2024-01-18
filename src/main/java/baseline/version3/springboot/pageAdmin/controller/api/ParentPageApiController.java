@@ -33,21 +33,17 @@ public class ParentPageApiController {
     @PostMapping
     public ResponseEntity<ResponseForm> create(@Valid @RequestBody ParentPageRequest.RequestInsert requestInsert,
                                                BindingResult bindingResult){
-        if (isNotValidateForRegister(requestInsert, bindingResult)){
-            throw new CustomValidationException(bindingResult);
-        }
+
+        validateForRegister(requestInsert, bindingResult);
 
         parentPageService.registerParentPage(requestInsert);
         return responseUtil.makeResponseEntity();
     }
 
-    private boolean isNotValidateForRegister(ParentPageRequest.RequestInsert requestInsert, BindingResult bindingResult) {
-
+    private void validateForRegister(ParentPageRequest.RequestInsert requestInsert, BindingResult bindingResult) {
+        checkHasErrors(bindingResult);
         validateDuplicateParentPageRootPath(requestInsert.getParentPageRootPath(), bindingResult);
-
-        log.info("{}", bindingResult);
-
-        return bindingResult.hasErrors();
+        checkHasErrors(bindingResult);
     }
 
     private void validateDuplicateParentPageRootPath(String parentPageRootPath, BindingResult bindingResult) {
@@ -59,21 +55,25 @@ public class ParentPageApiController {
         }
     }
 
+    private void checkHasErrors(BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            throw new CustomValidationException(bindingResult);
+        }
+    }
+
     @PutMapping
     public ResponseEntity<ResponseForm> update(@Valid @RequestBody ParentPageRequest.RequestUpdate requestUpdate,
                                                BindingResult bindingResult){
-        if (isNotValidateForUpdate(requestUpdate, bindingResult)){
-            throw new CustomValidationException(bindingResult);
-        }
+        isNotValidateForUpdate(requestUpdate, bindingResult);
         parentPageService.updateParentPage(requestUpdate);
         return responseUtil.makeResponseEntity();
     }
 
     private boolean isNotValidateForUpdate(ParentPageRequest.RequestUpdate requestUpdate, BindingResult bindingResult) {
 
+        checkHasErrors(bindingResult);
         validateDuplicateParentPageRootPath(requestUpdate.getParentPageRootPath(), bindingResult);
-
-        log.info("{}", bindingResult);
+        checkHasErrors(bindingResult);
 
         return bindingResult.hasErrors();
     }

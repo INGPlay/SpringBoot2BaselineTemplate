@@ -10,7 +10,9 @@ public class ParentPageRequest {
 
     @Getter @Setter
     public static class RequestInsert {
-        @Size(max = 128)
+
+        @NotNull
+        @Size(min = 1, max = 128)
         private String parentPageTitle;
 
         @Size(max = 1024)

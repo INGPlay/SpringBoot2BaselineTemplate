@@ -27,26 +27,26 @@
                 <form id="submitForm" method="post" class="row g-3">
                     <div class="col-md-12">
                         <label for="parentPageTitle" class="form-label">페이지 명*</label>
-                        <input type="text" class="form-control" id="parentPageTitle" name="parentPageTitle" required>
-                        <div class="form-text" >validation</div>
+                        <input type="text" class="form-control" id="parentPageTitle" name="parentPageTitle" v-model="submitForm.parentPageTitle" required>
+                        <div class="form-text">{{ validateText.parentPageTitle }}</div>
                     </div>
                     <div class="col-md-12">
                         <label for="parentPageDescription" class="form-label">설명</label>
-                        <input type="text" class="form-control" id="parentPageDescription" name="parentPageDescription">
-                        <div class="form-text"></div>
+                        <input type="text" class="form-control" id="parentPageDescription" name="parentPageDescription" v-model="submitForm.parentPageDescription">
+                        <div class="form-text">{{ validateText.parentPageDescription }}</div>
                     </div>
                     <div class="col-12">
                         <label for="parentPageRootPath" class="form-label">루트 경로*</label>
-                        <input type="text" class="form-control" id="parentPageRootPath" name="parentPageRootPath" placeholder="/" required>
-                        <div class="form-text">validation</div>
+                        <input type="text" class="form-control" id="parentPageRootPath" name="parentPageRootPath" v-model="submitForm.parentPageRootPath" placeholder="/" required>
+                        <div class="form-text">{{ validateText.parentPageRootPath }}</div>
                     </div>
                     <div class="col-12">
                         <label for="parentPageIndexPath" class="form-label">인덱스 페이지 경로</label>
-                        <input type="text" class="form-control" id="parentPageIndexPath" name="parentPageIndexPath" placeholder="/index">
-                        <div class="form-text">validation</div>
+                        <input type="text" class="form-control" id="parentPageIndexPath" name="parentPageIndexPath" v-model="submitForm.parentPageIndexPath" placeholder="/index">
+                        <div class="form-text">{{ validateText.parentPageIndexPath }}</div>
                     </div>
                     <div class="col-12 d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary">페이지 등록</button>
+                        <button type="button" @click="submit" class="btn btn-primary">페이지 등록</button>
                     </div>
                 </form>
 
@@ -65,6 +65,42 @@
     :
     /*[[${_csrf.token}]]*/
     }
-    
+
+    const app = Vue.createApp({
+        data(){
+            return{
+                submitForm : {
+                    parentPageTitle: '',
+                    parentPageDescription: '',
+                    parentPageRootPath: '',
+                    parentPageIndexPath: ''
+                },
+                validateText : {
+                    parentPageTitle: '',
+                    parentPageDescription: '',
+                    parentPageRootPath: '',
+                    parentPageIndexPath: ''
+                }
+            }
+        },
+        methods: {
+            submit: function (){
+                requestJsonAjaxPromise({
+                    url: "/api/parent-page",
+                    method: "POST",
+                    data: this.submitForm
+                }).then(function (response){
+
+                    console.log(response)
+                }).catch(function (error){
+                    console.log(error.responseJSON.data.errorMessage)
+                    this.validateText = error.responseJSON.data.errorMessage
+                })
+
+                console.log(this.validateText)
+            }
+        }
+    }).mount("#submitForm")
+
 </script>
 </html>

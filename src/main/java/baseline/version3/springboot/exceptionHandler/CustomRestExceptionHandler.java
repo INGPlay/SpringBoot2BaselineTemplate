@@ -6,29 +6,22 @@ import baseline.version3.springboot.exceptionHandler.exception.CustomValidationE
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
 @RequiredArgsConstructor
+@Order(100)
 public class CustomRestExceptionHandler {
 
-    private ResponseUtil responseUtil;
-
-    /**
-     * 모든 Rest 컨트롤러 매핑 공통
-     */
-    @ModelAttribute
-    public void handleRequest(HttpServletRequest request, Model model) {
-        String requestURI = request.getRequestURI();
-
-        log.info("[API] {}", requestURI);
-    }
+    private final ResponseUtil responseUtil;
 
     /**
      * Service Layer 예외 처리
@@ -52,7 +45,7 @@ public class CustomRestExceptionHandler {
     }
 
     /**
-     * BindingResult 예외 처리
+     * @Valid 만 붙고, BindingResult가 없어야 예외 처리
      * @param ex
      * @return
      */
