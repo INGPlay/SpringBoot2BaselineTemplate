@@ -6,6 +6,7 @@
     <title>상위 페이지 등록</title>
 
     <th:block th:replace="~{fragment/common :: commonStatic}"></th:block>
+    <th:block th:replace="~{fragment/framework :: vue}"></th:block>
     <th:block th:replace="~{fragment/framework :: uikit}"></th:block>
     <th:block th:replace="~{fragment/framework :: bootstrap}"></th:block>
 
@@ -23,30 +24,26 @@
         <div class="row w-50">
             <div class="col">
 
-                <form method="post" class="row g-3" th:action th:object="${requestInsert}">
+                <form id="submitForm" method="post" class="row g-3">
                     <div class="col-md-12">
                         <label for="parentPageTitle" class="form-label">페이지 명*</label>
-                        <input type="text" class="form-control" id="parentPageTitle" name="parentPageTitle"
-                               th:field="*{parentPageTitle}" th:errorclass="border-danger" required>
-                        <div class="form-text" th:errors="*{parentPageTitle}">validation</div>
+                        <input type="text" class="form-control" id="parentPageTitle" name="parentPageTitle" required>
+                        <div class="form-text" >validation</div>
                     </div>
                     <div class="col-md-12">
                         <label for="parentPageDescription" class="form-label">설명</label>
-                        <input type="text" class="form-control" id="parentPageDescription" name="parentPageDescription"
-                               th:field="*{parentPageDescription}">
-                        <div class="form-text" th:errors="*{parentPageDescription}">validation</div>
+                        <input type="text" class="form-control" id="parentPageDescription" name="parentPageDescription">
+                        <div class="form-text"></div>
                     </div>
                     <div class="col-12">
                         <label for="parentPageRootPath" class="form-label">루트 경로*</label>
-                        <input type="text" class="form-control" id="parentPageRootPath" name="parentPageRootPath" placeholder="/"
-                               th:field="*{parentPageRootPath}" th:errorclass="border-danger" required>
-                        <div class="form-text" th:errors="*{parentPageRootPath}">validation</div>
+                        <input type="text" class="form-control" id="parentPageRootPath" name="parentPageRootPath" placeholder="/" required>
+                        <div class="form-text">validation</div>
                     </div>
                     <div class="col-12">
                         <label for="parentPageIndexPath" class="form-label">인덱스 페이지 경로</label>
-                        <input type="text" class="form-control" id="parentPageIndexPath" name="parentPageIndexPath" placeholder="/index"
-                               th:field="*{parentPageIndexPath}" th:errorclass="border-danger">
-                        <div class="form-text" th:errors="*{parentPageIndexPath}">validation</div>
+                        <input type="text" class="form-control" id="parentPageIndexPath" name="parentPageIndexPath" placeholder="/index">
+                        <div class="form-text">validation</div>
                     </div>
                     <div class="col-12 d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary">페이지 등록</button>
@@ -68,6 +65,6 @@
     :
     /*[[${_csrf.token}]]*/
     }
-
+    
 </script>
 </html>

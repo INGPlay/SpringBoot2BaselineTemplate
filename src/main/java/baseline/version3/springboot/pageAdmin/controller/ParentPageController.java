@@ -81,7 +81,10 @@ public class ParentPageController {
     @GetMapping("/list/update")
     public String updatePage(@RequestParam Long id,
                              Model model){
-        fillUpdatePage(id, model);
+        ParentPageResponse.Response response = parentPageService.findOneById(id).orElseThrow(() -> {
+            throw new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY);
+        });
+        model.addAttribute("response", response);
         return "page-admin/page/update";
     }
 
@@ -101,22 +104,6 @@ public class ParentPageController {
 
         parentPageService.updateParentPage(requestUpdate);
         return "redirect:/page-admin/page/list";
-    }
-
-    private void fillUpdatePage(Long id, Model model) {
-        ParentPageResponse.Response response = parentPageService.findOneById(id).orElseThrow(() -> {
-            throw new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY);
-        });
-        ParentPageRequest.RequestUpdate requestUpdate = new ParentPageRequest.RequestUpdate();
-        requestUpdate.setParentPageId(response.getParentPageId());
-        requestUpdate.setParentPageTitle(response.getParentPageTitle());
-        requestUpdate.setParentPageDescription(response.getParentPageDescription());
-        requestUpdate.setParentPageRootPath(response.getParentPageRootPath());
-        requestUpdate.setParentPageIndexPath(response.getParentPageIndexPath());
-
-        model.addAttribute("requestUpdate", requestUpdate);
-        model.addAttribute("registerDate", response.getRegisterDate());
-        model.addAttribute("lastModifyDate", response.getLastModifyDate());
     }
 
     private boolean isNotValidateForUpdate(ParentPageRequest.RequestUpdate requestUpdate, BindingResult bindingResult) {

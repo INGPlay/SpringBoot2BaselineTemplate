@@ -7,8 +7,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class ResponseUtil {
@@ -127,5 +130,13 @@ public class ResponseUtil {
         ExceptionForm exceptionForm = new ExceptionForm(false, data);
 
         return new ResponseEntity<>(exceptionForm, serviceException.getStatusCode());
+    }
+
+    public ResponseEntity<ExceptionForm> makeExceptionEntity(BindingResult bindingResult){
+        Map<String, String> errors = new HashMap<>();
+        bindingResult.getAllErrors()
+                .forEach(c -> errors.put(((FieldError) c).getField(), c.getDefaultMessage()));
+
+        return makeExceptionEntity(errors, HttpStatus.BAD_REQUEST);
     }
 }
