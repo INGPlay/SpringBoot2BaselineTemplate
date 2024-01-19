@@ -3,6 +3,8 @@ package baseline.version3.springboot.pageAdmin.controller.api;
 import baseline.version3.springboot.common.util.ResponseUtil;
 import baseline.version3.springboot.common.util.response.ResponseForm;
 import baseline.version3.springboot.exceptionHandler.exception.CustomValidationException;
+import baseline.version3.springboot.exceptionHandler.exception.ServiceLayerException;
+import baseline.version3.springboot.exceptionHandler.subType.ServiceException;
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageRequest;
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageResponse;
 import baseline.version3.springboot.pageAdmin.service.ParentPageService;
@@ -22,12 +24,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ParentPageApiController {
 
-    private final ResponseUtil responseUtil;
     private final ParentPageService parentPageService;
     @GetMapping
     public ResponseEntity<ResponseForm> list(){
         List<ParentPageResponse.Response> list = parentPageService.findList();
-        return responseUtil.makeResponseEntity(list);
+        return ResponseUtil.makeResponseEntity(list);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseForm> one(@PathVariable Long id){
+        ParentPageResponse.Response response = parentPageService.findOneById(id).orElseThrow(() ->
+                new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)
+        );
+        return ResponseUtil.makeResponseEntity(response);
     }
 
     @PostMapping
@@ -37,13 +46,12 @@ public class ParentPageApiController {
         validateForRegister(requestInsert, bindingResult);
 
         parentPageService.registerParentPage(requestInsert);
-        return responseUtil.makeResponseEntity();
+        return ResponseUtil.makeResponseEntity();
     }
 
     private void validateForRegister(ParentPageRequest.RequestInsert requestInsert, BindingResult bindingResult) {
         checkHasErrors(bindingResult);
         validateDuplicateParentPageRootPath(requestInsert.getParentPageRootPath(), bindingResult);
-        checkHasErrors(bindingResult);
     }
 
     private void validateDuplicateParentPageRootPath(String parentPageRootPath, BindingResult bindingResult) {
@@ -52,6 +60,7 @@ public class ParentPageApiController {
         if (parentPageService.findOne(requestDynamicQuery).isPresent()){
             FieldError fieldError = new FieldError("duplicated", "parentPageRootPath", "이미 존재하는 루트 경로입니다.");
             bindingResult.addError(fieldError);
+            throw new CustomValidationException(bindingResult);
         }
     }
 
@@ -64,23 +73,32 @@ public class ParentPageApiController {
     @PutMapping
     public ResponseEntity<ResponseForm> update(@Valid @RequestBody ParentPageRequest.RequestUpdate requestUpdate,
                                                BindingResult bindingResult){
-        isNotValidateForUpdate(requestUpdate, bindingResult);
+        validateForUpdate(requestUpdate, bindingResult);
         parentPageService.updateParentPage(requestUpdate);
-        return responseUtil.makeResponseEntity();
+        return ResponseUtil.makeResponseEntity();
     }
 
-    private boolean isNotValidateForUpdate(ParentPageRequest.RequestUpdate requestUpdate, BindingResult bindingResult) {
+    private void validateForUpdate(ParentPageRequest.RequestUpdate requestUpdate, BindingResult bindingResult) {
 
         checkHasErrors(bindingResult);
-        validateDuplicateParentPageRootPath(requestUpdate.getParentPageRootPath(), bindingResult);
-        checkHasErrors(bindingResult);
+        validateDuplicateParentPagePathForUpdate(requestUpdate, bindingResult);
+    }
 
-        return bindingResult.hasErrors();
+    private void validateDuplicateParentPagePathForUpdate(ParentPageRequest.RequestUpdate requestUpdate, BindingResult bindingResult) {
+        ParentPageRequest.RequestDynamicQuery requestDynamicQuery = new ParentPageRequest.RequestDynamicQuery();
+        requestDynamicQuery.setParentPageRootPath(requestUpdate.getParentPageRootPath());
+        // 업데이트 요청한 id를 제외하여 조회
+        requestDynamicQuery.setNotParentPageId(requestUpdate.getParentPageId());
+        if (parentPageService.findOne(requestDynamicQuery).isPresent()){
+            FieldError fieldError = new FieldError("duplicated", "parentPageRootPath", "이미 존재하는 루트 경로입니다.");
+            bindingResult.addError(fieldError);
+            throw new CustomValidationException(bindingResult);
+        }
     }
 
     @DeleteMapping
     public ResponseEntity<ResponseForm> delete(@RequestBody ParentPageRequest.RequestDelete requestDelete){
         parentPageService.deleteParentPageById(requestDelete.getParentPageId());
-        return responseUtil.makeResponseEntity();
+        return ResponseUtil.makeResponseEntity();
     }
 }

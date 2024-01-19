@@ -21,17 +21,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SubPageApiController {
 
-    private final ResponseUtil responseUtil;
     private final SubPageService subPageService;
     @GetMapping
     public ResponseEntity<ResponseForm> list(SubPageRequest.RequestDynamicQuery requestDynamicQuery){
         List<SubPageResponse.Response> list = subPageService.findList(requestDynamicQuery);
-        return responseUtil.makeResponseEntity(list);
+        return ResponseUtil.makeResponseEntity(list);
     }
 
     @DeleteMapping
     public ResponseEntity<ResponseForm> delete(@RequestBody ParentPageRequest.RequestDelete requestDelete){
         subPageService.deleteParentPageById(requestDelete.getParentPageId());
-        return responseUtil.makeResponseEntity();
+        return ResponseUtil.makeResponseEntity();
     }
 }

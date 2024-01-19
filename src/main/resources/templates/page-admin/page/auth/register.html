@@ -8,6 +8,7 @@
     <th:block th:replace="~{fragment/common :: commonStatic}"></th:block>
     <th:block th:replace="~{fragment/framework :: uikit}"></th:block>
     <th:block th:replace="~{fragment/framework :: bootstrap}"></th:block>
+    <th:block th:replace="~{fragment/framework :: vue}"></th:block>
     <th:block th:replace="~{fragment/library :: tui-grid}"></th:block>
 
 </head>
@@ -25,29 +26,32 @@
         <div class="row w-25 me-3">
             <div class="col">
 
-                <form method="post" class="row g-3" th:action th:object="${requestInsert}">
+                <div id="submitForm" class="row g-3">
                     <div class="col-12">
                         <label for="pageAuthorityCode" class="form-label">권한 코드*</label>
                         <input type="text" class="form-control" id="pageAuthorityCode" name="pageAuthorityCode" placeholder=""
-                               th:field="*{pageAuthorityCode}" th:errorclass="border-danger">
-                        <div class="form-text" th:errors="*{pageAuthorityCode}">validation</div>
+                               v-model="submitForm.pageAuthorityCode"
+                               :class="[validateText.pageAuthorityCode ? errorClass : '', normalClass]">
+                        <div class="form-text">{{ validateText.pageAuthorityCode }}</div>
                     </div>
                     <div class="col-12">
                         <label for="pageAuthorityName" class="form-label">권한 이름</label>
                         <input type="text" class="form-control" id="pageAuthorityName" name="pageAuthorityName" placeholder=""
-                               th:field="*{pageAuthorityName}" th:errorclass="border-danger">
-                        <div class="form-text" th:errors="*{pageAuthorityName}">validation</div>
+                               v-model="submitForm.pageAuthorityName"
+                               :class="[validateText.pageAuthorityName ? errorClass : '', normalClass]">
+                        <div class="form-text">{{ validateText.pageAuthorityName }}</div>
                     </div>
                     <div class="col-12">
                         <label for="pageAuthorityDescription" class="form-label">권한 설명</label>
                         <input type="text" class="form-control" id="pageAuthorityDescription" name="pageAuthorityDescription" placeholder=""
-                               th:field="*{pageAuthorityDescription}" th:errorclass="border-danger">
-                        <div class="form-text" th:errors="*{pageAuthorityDescription}">validation</div>
+                               v-model="submitForm.pageAuthorityDescription"
+                               :class="[validateText.pageAuthorityDescription ? errorClass : '', normalClass]">
+                        <div class="form-text">{{ validateText.pageAuthorityDescription }}</div>
                     </div>
                     <div class="col-12 d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary">권한 등록</button>
+                        <button @click="create" type="button" class="btn btn-primary">권한 등록</button>
                     </div>
-                </form>
+                </div>
 
             </div>
         </div>
@@ -71,91 +75,112 @@
     const Grid = tui.Grid;
     Grid.applyTheme('striped'); // Call API of static method
 
-    let gridTarget;
-
-    main()
-
-    function main(){
-        initGrid()
-        initButtonEvent()
-        initInputEvent()
-
-        function initGrid(){
-            gridTarget = new Grid({
-                el: document.getElementById("gridTarget"),
-                rowHeaders: ['rowNum'],
-                columns: [
-                    {
-                        header: '권한 아이디', name: 'pageAuthorityId', align: 'center', hidden: true
-                    },
-                    {
-                        header: '삭제하기', width: 75, align: 'center',
-                        formatter : function (e){
-                            console.log(e)
-                            console.log(e.row.parentPageId)
-                            let path = "";
-                            return "<a href='" + path + "'>삭제하기</a>"
-                        },
-                        resizable : false
-                    },
-                    {
-                        header : '권한 코드', name: 'pageAuthorityCode', width : 150, align: 'center',
-                        resizable : true,
-                        sortable : true,
-                        filter: 'select'
-                    },
-                    {
-                        header: '권한명', name: 'pageAuthorityName', width: 150, align : 'center',
-                        resizable : true,
-                        sortable : true,
-                        filter: 'select'
-                    },
-                    {
-                        header: '권한 설명', name: 'pageAuthorityDescription', width: 150, align: 'center',
-                        resizable : true,
-                        sortable : true,
-                        filter: 'select'
-                    },
-                    {
-                        header: '등록일', name: 'registerDate', width: 150, align: 'center',
-                        resizable : true,
-                        sortable : true,
-                        filter: 'date'
-                    },
-                    {
-                        header: '수정일', name: 'lastModifyDate', width: 150, align: 'center',
-                        resizable : true,
-                        sortable : true,
-                        filter: 'date'
-                    },
-                ],
-                data: {
-                    api: {
-                        readData: {
-                            url : '/api/page-admin/auth',
-                            method : 'GET',
-                            initParams : {}
-                        }
-                    },
-                    contentType: 'application/json',
-                    headers : headers
+    let gridTarget = new Grid({
+        el: document.getElementById("gridTarget"),
+        rowHeaders: ['rowNum'],
+        columns: [
+            {
+                header: '권한 아이디', name: 'pageAuthorityId', align: 'center', hidden: true
+            },
+            {
+                header: '삭제하기', width: 75, align: 'center',
+                formatter : function (e){
+                    console.log(e)
+                    console.log(e.row.parentPageId)
+                    let path = "";
+                    return "<a href='" + path + "'>삭제하기</a>"
                 },
-                pageOptions: {
-                    perPage: 30
+                resizable : false
+            },
+            {
+                header : '권한 코드', name: 'pageAuthorityCode', width : 150, align: 'center',
+                resizable : true,
+                sortable : true,
+                filter: 'select'
+            },
+            {
+                header: '권한명', name: 'pageAuthorityName', width: 150, align : 'center',
+                resizable : true,
+                sortable : true,
+                filter: 'select'
+            },
+            {
+                header: '권한 설명', name: 'pageAuthorityDescription', width: 150, align: 'center',
+                resizable : true,
+                sortable : true,
+                filter: 'select'
+            },
+            {
+                header: '등록일', name: 'registerDate', width: 150, align: 'center',
+                resizable : true,
+                sortable : true,
+                filter: 'date'
+            },
+            {
+                header: '수정일', name: 'lastModifyDate', width: 150, align: 'center',
+                resizable : true,
+                sortable : true,
+                filter: 'date'
+            },
+        ],
+        data: {
+            api: {
+                readData: {
+                    url : '/api/page-admin/auth',
+                    method : 'GET',
+                    initParams : {}
+                }
+            },
+            contentType: 'application/json',
+            headers : headers
+        },
+        pageOptions: {
+            perPage: 30
+        },
+        bodyHeight: 300
+    })
+
+    const app = Vue.createApp({
+        data(){
+            return{
+                submitForm : {
+                    pageAuthorityCode : '',
+                    pageAuthorityName : '',
+                    pageAuthorityDescription : ''
                 },
-                bodyHeight: 300
-            })
+                validateText : {
+                    pageAuthorityCode : '',
+                    pageAuthorityName : '',
+                    pageAuthorityDescription : ''
+                },
+                normalClass : 'form-text',
+                errorClass : "border-danger"
+            }
+        },
+        created(){
+
+        },
+        mounted(){
+
+        },
+        methods: {
+            create: function (){
+                requestJsonAjaxPromise({
+                    url: "/api/page-admin/auth",
+                    method: "POST",
+                    data: this.submitForm
+                }).then((response) => {
+                    this.submitForm = {}
+                    alert("삽입에 성공하였습니다.")
+                    gridTarget.readData()
+
+                }).catch((error) => {
+                    console.log(error)
+                    this.validateText = error.responseJSON.data.errorMessage
+                })
+            }
         }
-
-        function initButtonEvent(){
-
-        }
-
-        function initInputEvent(){
-
-        }
-    }
-
+    }).mount("#submitForm")
 
 </script>
 </html>

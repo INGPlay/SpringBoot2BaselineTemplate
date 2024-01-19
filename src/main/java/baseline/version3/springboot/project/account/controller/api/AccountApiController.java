@@ -24,21 +24,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccountApiController {
 
     private final AccountRepository accountRepository;
-
-    private final ResponseUtil responseUtil;
     private final AccountService accountService;
 
     @PostMapping
     public ResponseEntity<ResponseForm> registerAccount(@RequestBody @Valid AccountRequest.RegisterAccountDTO registerAccountDTO,
                                                         BindingResult bindingResult){
         if (isNotValidateForRegister(registerAccountDTO, bindingResult)){
-            return responseUtil.makeResponseEntity(false, bindingResult.getFieldErrors());
+            return ResponseUtil.makeResponseEntity(false, bindingResult.getFieldErrors());
         }
 
         registerAccountDTO.setOauthType(AccountSub.OAuthTypeEnum.LOCAL);
         accountService.createAccount(registerAccountDTO);
 
-        return responseUtil.makeResponseEntity();
+        return ResponseUtil.makeResponseEntity();
     }
 
     private boolean isNotValidateForRegister(AccountRequest.RegisterAccountDTO registerAccountDTO, BindingResult bindingResult) {

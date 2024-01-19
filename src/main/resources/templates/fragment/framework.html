@@ -15,7 +15,8 @@
 </th:block>
 
 <th:block th:fragment="vue">
-    <script src="/framework/vue/vue.js"></script>
+    <script src="/framework/vue/vue.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
+    <script src="/framework/vue/vue.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
 <th:block>
 
 </html>

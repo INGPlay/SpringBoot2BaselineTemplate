@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Order(100)
 public class CustomRestExceptionHandler {
 
-    private final ResponseUtil responseUtil;
-
     /**
      * Service Layer 예외 처리
      * @param serviceLayerException
@@ -31,7 +29,7 @@ public class CustomRestExceptionHandler {
     @ExceptionHandler(ServiceLayerException.class)
     protected ResponseEntity<?> serviceLayerException(ServiceLayerException serviceLayerException){
         log.error("[ServiceLayerException] {}", serviceLayerException.getStackTrace()[0]);
-        return responseUtil.makeExceptionEntity(serviceLayerException.getServiceException());
+        return ResponseUtil.makeExceptionEntity(serviceLayerException.getServiceException());
     }
 
     /**
@@ -41,7 +39,8 @@ public class CustomRestExceptionHandler {
      */
     @ExceptionHandler(CustomValidationException.class)
     public ResponseEntity<?> handleValidationException(CustomValidationException ex){
-        return responseUtil.makeExceptionEntity(ex.getBindingResult());
+        log.error("[ValidateException] {}", ex.getStackTrace()[0]);
+        return ResponseUtil.makeExceptionEntity(ex.getBindingResult());
     }
 
     /**
@@ -51,6 +50,6 @@ public class CustomRestExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex){
-        return responseUtil.makeExceptionEntity(ex.getBindingResult());
+        return ResponseUtil.makeExceptionEntity(ex.getBindingResult());
     }
 }

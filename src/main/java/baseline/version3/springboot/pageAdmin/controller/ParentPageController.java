@@ -81,10 +81,7 @@ public class ParentPageController {
     @GetMapping("/list/update")
     public String updatePage(@RequestParam Long id,
                              Model model){
-        ParentPageResponse.Response response = parentPageService.findOneById(id).orElseThrow(() -> {
-            throw new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY);
-        });
-        model.addAttribute("response", response);
+        model.addAttribute("id", id);
         return "page-admin/page/update";
     }
 

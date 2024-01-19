@@ -1,5 +1,6 @@
 package baseline.version3.springboot.pageAdmin.controller;
 
+import baseline.version3.springboot.exceptionHandler.exception.CustomValidationException;
 import baseline.version3.springboot.pageAdmin.domain.pageAuthority.PageAuthorityRequest;
 import baseline.version3.springboot.pageAdmin.service.PageAuthorityService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,8 +25,7 @@ public class PageAuthorityController {
     private final PageAuthorityService pageAuthorityService;
 
     @GetMapping("/register")
-    public String registerPage(Model model){
-        model.addAttribute("requestInsert", new PageAuthorityRequest.RequestInsert());
+    public String registerPage(){
         return "page-admin/page/auth/register";
     }
 
@@ -63,6 +63,7 @@ public class PageAuthorityController {
         if (pageAuthorityService.findOne(requestDynamicQueryOne).isPresent()){
             FieldError fieldError = new FieldError("duplicated", "pageAuthorityCode", "이미 존재하는 권한 코드입니다.");
             bindingResult.addError(fieldError);
+            throw new CustomValidationException(bindingResult);
         }
     }
 }

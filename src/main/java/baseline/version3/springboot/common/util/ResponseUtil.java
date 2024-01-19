@@ -13,8 +13,7 @@ import org.springframework.validation.FieldError;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
-public class ResponseUtil {
+public final class ResponseUtil {
 
     /**
      *
@@ -31,12 +30,12 @@ public class ResponseUtil {
      * }
      */
 
-    public ResponseEntity<ResponseForm> makeResponseEntity(Page<?> page){
+    public static ResponseEntity<ResponseForm> makeResponseEntity(Page<?> page){
 
         return makeResponseEntity(page.getContent(), page.getNumber(), page.getTotalElements());
     }
 
-    public ResponseEntity<ResponseForm> makeResponseEntity(Object contents, int page, Long totalCount){
+    public static ResponseEntity<ResponseForm> makeResponseEntity(Object contents, int page, Long totalCount){
         HashMap<String, Object> pagination = new HashMap<>();
         pagination.put("page", page + 1);
         pagination.put("totalCount", totalCount);
@@ -57,7 +56,7 @@ public class ResponseUtil {
      *     "result" : result
      * }
      */
-    public ResponseEntity<ResponseForm> makeResponseEntity(boolean result){
+    public static ResponseEntity<ResponseForm> makeResponseEntity(boolean result){
         ResponseForm responseForm = new ResponseForm(result);
 
         return new ResponseEntity<>(responseForm, HttpStatus.OK);
@@ -69,7 +68,7 @@ public class ResponseUtil {
      *     "result" : true
      * }
      */
-    public ResponseEntity<ResponseForm> makeResponseEntity(){
+    public static ResponseEntity<ResponseForm> makeResponseEntity(){
         return makeResponseEntity(true);
     }
 
@@ -84,7 +83,7 @@ public class ResponseUtil {
      *     }
      * }
      */
-    public ResponseEntity<ResponseForm> makeResponseEntity(boolean result, Object contents){
+    public static ResponseEntity<ResponseForm> makeResponseEntity(boolean result, Object contents){
         HashMap<String, Object> data = new HashMap<>();
         data.put("contents", contents);
         ResponseForm responseForm = new ResponseForm(result, data);
@@ -102,13 +101,13 @@ public class ResponseUtil {
      *     }
      * }
      */
-    public ResponseEntity<ResponseForm> makeResponseEntity(Object contents) {
+    public static ResponseEntity<ResponseForm> makeResponseEntity(Object contents) {
         return makeResponseEntity(true, contents);
     }
 
     // -------------------------------------------------------------------------------------------------------------
 
-    public ResponseEntity<ExceptionForm> makeExceptionEntity(Object errorMessage) {
+    public static ResponseEntity<ExceptionForm> makeExceptionEntity(Object errorMessage) {
         HashMap<String, Object> data = new HashMap<>();
         data.put("errorMessage", errorMessage);
         ExceptionForm exceptionForm = new ExceptionForm(false, data);
@@ -116,7 +115,7 @@ public class ResponseUtil {
         return new ResponseEntity<>(exceptionForm, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    public ResponseEntity<ExceptionForm> makeExceptionEntity(Object errorMessage, HttpStatus httpStatus) {
+    public static ResponseEntity<ExceptionForm> makeExceptionEntity(Object errorMessage, HttpStatus httpStatus) {
         HashMap<String, Object> data = new HashMap<>();
         data.put("errorMessage", errorMessage);
         ExceptionForm exceptionForm = new ExceptionForm(false, data);
@@ -124,7 +123,7 @@ public class ResponseUtil {
         return new ResponseEntity<>(exceptionForm, httpStatus);
     }
 
-    public ResponseEntity<ExceptionForm> makeExceptionEntity(ServiceException serviceException){
+    public static ResponseEntity<ExceptionForm> makeExceptionEntity(ServiceException serviceException){
         HashMap<String, Object> data = new HashMap<>();
         data.put("errorMessage", serviceException.getErrorMessage());
         ExceptionForm exceptionForm = new ExceptionForm(false, data);
@@ -132,7 +131,7 @@ public class ResponseUtil {
         return new ResponseEntity<>(exceptionForm, serviceException.getStatusCode());
     }
 
-    public ResponseEntity<ExceptionForm> makeExceptionEntity(BindingResult bindingResult){
+    public static ResponseEntity<ExceptionForm> makeExceptionEntity(BindingResult bindingResult){
         Map<String, String> errors = new HashMap<>();
         bindingResult.getAllErrors()
                 .forEach(c -> errors.put(((FieldError) c).getField(), c.getDefaultMessage()));
