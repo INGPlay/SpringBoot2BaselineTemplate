@@ -5,6 +5,7 @@ import baseline.version3.springboot.common.util.response.ResponseForm;
 import baseline.version3.springboot.exceptionHandler.exception.CustomValidationException;
 import baseline.version3.springboot.pageAdmin.domain.pageAuthority.PageAuthorityRequest;
 import baseline.version3.springboot.pageAdmin.domain.pageAuthority.PageAuthorityResponse;
+import baseline.version3.springboot.pageAdmin.repository.entity.PageAuthority;
 import baseline.version3.springboot.pageAdmin.service.PageAuthorityService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,12 @@ public class PageAuthorityApiController {
         return ResponseUtil.makeResponseEntity(list);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseForm> findOne(@PathVariable Long id){
+        PageAuthority pageAuthority = pageAuthorityService.findById(id);
+        return ResponseUtil.makeResponseEntity(pageAuthority);
+    }
+
     @PostMapping
     public ResponseEntity<ResponseForm> createAuth(@Valid @RequestBody PageAuthorityRequest.RequestInsert requestInsert,
                                                    BindingResult bindingResult){
@@ -47,12 +54,36 @@ public class PageAuthorityApiController {
         requestDynamicQueryOne.setPageAuthorityCode(requestInsert.getPageAuthorityCode());
         if (pageAuthorityService.findOne(requestDynamicQueryOne).isPresent()){
             FieldError fieldError = new FieldError("duplicated", "pageAuthorityCode", "중복되는 코드가 존재합니다.");
+            bindingResult.addError(fieldError);
             throw new CustomValidationException(bindingResult);
         }
     }
 
     private static void checkErrors(BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
+            throw new CustomValidationException(bindingResult);
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<ResponseForm> updateAuth(@Valid @RequestBody PageAuthorityRequest.RequestUpdate requestUpdate,
+                                                   BindingResult bindingResult){
+        log.info("bindingResult : {}", bindingResult);
+        checkErrors(bindingResult);
+        validateDuplicatePageAuthorityCodeForUpdate(requestUpdate, bindingResult);
+
+        pageAuthorityService.updateAuth(requestUpdate);
+
+        return ResponseUtil.makeResponseEntity();
+    }
+
+    private void validateDuplicatePageAuthorityCodeForUpdate(PageAuthorityRequest.RequestUpdate requestUpdate, BindingResult bindingResult) {
+        PageAuthorityRequest.RequestDynamicQueryOne requestDynamicQueryOne = new PageAuthorityRequest.RequestDynamicQueryOne();
+        requestDynamicQueryOne.setPageAuthorityCode(requestUpdate.getPageAuthorityCode());
+        requestDynamicQueryOne.setNotPageAuthorityCode(requestUpdate.getPageAuthorityCode());
+        if (pageAuthorityService.findOne(requestDynamicQueryOne).isPresent()){
+            FieldError fieldError = new FieldError("duplicated", "pageAuthorityCode", "중복되는 코드가 존재합니다.");
+            bindingResult.addError(fieldError);
             throw new CustomValidationException(bindingResult);
         }
     }

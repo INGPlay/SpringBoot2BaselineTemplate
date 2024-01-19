@@ -21,44 +21,11 @@
         <span class="fs-3 fw-bold">권한 등록 페이지</span>
     </div>
 
-    <div class="d-flex justify-content-center">
-
-        <div class="row w-25 me-3">
-            <div class="col">
-
-                <div id="submitForm" class="row g-3">
-                    <div class="col-12">
-                        <label for="pageAuthorityCode" class="form-label">권한 코드*</label>
-                        <input type="text" class="form-control" id="pageAuthorityCode" name="pageAuthorityCode" placeholder=""
-                               v-model="submitForm.pageAuthorityCode"
-                               :class="[validateText.pageAuthorityCode ? errorClass : '', normalClass]">
-                        <div class="form-text">{{ validateText.pageAuthorityCode }}</div>
-                    </div>
-                    <div class="col-12">
-                        <label for="pageAuthorityName" class="form-label">권한 이름</label>
-                        <input type="text" class="form-control" id="pageAuthorityName" name="pageAuthorityName" placeholder=""
-                               v-model="submitForm.pageAuthorityName"
-                               :class="[validateText.pageAuthorityName ? errorClass : '', normalClass]">
-                        <div class="form-text">{{ validateText.pageAuthorityName }}</div>
-                    </div>
-                    <div class="col-12">
-                        <label for="pageAuthorityDescription" class="form-label">권한 설명</label>
-                        <input type="text" class="form-control" id="pageAuthorityDescription" name="pageAuthorityDescription" placeholder=""
-                               v-model="submitForm.pageAuthorityDescription"
-                               :class="[validateText.pageAuthorityDescription ? errorClass : '', normalClass]">
-                        <div class="form-text">{{ validateText.pageAuthorityDescription }}</div>
-                    </div>
-                    <div class="col-12 d-flex justify-content-center">
-                        <button @click="create" type="button" class="btn btn-primary">권한 등록</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div id="gridTarget" class="w-50"></div>
-
+    <div class="d-flex justify-content-end mb-2">
+        <th:block th:replace="~{fragment/modal :: pageAuthorityRegister}"></th:block>
     </div>
+
+    <div id="gridTarget"></div>
 
 </div>
 
@@ -140,47 +107,10 @@
         bodyHeight: 300
     })
 
-    const app = Vue.createApp({
-        data(){
-            return{
-                submitForm : {
-                    pageAuthorityCode : '',
-                    pageAuthorityName : '',
-                    pageAuthorityDescription : ''
-                },
-                validateText : {
-                    pageAuthorityCode : '',
-                    pageAuthorityName : '',
-                    pageAuthorityDescription : ''
-                },
-                normalClass : 'form-text',
-                errorClass : "border-danger"
-            }
-        },
-        created(){
-
-        },
-        mounted(){
-
-        },
-        methods: {
-            create: function (){
-                requestJsonAjaxPromise({
-                    url: "/api/page-admin/auth",
-                    method: "POST",
-                    data: this.submitForm
-                }).then((response) => {
-                    this.submitForm = {}
-                    alert("삽입에 성공하였습니다.")
-                    gridTarget.readData()
-
-                }).catch((error) => {
-                    console.log(error)
-                    this.validateText = error.responseJSON.data.errorMessage
-                })
-            }
-        }
-    }).mount("#submitForm")
+    const myModalEl = document.getElementById('pageAuthorityRegister')
+    myModalEl.addEventListener('hidden.bs.modal', event => {
+        gridTarget.readData()
+    })
 
 </script>
 </html>

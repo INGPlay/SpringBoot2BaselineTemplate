@@ -1,5 +1,7 @@
 package baseline.version3.springboot.pageAdmin.service;
 
+import baseline.version3.springboot.exceptionHandler.exception.ServiceLayerException;
+import baseline.version3.springboot.exceptionHandler.subType.ServiceException;
 import baseline.version3.springboot.pageAdmin.domain.pageAuthority.PageAuthorityMapper;
 import baseline.version3.springboot.pageAdmin.domain.pageAuthority.PageAuthorityRequest;
 import baseline.version3.springboot.pageAdmin.domain.pageAuthority.PageAuthorityResponse;
@@ -34,5 +36,18 @@ public class PageAuthorityService {
     public void createAuth(PageAuthorityRequest.RequestInsert requestInsert){
         PageAuthority entity = pageAuthorityMapper.toInsertEntity(requestInsert);
         pageAuthorityRepository.save(entity);
+    }
+
+    public void updateAuth(PageAuthorityRequest.RequestUpdate requestUpdate){
+        PageAuthority pageAuthority = findById(requestUpdate.getPageAuthorityId());
+        pageAuthorityMapper.toUpdateEntity(requestUpdate, pageAuthority);
+        pageAuthorityRepository.save(pageAuthority);
+    }
+
+    public PageAuthority findById(Long id) {
+        PageAuthority pageAuthority = pageAuthorityRepository.findById(id).orElseThrow(
+                () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)
+        );
+        return pageAuthority;
     }
 }
