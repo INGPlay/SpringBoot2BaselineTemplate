@@ -151,10 +151,10 @@
                         url : "/api/parent-page",
                         method : "DELETE",
                         data : data
-                    }).then(function(response) {
+                    }).then((response) => {
                         alert("삭제되었습니다.")
                         location.replace("/page-admin/page/list")
-                    }).catch(function (error){
+                    }).catch((error) => {
                         alert("삭제에 실패하였습니다.")
                     })
 

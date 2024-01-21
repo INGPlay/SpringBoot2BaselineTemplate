@@ -14,4 +14,6 @@ public abstract class PageAuthorityMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     public abstract void toUpdateEntity(PageAuthorityRequest.RequestUpdate requestUpdate, @MappingTarget PageAuthority pageAuthority);
+
+    public abstract PageAuthorityResponse.Response toResponse(PageAuthority pageAuthority);
 }

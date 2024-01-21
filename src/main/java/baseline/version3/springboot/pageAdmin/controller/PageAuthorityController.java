@@ -8,7 +8,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +25,7 @@ public class PageAuthorityController {
 
     @GetMapping("/register")
     public String registerPage(){
-        return "page-admin/page/auth/register";
+        return "page-admin/page/auth/list";
     }
 
     @PostMapping("/register")
@@ -35,7 +34,7 @@ public class PageAuthorityController {
                            HttpServletRequest httpServletRequest){
 
         if (isNotValidateForRegister(requestInsert, bindingResult)){
-            return "page-admin/page/auth/register";
+            return "list";
         }
 
         pageAuthorityService.createAuth(requestInsert);

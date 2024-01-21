@@ -33,8 +33,8 @@ public class PageAuthorityApiController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseForm> findOne(@PathVariable Long id){
-        PageAuthority pageAuthority = pageAuthorityService.findById(id);
-        return ResponseUtil.makeResponseEntity(pageAuthority);
+        PageAuthorityResponse.Response response = pageAuthorityService.findById(id);
+        return ResponseUtil.makeResponseEntity(response);
     }
 
     @PostMapping
@@ -80,11 +80,16 @@ public class PageAuthorityApiController {
     private void validateDuplicatePageAuthorityCodeForUpdate(PageAuthorityRequest.RequestUpdate requestUpdate, BindingResult bindingResult) {
         PageAuthorityRequest.RequestDynamicQueryOne requestDynamicQueryOne = new PageAuthorityRequest.RequestDynamicQueryOne();
         requestDynamicQueryOne.setPageAuthorityCode(requestUpdate.getPageAuthorityCode());
-        requestDynamicQueryOne.setNotPageAuthorityCode(requestUpdate.getPageAuthorityCode());
         if (pageAuthorityService.findOne(requestDynamicQueryOne).isPresent()){
             FieldError fieldError = new FieldError("duplicated", "pageAuthorityCode", "중복되는 코드가 존재합니다.");
             bindingResult.addError(fieldError);
             throw new CustomValidationException(bindingResult);
         }
+    }
+
+    @DeleteMapping
+    public ResponseEntity<ResponseForm> removeAuth(@RequestBody PageAuthorityRequest.RequestDelete requestDelete){
+        pageAuthorityService.delete(requestDelete);
+        return ResponseUtil.makeResponseEntity();
     }
 }

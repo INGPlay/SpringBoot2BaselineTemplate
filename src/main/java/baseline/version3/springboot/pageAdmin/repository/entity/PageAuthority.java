@@ -23,7 +23,7 @@ public class PageAuthority extends DateTimeBase {
     private Long pageAuthorityId;
 
     // 권한 코드
-    @Column(name = "page_authority_code", length = 64)
+    @Column(name = "page_authority_code", length = 64, unique = true)
     private String pageAuthorityCode;
 
     // 권한 이름

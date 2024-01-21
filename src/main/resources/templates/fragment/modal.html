@@ -8,28 +8,28 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">권한 등록창</h1>
+                    <h1 class="modal-title fs-5">권한 등록</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="submitForm" class="row g-3">
+                    <form class="row g-3">
                         <div class="col-12">
-                            <label for="pageAuthorityCode" class="form-label">권한 코드*</label>
-                            <input type="text" class="form-control" id="pageAuthorityCode" name="pageAuthorityCode" placeholder=""
+                            <label class="form-label">권한 코드*</label>
+                            <input type="text" class="form-control" name="pageAuthorityCode" placeholder=""
                                    v-model="submitForm.pageAuthorityCode"
                                    :class="[validateText.pageAuthorityCode ? errorClass : '', normalClass]">
                             <div class="form-text">{{ validateText.pageAuthorityCode }}</div>
                         </div>
                         <div class="col-12">
-                            <label for="pageAuthorityName" class="form-label">권한 이름</label>
-                            <input type="text" class="form-control" id="pageAuthorityName" name="pageAuthorityName" placeholder=""
+                            <label class="form-label">권한 이름</label>
+                            <input type="text" class="form-control" name="pageAuthorityName" placeholder=""
                                    v-model="submitForm.pageAuthorityName"
                                    :class="[validateText.pageAuthorityName ? errorClass : '', normalClass]">
                             <div class="form-text">{{ validateText.pageAuthorityName }}</div>
                         </div>
                         <div class="col-12">
-                            <label for="pageAuthorityDescription" class="form-label">권한 설명</label>
-                            <input type="text" class="form-control" id="pageAuthorityDescription" name="pageAuthorityDescription" placeholder=""
+                            <label class="form-label">권한 설명</label>
+                            <input type="text" class="form-control" name="pageAuthorityDescription" placeholder=""
                                    v-model="submitForm.pageAuthorityDescription"
                                    :class="[validateText.pageAuthorityDescription ? errorClass : '', normalClass]">
                             <div class="form-text">{{ validateText.pageAuthorityDescription }}</div>
@@ -49,7 +49,16 @@
     </button>
 
     <script type="application/javascript" th:inline="javascript">
-        const app = Vue.createApp({
+
+        /**
+         * method :
+         * - closeCallback : Modal Close Callback
+         * ex)
+         * pageAuthorityRegister.closeCallback = () => {
+         *      // code
+         * }
+         */
+        const pageAuthorityRegister = Vue.createApp({
             data(){
                 return{
                     submitForm : {
@@ -73,6 +82,18 @@
 
             },
             methods: {
+                reset : function (){
+                    this.submitForm = {}
+                    this.validateText = {}
+                },
+                close : function (){
+                    document.getElementById('pageAuthorityRegister').style.display = "none";
+                    $(".modal-backdrop").remove()
+                    this.closeCallback()
+                },
+                closeCallback : function (){
+
+                },
                 create: function (){
                     requestJsonAjaxPromise({
                         url: "/api/page-admin/auth",
@@ -80,7 +101,8 @@
                         data: this.submitForm,
                         async: true
                     }).then((response) => {
-                        this.submitForm = {}
+                        this.reset()
+                        this.close()
                         alert("권한을 등록하였습니다.")
 
                     }).catch((error) => {
@@ -91,36 +113,54 @@
             }
         }).mount("#pageAuthorityRegister")
 
+        document.getElementById("pageAuthorityRegister")
+        pageAuthorityRegister.addEventListener('show.bs.modal', event => {
+            pageAuthorityRegister.reset()
+        })
+
     </script>
 </th:block>
 
-<th:block th:fragment="pageAuthorityUpdate(pageAuthorityId)">
+
+<th:block th:fragment="pageAuthorityUpdate">
     <!-- Modal -->
     <div class="modal" id="pageAuthorityUpdate" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">권한 등록창</h1>
+                    <h1 class="modal-title fs-5">권한 수정</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form class="row g-3">
+                        <input type="hidden" v-model="submitForm.pageAuthorityId">
+                        <div class="col-6">
+                            <label class="form-label">등록시간</label>
+                            <input type="text" class="form-control"
+                                   v-model="submitForm.registerDate" disabled>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">수정시간</label>
+                            <input type="text" class="form-control"
+                                   v-model="submitForm.lastModifyDate" disabled>
+                        </div>
+
                         <div class="col-12">
-                            <label for="pageAuthorityCode" class="form-label">권한 코드*</label>
+                            <label class="form-label">권한 코드*</label>
                             <input type="text" class="form-control" name="pageAuthorityCode" placeholder=""
                                    v-model="submitForm.pageAuthorityCode"
                                    :class="[validateText.pageAuthorityCode ? errorClass : '', normalClass]">
                             <div class="form-text">{{ validateText.pageAuthorityCode }}</div>
                         </div>
                         <div class="col-12">
-                            <label for="pageAuthorityName" class="form-label">권한 이름</label>
+                            <label class="form-label">권한 이름</label>
                             <input type="text" class="form-control" name="pageAuthorityName" placeholder=""
                                    v-model="submitForm.pageAuthorityName"
                                    :class="[validateText.pageAuthorityName ? errorClass : '', normalClass]">
                             <div class="form-text">{{ validateText.pageAuthorityName }}</div>
                         </div>
                         <div class="col-12">
-                            <label for="pageAuthorityDescription" class="form-label">권한 설명</label>
+                            <label class="form-label">권한 설명</label>
                             <input type="text" class="form-control" name="pageAuthorityDescription" placeholder=""
                                    v-model="submitForm.pageAuthorityDescription"
                                    :class="[validateText.pageAuthorityDescription ? errorClass : '', normalClass]">
@@ -128,23 +168,38 @@
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button @click="create" type="button" class="btn btn-primary btn-sm">권한 정보 수정</button>
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">닫기</button>
+                <div class="modal-footer justify-content-between">
+                    <div>
+                        <button @click="remove" type="button" class="btn btn-danger btn-sm">삭제</button>
+                    </div>
+                    <div>
+                        <button @click="update" type="button" class="btn btn-primary btn-sm">권한 정보 수정</button>
+                        <button type="button" class="btn btn-secondary btn-sm ms-2" data-bs-dismiss="modal">닫기</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script type="application/javascript" th:inline="javascript">
-        const app = Vue.createApp({
+        /**
+         * method :
+         * - closeCallback : Modal Close Callback
+         * ex)
+         * pageAuthorityRegister.closeCallback = () => {
+         *      // code
+         * }
+         */
+        const pageAuthorityUpdate = Vue.createApp({
             data(){
                 return{
                     submitForm : {
-                        pageAuthorityId : [[${pageAuthorityId}]],
+                        pageAuthorityId : '',
                         pageAuthorityCode : '',
                         pageAuthorityName : '',
-                        pageAuthorityDescription : ''
+                        pageAuthorityDescription : '',
+                        registerDate : '',
+                        lastModifyDate : ''
                     },
                     validateText : {
                         pageAuthorityCode : '',
@@ -156,38 +211,70 @@
                 }
             },
             created(){
-                requestJsonAjaxPromise({
-                    url: "api/page-admin/auth/" + [[${pageAuthorityId}]],
-                    method: "GET",
-                    data: {}
-                }).then(function (response){
-                    this.submitForm = response.data.contents
-                }).catch(function (error){
-                    alert("데이터를 불러오지 못하였습니다. 다시 시도해주세요.")
-                })
+
             },
             mounted(){
 
             },
             methods: {
-                create: function (){
+                reset : function (){
+                    this.submitForm = {}
+                    this.validateText = {}
+                },
+                close : function (){
+                    document.getElementById('pageAuthorityUpdate').style.display = "none";
+                    $('.modal-backdrop').remove();
+                    this.closeCallback()
+                },
+                closeCallback : function (){
+
+                },
+                show : function (pageAuthorityId){
+                    requestJsonAjaxPromise({
+                        url: "/api/page-admin/auth/" + pageAuthorityId,
+                        method: "GET",
+                        data: {},
+                        async: true
+                    }).then((response) => {
+                        this.submitForm = response.data.contents
+                        new bootstrap.Modal(document.getElementById('pageAuthorityUpdate')).show();
+                    }).catch((error) => {
+                        alert("데이터를 불러오지 못하였습니다. 다시 시도해주세요.")
+                    })
+                },
+                update: function (){
                     requestJsonAjaxPromise({
                         url: "/api/page-admin/auth",
                         method: "PUT",
                         data: this.submitForm,
                         async: true
                     }).then((response) => {
-                        this.submitForm = {}
-                        alert("권한을 등록하였습니다.")
-
+                        this.reset()
+                        this.close()
+                        alert("권한을 수정하였습니다.")
                     }).catch((error) => {
-                        console.log(error)
                         this.validateText = error.responseJSON.data.errorMessage
                     })
+                },
+                remove: function (){
+                    if (confirm("삭제하시겠습니까?")){
+                        requestJsonAjaxPromise({
+                            url: "/api/page-admin/auth",
+                            method: "DELETE",
+                            data: this.submitForm,
+                            async: true
+                        }).then((response) => {
+                            this.reset()
+                            this.close()
+                            alert("삭제하였습니다.")
+                        }).catch((error) => {
+                            alert("삭제에 실패하였습니다. 다시 시도해주세요.")
+                        })
+                    }
+
                 }
             }
         }).mount("#pageAuthorityUpdate")
-
     </script>
 </th:block>
 

@@ -39,15 +39,21 @@ public class PageAuthorityService {
     }
 
     public void updateAuth(PageAuthorityRequest.RequestUpdate requestUpdate){
-        PageAuthority pageAuthority = findById(requestUpdate.getPageAuthorityId());
+        PageAuthority pageAuthority = pageAuthorityRepository.findById(requestUpdate.getPageAuthorityId()).orElseThrow(
+                () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)
+        );
         pageAuthorityMapper.toUpdateEntity(requestUpdate, pageAuthority);
         pageAuthorityRepository.save(pageAuthority);
     }
 
-    public PageAuthority findById(Long id) {
+    public PageAuthorityResponse.Response findById(Long id) {
         PageAuthority pageAuthority = pageAuthorityRepository.findById(id).orElseThrow(
                 () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)
         );
-        return pageAuthority;
+        return pageAuthorityMapper.toResponse(pageAuthority);
+    }
+
+    public void delete(PageAuthorityRequest.RequestDelete requestDelete){
+        pageAuthorityRepository.deleteById(requestDelete.getPageAuthorityId());
     }
 }

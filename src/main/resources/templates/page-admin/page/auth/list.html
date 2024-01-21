@@ -15,6 +15,7 @@
 <body>
 
 <th:block th:replace="~{fragment/header :: commonHeader}"></th:block>
+<th:block th:replace="~{fragment/modal :: pageAuthorityUpdate}"></th:block>
 
 <div class="container mt-3">
     <div class="d-flex justify-content-center">
@@ -27,6 +28,7 @@
 
     <div id="gridTarget"></div>
 
+    <button id="asdf">asdf</button>
 </div>
 
 </body>
@@ -107,9 +109,17 @@
         bodyHeight: 300
     })
 
-    const myModalEl = document.getElementById('pageAuthorityRegister')
-    myModalEl.addEventListener('hidden.bs.modal', event => {
+    pageAuthorityRegister.closeCallback = () => {
+        console.log("test")
         gridTarget.readData()
+    }
+    pageAuthorityUpdate.closeCallback = () => {
+        console.log("test")
+        gridTarget.readData()
+    }
+
+    document.getElementById("asdf").addEventListener("click", function (e){
+        pageAuthorityUpdate.show(2)
     })
 
 </script>
