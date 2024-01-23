@@ -28,7 +28,6 @@
 
     <div id="gridTarget"></div>
 
-    <button id="asdf">asdf</button>
 </div>
 
 </body>
@@ -47,19 +46,10 @@
     let gridTarget = new Grid({
         el: document.getElementById("gridTarget"),
         rowHeaders: ['rowNum'],
+        selectionUnit: 'row',
         columns: [
             {
                 header: '권한 아이디', name: 'pageAuthorityId', align: 'center', hidden: true
-            },
-            {
-                header: '삭제하기', width: 75, align: 'center',
-                formatter : function (e){
-                    console.log(e)
-                    console.log(e.row.parentPageId)
-                    let path = "";
-                    return "<a href='" + path + "'>삭제하기</a>"
-                },
-                resizable : false
             },
             {
                 header : '권한 코드', name: 'pageAuthorityCode', width : 150, align: 'center',
@@ -108,6 +98,11 @@
         },
         bodyHeight: 300
     })
+
+    gridTarget.on('dblclick', function (ev) {
+        let pageAuthorityId = gridTarget.getRow(ev.rowKey).pageAuthorityId;
+        pageAuthorityUpdate.show(pageAuthorityId)
+    });
 
     pageAuthorityRegister.closeCallback = () => {
         console.log("test")

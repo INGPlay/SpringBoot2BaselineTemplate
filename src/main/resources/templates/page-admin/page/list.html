@@ -9,6 +9,7 @@
     <th:block th:replace="~{fragment/framework :: uikit}"></th:block>
     <th:block th:replace="~{fragment/framework :: bootstrap}"></th:block>
     <th:block th:replace="~{fragment/library :: tui-grid}"></th:block>
+    <th:block th:replace="~{fragment/framework :: vue}"></th:block>
 
 </head>
 <body>
@@ -20,12 +21,13 @@
         <span class="fs-3 fw-bold">페이지 관리</span>
     </div>
 
-    <div class="row mt-3">
+    <div id="buttons" class="row mt-3">
         <div class="col">
             <button type="button" id="addParentButton" class="btn btn-dark btn-sm w-25 float-start">상위 추가</button>
         </div>
         <div class="col">
-            <button type="button" id="addSubButton" class="btn btn-dark btn-sm w-25">서브 페이지 추가</button>
+            <button type="button" id="addSubButton" class="btn btn-dark btn-sm w-25"
+                    :class="[parentPageId ? '' : 'disabled', 'btn', 'btn-dark', 'btn-sm', 'w-25']">서브 페이지 추가</button>
             <button type="button" id="addAuthButton" class="btn btn-default btn-sm w-25">권한 추가</button>
         </div>
     </div>
@@ -53,8 +55,22 @@
     let gridTarget;
     let gridSub;
 
-    // static
-    let PARENT_PAGE_ID_SAVE;
+    const app = Vue.createApp({
+        data(){
+            return{
+                parentPageId : ''
+            }
+        },
+        created(){
+                
+        },
+        mounted(){
+    
+        },
+        methods: {
+            
+        }
+    }).mount("#buttons")
 
     main()
 
@@ -190,13 +206,13 @@
             }
             gridTarget.setSelectionRange(record);
 
-            PARENT_PAGE_ID_SAVE = gridTarget.getRow(rowKey).parentPageId;
+            app.parentPageId = gridTarget.getRow(rowKey).parentPageId;
             let data = {
-                parentPageId : PARENT_PAGE_ID_SAVE
+                parentPageId : app.parentPageId
             }
             gridSub.readData(null, data, true);
 
-            console.log(gridTarget.get)
+            console.log(app.parentPageId)
         });
 
         document.getElementById("addParentButton").addEventListener("click", function (e){
@@ -204,7 +220,8 @@
         })
 
         document.getElementById("addSubButton").addEventListener("click", function (e){
-            location.href='/page-admin/page/sub/register?parentPageId=' + PARENT_PAGE_ID_SAVE;
+            console.log(app.parentPageId)
+            location.href='/page-admin/page/sub/register?parentPageId=' + app.parentPageId;
         })
 
         document.getElementById("addAuthButton").addEventListener("click", function (e){

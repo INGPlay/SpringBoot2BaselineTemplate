@@ -70,21 +70,10 @@ public class PageAuthorityApiController {
                                                    BindingResult bindingResult){
         log.info("bindingResult : {}", bindingResult);
         checkErrors(bindingResult);
-        validateDuplicatePageAuthorityCodeForUpdate(requestUpdate, bindingResult);
 
         pageAuthorityService.updateAuth(requestUpdate);
 
         return ResponseUtil.makeResponseEntity();
-    }
-
-    private void validateDuplicatePageAuthorityCodeForUpdate(PageAuthorityRequest.RequestUpdate requestUpdate, BindingResult bindingResult) {
-        PageAuthorityRequest.RequestDynamicQueryOne requestDynamicQueryOne = new PageAuthorityRequest.RequestDynamicQueryOne();
-        requestDynamicQueryOne.setPageAuthorityCode(requestUpdate.getPageAuthorityCode());
-        if (pageAuthorityService.findOne(requestDynamicQueryOne).isPresent()){
-            FieldError fieldError = new FieldError("duplicated", "pageAuthorityCode", "중복되는 코드가 존재합니다.");
-            bindingResult.addError(fieldError);
-            throw new CustomValidationException(bindingResult);
-        }
     }
 
     @DeleteMapping

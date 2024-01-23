@@ -113,8 +113,7 @@
             }
         }).mount("#pageAuthorityRegister")
 
-        document.getElementById("pageAuthorityRegister")
-        pageAuthorityRegister.addEventListener('show.bs.modal', event => {
+        document.getElementById("pageAuthorityRegister").addEventListener('show.bs.modal', event => {
             pageAuthorityRegister.reset()
         })
 
@@ -146,10 +145,10 @@
                         </div>
 
                         <div class="col-12">
-                            <label class="form-label">권한 코드*</label>
+                            <label class="form-label">권한 코드</label>
                             <input type="text" class="form-control" name="pageAuthorityCode" placeholder=""
                                    v-model="submitForm.pageAuthorityCode"
-                                   :class="[validateText.pageAuthorityCode ? errorClass : '', normalClass]">
+                                   :class="[validateText.pageAuthorityCode ? errorClass : '', normalClass]" disabled>
                             <div class="form-text">{{ validateText.pageAuthorityCode }}</div>
                         </div>
                         <div class="col-12">

@@ -29,10 +29,6 @@ public class PageAuthorityRequest {
         @NotNull
         private Long pageAuthorityId;
 
-        @NotNull
-        @Size(min = 1, max = 64)
-        private String pageAuthorityCode;
-
         // 권한 이름
         @Size(max = 128)
         private String pageAuthorityName;
