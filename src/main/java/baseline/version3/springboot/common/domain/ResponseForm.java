@@ -1,4 +1,4 @@
-package baseline.version3.springboot.common.util.response;
+package baseline.version3.springboot.common.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

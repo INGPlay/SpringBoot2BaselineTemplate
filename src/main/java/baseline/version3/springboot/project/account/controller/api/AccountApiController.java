@@ -5,7 +5,7 @@ import baseline.version3.springboot.project.account.domain.AccountSub;
 import baseline.version3.springboot.project.account.service.AccountService;
 import baseline.version3.springboot.project.account.repository.AccountRepository;
 import baseline.version3.springboot.common.util.ResponseUtil;
-import baseline.version3.springboot.common.util.response.ResponseForm;
+import baseline.version3.springboot.common.domain.ResponseForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

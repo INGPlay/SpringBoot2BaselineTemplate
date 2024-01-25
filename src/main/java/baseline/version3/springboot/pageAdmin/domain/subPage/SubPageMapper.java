@@ -25,9 +25,9 @@ public abstract class SubPageMapper {
     public abstract SubPage toInsertEntity(SubPageRequest.RequestInsert requestInsert);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    public abstract void toUpdateEntity(SubPageRequest.RequestUpdate requestUpdate, @MappingTarget ParentPage parentPage);
+    public abstract void toUpdateEntity(SubPageRequest.RequestUpdate requestUpdate, @MappingTarget SubPage subPage);
 
-    public abstract SubPageResponse.Response toResponse(ParentPage parentPage);
+    public abstract SubPageResponse.Response toResponse(SubPage subPage);
 
     protected ParentPage getParentPage(SubPageRequest.RequestInsert requestInsert){
         return parentPageRepository.findById(requestInsert.getParentPageId()).orElseThrow(

@@ -1,5 +1,7 @@
 package baseline.version3.springboot.pageAdmin.service;
 
+import baseline.version3.springboot.exceptionHandler.exception.ServiceLayerException;
+import baseline.version3.springboot.exceptionHandler.subType.ServiceException;
 import baseline.version3.springboot.pageAdmin.repository.entity.SubPage;
 import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageMapper;
 import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageRequest;
@@ -35,6 +37,14 @@ public class SubPageService {
     public void registerSubPage(SubPageRequest.RequestInsert requestInsert){
         SubPage entity = subPageMapper.toInsertEntity(requestInsert);
         subPageRepository.save(entity);
+    }
+
+    public void updateSubPage(SubPageRequest.RequestUpdate requestUpdate){
+        SubPage subPage = subPageRepository.findById(requestUpdate.getSubPageId()).orElseThrow(
+                () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)
+        );
+        subPageMapper.toUpdateEntity(requestUpdate, subPage);
+        subPageRepository.save(subPage);
     }
 
     public void deleteParentPageById(Long id){

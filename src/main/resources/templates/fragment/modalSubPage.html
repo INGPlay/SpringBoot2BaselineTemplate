@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:fragment="SubPageRegister">
+
+    <span id="SubPageRegister">
+        <!-- Modal -->
+        <div id="SubPageRegisterModal" class="modal" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">서브 페이지 등록</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" class="row g-3">
+                            <input type="hidden" name="parentPageId" v-model="submitForm.parentPageId">
+                            <div class="col-md-12">
+                                <label for="subPageTitle" class="form-label">서브 페이지 명</label>
+                                <input type="text" class="form-control" id="subPageTitle" name="subPageTitle" v-model="submitForm.subPageTitle" required>
+                                <div class="form-text">{{ validateText.subPageTitle }}</div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="subPageDescription" class="form-label">설명</label>
+                                <input type="text" class="form-control" id="subPageDescription" name="subPageDescription" v-model="submitForm.subPageDescription">
+                                <div class="form-text">{{ validateText.subPageDescription }}</div>
+                            </div>
+                            <div class="col-12">
+                                <label for="subPagePath" class="form-label">서브 페이지 경로*</label>
+                                <input type="text" class="form-control" id="subPagePath" name="subPagePath" v-model="submitForm.subPagePath" placeholder="/" required>
+                                <div class="form-text">{{ validateText.subPagePath }}</div>
+                            </div>
+                            <div class="col-12">
+                                <label for="pageAuthorityCode" class="form-label">권한 선택</label>
+                                <select class="form-select form-select-sm" id="pageAuthorityCode" name="pageAuthorityCode" v-model="submitForm.pageAuthorityCode">
+                                    <option value="">선택</option>
+                                </select>
+                                <div class="form-text"></div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button @click="register" type="button" class="btn btn-primary btn-sm">권한 등록</button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-dark btn-sm w-25" data-bs-toggle="modal" data-bs-target="#SubPageRegisterModal"
+                :class="[submitForm.parentPageId ? '' : 'disabled', 'btn', 'btn-dark', 'btn-sm', 'w-25']">
+            서브 페이지 추가
+        </button>
+        
+    </span>
+
+
+    <script type="application/javascript" th:inline="javascript">
+        
+        const SubPageRegister = Vue.createApp({
+            data(){
+                return{
+                    modalId : "SubPageRegisterModal",
+                    submitForm : {
+                        parentPageId : null,
+                        subPageTitle : '',
+                        subPageDescription : '',
+                        subPagePath : '',
+                        pageAuthorityCode : ''
+                    },
+                    validateText : {
+                        subPageTitle: '',
+                        subPageDescription: '',
+                        subPagePath: '',
+                    }
+                }
+            },
+            created(){
+                    
+            },
+            mounted(){
+                requestSelectOption("pageAuthorityCode", {
+                    url: "/api/page-admin/type/authority",
+                    method: "GET",
+                    data: {}
+                })
+            },
+            methods: {
+                reset : function (){
+                    this.submitForm = {
+                        parentPageId: this.submitForm.parentPageId
+                    }
+                    this.validateText = {}
+                },
+                close : function (){
+                    document.getElementById(this.modalId).style.display = "none";
+                    $('.modal-backdrop').remove();
+                    this.closeCallback()
+                },
+                closeCallback : function (){
+                    // 닫을 때 콜백
+                },
+                register : function () {
+                    requestJsonAjaxPromise({
+                        url: "/api/parent-page/sub-page",
+                        method: "POST",
+                        data: this.submitForm,
+                        async: true
+                    }).then((response) => {
+                        this.reset()
+                        this.close()
+                        alert("서브 페이지를 등록하였습니다.")
+                    }).catch((error) => {
+                        this.validateText = error.responseJSON.data.errorMessage
+                    })
+                }
+            }
+        }).mount("#SubPageRegister")
+
+
+    </script>
+</th:block>
+
+</html>

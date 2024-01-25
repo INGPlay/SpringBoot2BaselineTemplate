@@ -61,6 +61,7 @@
         const pageAuthorityRegister = Vue.createApp({
             data(){
                 return{
+                    modalId : 'pageAuthorityRegister',
                     submitForm : {
                         pageAuthorityCode : '',
                         pageAuthorityName : '',
@@ -87,7 +88,7 @@
                     this.validateText = {}
                 },
                 close : function (){
-                    document.getElementById('pageAuthorityRegister').style.display = "none";
+                    document.getElementById(this.modalId).style.display = "none";
                     $(".modal-backdrop").remove()
                     this.closeCallback()
                 },
@@ -192,6 +193,7 @@
         const pageAuthorityUpdate = Vue.createApp({
             data(){
                 return{
+                    modalId : 'pageAuthorityUpdate',
                     submitForm : {
                         pageAuthorityId : '',
                         pageAuthorityCode : '',
@@ -221,7 +223,7 @@
                     this.validateText = {}
                 },
                 close : function (){
-                    document.getElementById('pageAuthorityUpdate').style.display = "none";
+                    document.getElementById(this.modalId).style.display = "none";
                     $('.modal-backdrop').remove();
                     this.closeCallback()
                 },

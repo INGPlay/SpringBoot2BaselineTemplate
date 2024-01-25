@@ -72,14 +72,13 @@ function requestSelectOption(id, object){
     requestJsonAjaxPromise(object)
         .then(function(response){
 
-        response.forEach(function (data){
+            response.data.contents.forEach(function (data){
             let optionElement = document.createElement("option");
             optionElement.text = data.text;
             optionElement.value = data.value;
 
             document.getElementById(id).appendChild(optionElement)
         })
-
 
     }).catch(function(error){
         alert("옵션을 가져오지 못하였습니다.")
