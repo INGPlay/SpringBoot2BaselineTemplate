@@ -18,9 +18,7 @@ public class CustomExceptionHandler {
      */
     @ModelAttribute
     public void handleRequest(HttpServletRequest request, Model model) {
-        String requestURI = request.getRequestURI();
-
-        log.info("[URI] {}", requestURI);
+        log.info("Request : {} {}", request.getMethod(), request.getRequestURI());
     }
 
     @ExceptionHandler(RuntimeException.class)
