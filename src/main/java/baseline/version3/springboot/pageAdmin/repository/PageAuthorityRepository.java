@@ -8,4 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface PageAuthorityRepository extends JpaRepository<PageAuthority, Long> {
+    public Optional<PageAuthority> findByPageAuthorityCode(String pageAuthorityCode);
 }

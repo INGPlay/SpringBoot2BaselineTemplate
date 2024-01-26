@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /** 상위 페이지 | parent_page */
 @Entity
 @Table(name = "page_admin_parent_page")
@@ -32,4 +35,8 @@ public class ParentPage extends DateTimeBase {
     // 인덱스 페이지 경로
     @Column(name = "parent_page_index_path" ,length = 256)
     private String parentPageIndexPath;
+
+    @OneToMany(mappedBy = "parentPage", orphanRemoval = true)
+    private List<SubPage> subPageList = new ArrayList<>();
+
 }

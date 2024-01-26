@@ -57,8 +57,7 @@ public class PageAuthorityController {
 
 
     private void validateDuplicatePageAuthorityCode(String pageAuthorityCode, BindingResult bindingResult) {
-        PageAuthorityRequest.RequestDynamicQueryOne requestDynamicQueryOne = new PageAuthorityRequest.RequestDynamicQueryOne();
-        requestDynamicQueryOne.setPageAuthorityCode(pageAuthorityCode);
+        PageAuthorityRequest.RequestDynamicQueryOne requestDynamicQueryOne = new PageAuthorityRequest.RequestDynamicQueryOne(pageAuthorityCode);
         if (pageAuthorityService.findOne(requestDynamicQueryOne).isPresent()){
             FieldError fieldError = new FieldError("duplicated", "pageAuthorityCode", "이미 존재하는 권한 코드입니다.");
             bindingResult.addError(fieldError);

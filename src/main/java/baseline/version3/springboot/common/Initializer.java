@@ -8,9 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
-@Component
+
 @RequiredArgsConstructor
-public class Inititalizer implements InitializingBean {
+public class Initializer implements InitializingBean {
 
     private final AccountRepository accountRepository;
     private final AccountService accountService;

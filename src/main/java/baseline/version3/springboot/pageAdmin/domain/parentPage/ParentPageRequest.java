@@ -91,4 +91,18 @@ public class ParentPageRequest {
         private Long notParentPageId;
         private String parentPageRootPath;
     }
+
+    @Getter
+    public static class RequestDynamicQueryOne {
+        private Long parentPageId;
+        private String parentPageRootPath;
+
+        public RequestDynamicQueryOne(Long parentPageId) {
+            this.parentPageId = parentPageId;
+        }
+
+        public RequestDynamicQueryOne(String parentPageRootPath) {
+            this.parentPageRootPath = parentPageRootPath;
+        }
+    }
 }

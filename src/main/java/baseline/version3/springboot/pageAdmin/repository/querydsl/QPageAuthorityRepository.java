@@ -53,8 +53,7 @@ public class QPageAuthorityRepository {
                         )
                         .from(pageAuthority)
                         .where(
-                                queryDslNullableUtil.eq(pageAuthority.pageAuthorityCode, requestDynamicQueryOne.getPageAuthorityCode()),
-                                queryDslNullableUtil.ne(pageAuthority.pageAuthorityCode, requestDynamicQueryOne.getNotPageAuthorityCode())
+                                queryDslNullableUtil.eq(pageAuthority.pageAuthorityCode, requestDynamicQueryOne.getPageAuthorityCode())
                         )
                         .fetchOne()
         );

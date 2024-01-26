@@ -17,6 +17,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -55,9 +56,8 @@ public class ParentPageApiController {
     }
 
     private void validateDuplicateParentPageRootPath(String parentPageRootPath, BindingResult bindingResult) {
-        ParentPageRequest.RequestDynamicQuery requestDynamicQuery = new ParentPageRequest.RequestDynamicQuery();
-        requestDynamicQuery.setParentPageRootPath(parentPageRootPath);
-        if (parentPageService.findOne(requestDynamicQuery).isPresent()){
+        ParentPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new ParentPageRequest.RequestDynamicQueryOne(parentPageRootPath);
+        if (parentPageService.findOne(requestDynamicQueryOne).isPresent()){
             FieldError fieldError = new FieldError("duplicated", "parentPageRootPath", "이미 존재하는 루트 경로입니다.");
             bindingResult.addError(fieldError);
             throw new CustomValidationException(bindingResult);
@@ -85,14 +85,18 @@ public class ParentPageApiController {
     }
 
     private void validateDuplicateParentPagePathForUpdate(ParentPageRequest.RequestUpdate requestUpdate, BindingResult bindingResult) {
-        ParentPageRequest.RequestDynamicQuery requestDynamicQuery = new ParentPageRequest.RequestDynamicQuery();
-        requestDynamicQuery.setParentPageRootPath(requestUpdate.getParentPageRootPath());
-        // 업데이트 요청한 id를 제외하여 조회
-        requestDynamicQuery.setNotParentPageId(requestUpdate.getParentPageId());
-        if (parentPageService.findOne(requestDynamicQuery).isPresent()){
-            FieldError fieldError = new FieldError("duplicated", "parentPageRootPath", "이미 존재하는 루트 경로입니다.");
-            bindingResult.addError(fieldError);
-            throw new CustomValidationException(bindingResult);
+        ParentPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new ParentPageRequest.RequestDynamicQueryOne(
+                requestUpdate.getParentPageRootPath()
+        );
+        Optional<ParentPageResponse.Response> responseOptional = parentPageService.findOne(requestDynamicQueryOne);
+
+        if (responseOptional.isPresent()){
+            ParentPageResponse.Response response = responseOptional.get();
+            if (!response.getParentPageRootPath().equals(requestUpdate.getParentPageRootPath())){
+                FieldError fieldError = new FieldError("duplicated", "parentPageRootPath", "이미 존재하는 루트 경로입니다.");
+                bindingResult.addError(fieldError);
+                throw new CustomValidationException(bindingResult);
+            }
         }
     }
 

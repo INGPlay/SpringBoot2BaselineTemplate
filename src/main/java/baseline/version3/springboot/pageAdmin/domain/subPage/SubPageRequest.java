@@ -1,13 +1,19 @@
 package baseline.version3.springboot.pageAdmin.domain.subPage;
 
+import baseline.version3.springboot.exceptionHandler.exception.ServiceLayerException;
+import baseline.version3.springboot.exceptionHandler.subType.ServiceException;
+import baseline.version3.springboot.pageAdmin.repository.PageAuthorityRepository;
+import baseline.version3.springboot.pageAdmin.repository.SubPageRepository;
+import baseline.version3.springboot.pageAdmin.repository.entity.PageAuthority;
+import baseline.version3.springboot.pageAdmin.repository.entity.QSubPage;
+import baseline.version3.springboot.pageAdmin.repository.querydsl.QSubPageRepository;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+@RequiredArgsConstructor
 public class SubPageRequest {
 
     @Getter @Setter
@@ -33,12 +39,11 @@ public class SubPageRequest {
         public void setSubPagePath(String subPagePath) {
             this.subPagePath = subPagePath.strip();
         }
+
     }
 
     @Getter @Setter
     public static class RequestUpdate {
-        @NotNull
-        private Long parentPageId;
         @NotNull
         private Long subPageId;
 
@@ -48,17 +53,17 @@ public class SubPageRequest {
         @Size(max = 1024)
         private String subPageDescription;
 
-        @Pattern(regexp = "^/[a-zA-Z1-9/!@#$%^&*-]{0,}$", message = "첫 글자가 슬래쉬(/)가 아니거나, 허용되지 않은 기호를 사용하였습니다.")
-        @Size(max = 128)
-        private String subPageRootPath;
+//        @Pattern(regexp = "^/[a-zA-Z1-9/!@#$%^&*-]{0,}$", message = "첫 글자가 슬래쉬(/)가 아니거나, 허용되지 않은 기호를 사용하였습니다.")
+//        @Size(max = 128)
+//        private String subPageRootPath;
 
         // 권한 코드
         @Size(max = 64)
         private String pageAuthorityCode;
 
-        public void setSubPageRootPath(String subPageRootPath) {
-            this.subPageRootPath = subPageRootPath.strip();
-        }
+//        public void setSubPageRootPath(String subPageRootPath) {
+//            this.subPageRootPath = subPageRootPath.strip();
+//        }
     }
 
     @Getter @Setter
@@ -72,11 +77,19 @@ public class SubPageRequest {
         private Long parentPageId;
     }
 
-    @Getter @Setter
+    @Getter
     public static class RequestDynamicQueryOne {
         private Long parentPageId;
         private Long subPageId;
         private String subPagePath;
-        private String notSubPagePath;
+
+        public RequestDynamicQueryOne(Long subPageId) {
+            this.subPageId = subPageId;
+        }
+
+        public RequestDynamicQueryOne(Long parentPageId, String subPagePath) {
+            this.parentPageId = parentPageId;
+            this.subPagePath = subPagePath;
+        }
     }
 }

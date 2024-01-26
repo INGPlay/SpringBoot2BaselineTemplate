@@ -64,9 +64,7 @@ public class SubPageController {
     }
 
     private void validateDuplicateSubPagePath(Long parentPageId, String subPagePath, BindingResult bindingResult) {
-        SubPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new SubPageRequest.RequestDynamicQueryOne();
-        requestDynamicQueryOne.setParentPageId(parentPageId);
-        requestDynamicQueryOne.setSubPagePath(subPagePath);
+        SubPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new SubPageRequest.RequestDynamicQueryOne(parentPageId, subPagePath);
         if (subPageService.findOne(requestDynamicQueryOne).isPresent()){
             FieldError fieldError = new FieldError("duplicated", "subPageRootPath", "이미 존재하는 루트 경로입니다.");
             bindingResult.addError(fieldError);

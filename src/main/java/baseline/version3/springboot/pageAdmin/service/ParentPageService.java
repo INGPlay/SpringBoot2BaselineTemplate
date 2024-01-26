@@ -32,12 +32,14 @@ public class ParentPageService {
     }
 
 
-    public Optional<ParentPageResponse.Response> findOne(ParentPageRequest.RequestDynamicQuery requestDynamicQuery){
-        return qParentPageRepository.selectOne(requestDynamicQuery);
+    public Optional<ParentPageResponse.Response> findOne(ParentPageRequest.RequestDynamicQueryOne requestDynamicQueryOne){
+        return qParentPageRepository.selectOne(requestDynamicQueryOne);
     }
 
     public Optional<ParentPageResponse.Response> findOneById(Long id){
-        return qParentPageRepository.selectOneById(id);
+
+        ParentPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new ParentPageRequest.RequestDynamicQueryOne(id);
+        return qParentPageRepository.selectOne(requestDynamicQueryOne);
     }
 
     public void registerParentPage(ParentPageRequest.RequestInsert requestInsert){

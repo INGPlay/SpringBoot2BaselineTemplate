@@ -4,6 +4,8 @@ import baseline.version3.springboot.common.util.ResponseUtil;
 import baseline.version3.springboot.common.domain.ResponseForm;
 import baseline.version3.springboot.common.util.ValidationUtil;
 import baseline.version3.springboot.exceptionHandler.exception.CustomValidationException;
+import baseline.version3.springboot.exceptionHandler.exception.ServiceLayerException;
+import baseline.version3.springboot.exceptionHandler.subType.ServiceException;
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageRequest;
 import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageRequest;
 import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageResponse;
@@ -31,6 +33,17 @@ public class SubPageApiController {
         return ResponseUtil.makeResponseEntity(list);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseForm> one(@PathVariable Long id){
+
+        SubPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new SubPageRequest.RequestDynamicQueryOne(id);
+
+        SubPageResponse.Response response = subPageService.findOne(requestDynamicQueryOne).orElseThrow(
+                () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)
+        );
+        return ResponseUtil.makeResponseEntity(response);
+    }
+
     @PostMapping
     public ResponseEntity<ResponseForm> register(@Valid @RequestBody SubPageRequest.RequestInsert requestInsert,
                                                  BindingResult bindingResult){
@@ -42,9 +55,9 @@ public class SubPageApiController {
     }
 
     private void validateForRegister(SubPageRequest.RequestInsert requestInsert, BindingResult bindingResult) {
-        SubPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new SubPageRequest.RequestDynamicQueryOne();
-        requestDynamicQueryOne.setParentPageId(requestInsert.getParentPageId());
-        requestDynamicQueryOne.setSubPagePath(requestInsert.getSubPagePath());
+        SubPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new SubPageRequest.RequestDynamicQueryOne(
+                requestInsert.getParentPageId(), requestInsert.getSubPagePath()
+        );
 
         if (subPageService.findOne(requestDynamicQueryOne).isPresent()){
             FieldError fieldError = new FieldError("Duplicated", "subPagePath", "중복되는 경로가 존재합니다.");
@@ -64,8 +77,8 @@ public class SubPageApiController {
     }
 
     @DeleteMapping
-    public ResponseEntity<ResponseForm> delete(@RequestBody ParentPageRequest.RequestDelete requestDelete){
-        subPageService.deleteParentPageById(requestDelete.getParentPageId());
+    public ResponseEntity<ResponseForm> delete(@RequestBody SubPageRequest.RequestDelete requestDelete){
+        subPageService.deleteParentPageById(requestDelete.getSubPageId());
         return ResponseUtil.makeResponseEntity();
     }
 }

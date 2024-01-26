@@ -67,18 +67,23 @@ function requestAjaxPromise(object) {
  * @param id
  * @param object
  */
-function requestSelectOption(id, object){
+function requestSelectOption(selector, object){
 
     requestJsonAjaxPromise(object)
         .then(function(response){
 
-            response.data.contents.forEach(function (data){
-            let optionElement = document.createElement("option");
-            optionElement.text = data.text;
-            optionElement.value = data.value;
+            document.querySelectorAll(selector).forEach(function (element){
 
-            document.getElementById(id).appendChild(optionElement)
-        })
+                if (element.options.length <= 1){
+                    response.data.contents.forEach(function (data){
+                        let optionElement = document.createElement("option");
+                        optionElement.text = data.text;
+                        optionElement.value = data.value;
+                        element.appendChild(optionElement)
+                    })
+                }
+
+            })
 
     }).catch(function(error){
         alert("옵션을 가져오지 못하였습니다.")

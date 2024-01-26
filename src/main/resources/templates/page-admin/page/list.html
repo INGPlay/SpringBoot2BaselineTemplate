@@ -15,6 +15,8 @@
 <body>
 
 <th:block th:replace="~{fragment/header :: commonHeader}"></th:block>
+<th:block th:replace="~{fragment/modalSubPage :: subPageUpdate}"></th:block>
+<th:block th:replace="~{fragment/modalParentPage :: parentPageUpdate}"></th:block>
 
 <div class="container mt-3">
     <div class="d-flex justify-content-center">
@@ -23,10 +25,12 @@
 
     <div id="buttons" class="row mt-3">
         <div class="col">
-            <button type="button" id="addParentButton" class="btn btn-dark btn-sm w-25 float-start">상위 추가</button>
+            <span class="float-start">
+                <th:block th:replace="fragment/modalParentPage :: parentPageRegister"></th:block>
+            </span>
         </div>
         <div class="col">
-            <th:block th:replace="~{fragment/modalSubPage :: SubPageRegister}"></th:block>
+            <th:block th:replace="~{fragment/modalSubPage :: subPageRegister}"></th:block>
             <button type="button" id="addAuthButton" class="btn btn-default btn-sm w-25">권한 추가</button>
         </div>
     </div>
@@ -57,16 +61,6 @@
         columns: [
             {
                 header: '상위 페이지 아이디', name: 'parentPageId', align: 'center', hidden: true
-            },
-            {
-                header: '수정하기', width: 75, align: 'center',
-                formatter : function (e){
-                    console.log(e)
-                    console.log(e.row.parentPageId)
-                    let path = "/page-admin/page/list/update?id=" + e.row.parentPageId;
-                    return "<a href='" + path + "'>수정하기</a>"
-                },
-                resizable : false
             },
             {
                 header : '페이지 명', name: 'parentPageTitle', width : 150, align: 'center',
@@ -112,13 +106,6 @@
                 header: '하위 페이지 아이디', name: 'subPageId', align: 'center', hidden: true
             },
             {
-                header: '수정하기', width: '75', align: 'center',
-                formatter : function (e){
-                    return "<button>수정하기</button>"
-                },
-                resizable : true
-            },
-            {
                 header : '페이지 명', name: 'subPageTitle', width : '150', align: 'center',
                 resizable : true,
                 sortable : true,
@@ -131,11 +118,25 @@
                 filter: 'select'
             },
             {
-                header: '권한코드', name: 'pageAuthorityConditionCode', width: 150, align : 'center',
-                resizable : true,
-                sortable : true,
-                filter: 'select'
+                header: '페이지 권한', width: 150, align : 'center',
+                resizable: true,
+                sortable: true,
+                filter: 'select',
+                formatter: function (e) {
+                    pageAuthorityName = e.row.pageAuthorityName
+                    pageAuthorityCode = e.row.pageAuthorityCode
+                    if (!pageAuthorityCode && !pageAuthorityName){
+                        return  '.'
+                    }
+                    return e.row.pageAuthorityName + ' (' + e.row.pageAuthorityCode + ')'
+                }
             },
+            {
+                header: '권한코드', name: 'pageAuthorityCode', hidden: true,
+            },
+            {
+                header: '권한이름', name: 'pageAuthorityName', hidden: true
+            }
         ],
         data: {
             api: {
@@ -157,7 +158,18 @@
     })
 
     // event
+    gridTarget.on('focusChange', function(ev) {
+        let rowKey = ev.rowKey;
+
+        subPageRegister.submitForm.parentPageId = gridTarget.getRow(rowKey).parentPageId;
+        let data = {
+            parentPageId : subPageRegister.submitForm.parentPageId
+        }
+        gridSub.readData(null, data, true);
+    });
+
     gridTarget.on('dblclick', function(ev) {
+        console.log(ev)
         let rowKey = ev.rowKey;
         let record = {
             start : [rowKey, 0],
@@ -165,23 +177,40 @@
         }
         gridTarget.setSelectionRange(record);
 
-        SubPageRegister.submitForm.parentPageId = gridTarget.getRow(rowKey).parentPageId;
-        console.log(SubPageRegister.submitForm.parentPageId)
-        let data = {
-            parentPageId : SubPageRegister.submitForm.parentPageId
-        }
-        gridSub.readData(null, data, true);
+        parentPageUpdate.show(gridTarget.getRow(rowKey).parentPageId)
     });
 
-    document.getElementById("addParentButton").addEventListener("click", function (e){
-        location.href='/page-admin/page/register'
-    })
+    gridSub.on('dblclick', function(ev) {
+        let rowKey = ev.rowKey;
+        let record = {
+            start : [rowKey, 0],
+            end : [rowKey, gridSub.getColumns().length]
+        }
+        gridSub.setSelectionRange(record);
+
+        let subPageId = gridSub.getRow(rowKey).subPageId;
+        subPageUpdate.show(subPageId)
+    });
 
     document.getElementById("addAuthButton").addEventListener("click", function (e){
         location.href='/page-admin/page/auth/register';
     })
 
-    SubPageRegister.closeCallback = () => {
+    // modal callback
+    parentPageRegister.closeCallback = () => {
+        gridTarget.readData();
+    }
+
+    parentPageUpdate.closeCallback = () => {
+        gridTarget.readData();
+        gridSub.readData()
+    }
+
+    subPageRegister.closeCallback = () => {
+        gridSub.readData()
+    }
+
+    subPageUpdate.closeCallback = () => {
         gridSub.readData()
     }
 

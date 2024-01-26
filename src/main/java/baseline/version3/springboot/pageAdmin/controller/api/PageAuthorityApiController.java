@@ -49,8 +49,9 @@ public class PageAuthorityApiController {
     }
 
     private void validateDuplicatePageAuthorityCode(PageAuthorityRequest.RequestInsert requestInsert, BindingResult bindingResult) {
-        PageAuthorityRequest.RequestDynamicQueryOne requestDynamicQueryOne = new PageAuthorityRequest.RequestDynamicQueryOne();
-        requestDynamicQueryOne.setPageAuthorityCode(requestInsert.getPageAuthorityCode());
+        PageAuthorityRequest.RequestDynamicQueryOne requestDynamicQueryOne = new PageAuthorityRequest.RequestDynamicQueryOne(
+                requestInsert.getPageAuthorityCode()
+        );
         if (pageAuthorityService.findOne(requestDynamicQueryOne).isPresent()){
             FieldError fieldError = new FieldError("duplicated", "pageAuthorityCode", "중복되는 코드가 존재합니다.");
             bindingResult.addError(fieldError);

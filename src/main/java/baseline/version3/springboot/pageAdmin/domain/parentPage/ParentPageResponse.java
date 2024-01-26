@@ -16,6 +16,7 @@ public class ParentPageResponse {
         private String parentPageDescription;
         private String parentPageRootPath;
         private String parentPageIndexPath;
+        private Long countSubPageList;
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
         private Date registerDate;

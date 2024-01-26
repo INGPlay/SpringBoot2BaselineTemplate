@@ -2,55 +2,52 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
                 xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<th:block th:fragment="subPageRegister">
+<th:block th:fragment="parentPageRegister">
 
-    <span id="subPageRegister">
+    <span id="parentPageRegister">
         <!-- Modal -->
-        <div id="subPageRegisterModal" class="modal" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+        <div id="parentPageRegisterModal" class="modal" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5">서브 페이지 등록</h1>
+                        <h1 class="modal-title fs-5">상위 페이지 등록</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form method="post" class="row g-3">
                             <input type="hidden" name="parentPageId" v-model="submitForm.parentPageId">
                             <div class="col-md-12">
-                                <label class="form-label">서브 페이지 명</label>
-                                <input type="text" class="form-control" name="subPageTitle" v-model="submitForm.subPageTitle" required>
-                                <div class="form-text">{{ validateText.subPageTitle }}</div>
+                                <label class="form-label">상위 페이지 명</label>
+                                <input type="text" class="form-control" name="parentPageTitle" v-model="submitForm.parentPageTitle" required>
+                                <div class="form-text">{{ validateText.parentPageTitle }}</div>
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label">설명</label>
-                                <input type="text" class="form-control" name="subPageDescription" v-model="submitForm.subPageDescription">
-                                <div class="form-text">{{ validateText.subPageDescription }}</div>
+                                <input type="text" class="form-control" name="parentPageDescription" v-model="submitForm.parentPageDescription">
+                                <div class="form-text">{{ validateText.parentPageDescription }}</div>
                             </div>
                             <div class="col-12">
-                                <label class="form-label">서브 페이지 경로*</label>
-                                <input type="text" class="form-control" name="subPagePath" v-model="submitForm.subPagePath" placeholder="/" required>
-                                <div class="form-text">{{ validateText.subPagePath }}</div>
+                                <label class="form-label">상위 페이지 경로*</label>
+                                <input type="text" class="form-control" name="parentPageRootPath" v-model="submitForm.parentPageRootPath" placeholder="/" required>
+                                <div class="form-text">{{ validateText.parentPageRootPath }}</div>
                             </div>
                             <div class="col-12">
-                                <label class="form-label">권한 선택</label>
-                                <select class="form-select form-select-sm" name="pageAuthorityCode" v-model="submitForm.pageAuthorityCode">
-                                    <option value="">선택</option>
-                                </select>
-                                <div class="form-text"></div>
+                                <label class="form-label">인덱스 페이지 경로</label>
+                                <input type="text" class="form-control" name="parentPageIndexPath" v-model="submitForm.parentPageIndexPath">
+                                <div class="form-text">{{ validateText.parentPageIndexPath }}</div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button @click="register" type="button" class="btn btn-primary btn-sm">권한 등록</button>
+                        <button @click="register" type="button" class="btn btn-primary btn-sm">상위 페이지 등록</button>
                         <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">닫기</button>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-dark btn-sm w-25" data-bs-toggle="modal" data-bs-target="#subPageRegisterModal"
-                :class="[submitForm.parentPageId ? '' : 'disabled', 'btn', 'btn-dark', 'btn-sm', 'w-25']">
-            서브 페이지 추가
+        <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#parentPageRegisterModal">
+            상위 페이지 추가
         </button>
         
     </span>
@@ -65,21 +62,22 @@
          *      // code
          * }
          */
-        const subPageRegister = Vue.createApp({
+        const parentPageRegister = Vue.createApp({
             data(){
                 return{
-                    modalId : "subPageRegisterModal",
+                    modalId : "parentPageRegisterModal",
                     submitForm : {
                         parentPageId : null,
-                        subPageTitle : '',
-                        subPageDescription : '',
-                        subPagePath : '',
-                        pageAuthorityCode : ''
+                        parentPageTitle : '',
+                        parentPageDescription : '',
+                        parentPageRootPath : '',
+                        parentPageIndexPath : ''
                     },
                     validateText : {
-                        subPageTitle: '',
-                        subPageDescription: '',
-                        subPagePath: '',
+                        parentPageTitle : '',
+                        parentPageDescription : '',
+                        parentPageRootPath : '',
+                        parentPageIndexPath : ''
                     }
                 }
             },
@@ -87,11 +85,7 @@
                     
             },
             mounted(){
-                requestSelectOption("select[name='pageAuthorityCode']", {
-                    url: "/api/page-admin/type/authority",
-                    method: "GET",
-                    data: {}
-                })
+
             },
             methods: {
                 reset : function (){
@@ -110,58 +104,55 @@
                 },
                 register : function () {
                     requestJsonAjaxPromise({
-                        url: "/api/parent-page/sub-page",
+                        url: "/api/parent-page",
                         method: "POST",
                         data: this.submitForm,
                         async: true
                     }).then((response) => {
                         this.reset()
                         this.close()
-                        alert("서브 페이지를 등록하였습니다.")
+                        alert("상위 페이지를 등록하였습니다.")
                     }).catch((error) => {
                         this.validateText = error.responseJSON.data.errorMessage
                     })
                 }
             }
-        }).mount("#subPageRegister")
+        }).mount("#parentPageRegister")
 
     </script>
 </th:block>
 
-
-<th:block th:fragment="subPageUpdate">
+<th:block th:fragment="parentPageUpdate">
     <!-- Modal -->
-    <div class="modal" id="subPageUpdate" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal" id="parentPageUpdate" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">서브페이지 정보 수정</h1>
+                    <h1 class="modal-title fs-5">상위 페이지 정보 수정</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form method="post" class="row g-3">
-                        <input type="hidden" name="subPageId" v-model="submitForm.subPageId">
+                        <input type="hidden" name="parentPageId" v-model="submitForm.parentPageId">
                         <div class="col-md-12">
-                            <label class="form-label">서브 페이지 명</label>
-                            <input type="text" class="form-control" name="subPageTitle" v-model="submitForm.subPageTitle" required>
-                            <div class="form-text">{{ validateText.subPageTitle }}</div>
+                            <label class="form-label">상위 페이지 명</label>
+                            <input type="text" class="form-control" name="parentPageTitle" v-model="submitForm.parentPageTitle" required>
+                            <div class="form-text">{{ validateText.parentPageTitle }}</div>
                         </div>
                         <div class="col-md-12">
                             <label class="form-label">설명</label>
-                            <input type="text" class="form-control" name="subPageDescription" v-model="submitForm.subPageDescription">
-                            <div class="form-text">{{ validateText.subPageDescription }}</div>
+                            <input type="text" class="form-control" name="parentPageDescription" v-model="submitForm.parentPageDescription">
+                            <div class="form-text">{{ validateText.parentPageDescription }}</div>
                         </div>
                         <div class="col-12">
-                            <label class="form-label">서브 페이지 경로*</label>
-                            <input type="text" class="form-control" name="subPagePath" :value="submitForm.subPagePath" placeholder="/" disabled>
-                            <div class="form-text">{{ validateText.subPagePath }}</div>
+                            <label class="form-label">상위 페이지 경로*</label>
+                            <input type="text" class="form-control" name="parentPageRootPath" v-model="submitForm.parentPageRootPath" placeholder="/" required>
+                            <div class="form-text">{{ validateText.parentPageRootPath }}</div>
                         </div>
                         <div class="col-12">
-                            <label class="form-label">권한 선택</label>
-                            <select class="form-select form-select-sm" name="pageAuthorityCode" v-model="submitForm.pageAuthorityCode">
-                                <option value="">선택</option>
-                            </select>
-                            <div class="form-text"></div>
+                            <label class="form-label">인덱스 페이지 경로</label>
+                            <input type="text" class="form-control" name="parentPageIndexPath" v-model="submitForm.parentPageIndexPath">
+                            <div class="form-text">{{ validateText.parentPageIndexPath }}</div>
                         </div>
                     </form>
                 </div>
@@ -187,21 +178,22 @@
          *      // code
          * }
          */
-        const subPageUpdate = Vue.createApp({
+        const parentPageUpdate = Vue.createApp({
             data(){
                 return{
-                    modalId : "subPageUpdate",
+                    modalId : "parentPageUpdate",
                     submitForm : {
-                        subPageId : null,
-                        subPageTitle : '',
-                        subPageDescription : '',
-                        subPagePath : '',
-                        pageAuthorityCode : ''
+                        parentPageId : null,
+                        parentPageTitle : '',
+                        parentPageDescription : '',
+                        parentPageRootPath : '',
+                        parentPageIndexPath : ''
                     },
                     validateText : {
-                        subPageTitle: '',
-                        subPageDescription: '',
-                        subPagePath: '',
+                        parentPageTitle : '',
+                        parentPageDescription : '',
+                        parentPageRootPath : '',
+                        parentPageIndexPath : ''
                     }
                 }
             },
@@ -228,9 +220,9 @@
                 closeCallback : function (){
 
                 },
-                show : function (subPageId){
+                show : function (parentPageId){
                     requestJsonAjaxPromise({
-                        url: "/api/parent-page/sub-page/" + subPageId,
+                        url: "/api/parent-page/" + parentPageId,
                         method: "GET",
                         data: {},
                         async: true
@@ -243,22 +235,22 @@
                 },
                 update: function (){
                     requestJsonAjaxPromise({
-                        url: "/api/parent-page/sub-page",
+                        url: "/api/parent-page",
                         method: "PUT",
                         data: this.submitForm,
                         async: true
                     }).then((response) => {
                         this.reset()
                         this.close()
-                        alert("서브페이지 정보를 수정하였습니다.")
+                        alert("상위 페이지 정보를 수정하였습니다.")
                     }).catch((error) => {
                         this.validateText = error.responseJSON.data.errorMessage
                     })
                 },
                 remove: function (){
-                    if (confirm("삭제하시겠습니까?")){
+                    if (confirm("서브페이지가 함께 삭제됩니다.\n정말 삭제하시겠습니까?")){
                         requestJsonAjaxPromise({
-                            url: "/api/parent-page/sub-page",
+                            url: "/api/parent-page",
                             method: "DELETE",
                             data: this.submitForm,
                             async: true
@@ -273,7 +265,7 @@
 
                 }
             }
-        }).mount("#subPageUpdate")
+        }).mount("#parentPageUpdate")
     </script>
 </th:block>
 

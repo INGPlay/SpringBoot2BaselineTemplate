@@ -44,9 +44,12 @@ public class PageAuthorityRequest {
         private Long pageAuthorityId;
     }
 
-    @Getter @Setter
+    @Getter
     public static class RequestDynamicQueryOne {
         private String pageAuthorityCode;
-        private String notPageAuthorityCode;
+
+        public RequestDynamicQueryOne(String pageAuthorityCode) {
+            this.pageAuthorityCode = pageAuthorityCode;
+        }
     }
 }
