@@ -1,11 +1,6 @@
 package baseline.version3.springboot.pageAdmin.controller;
 
-import baseline.version3.springboot.exceptionHandler.exception.ServiceLayerException;
-import baseline.version3.springboot.exceptionHandler.subType.ServiceException;
-import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageRequest;
-import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageResponse;
 import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageRequest;
-import baseline.version3.springboot.pageAdmin.service.ParentPageService;
 import baseline.version3.springboot.pageAdmin.service.SubPageService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

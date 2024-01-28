@@ -1,6 +1,6 @@
-package baseline.version3.springboot.exceptionHandler.exception;
+package baseline.version3.springboot.controllerAdvice.exception;
 
-import baseline.version3.springboot.exceptionHandler.exception.abs.AbstractCustomException;
+import baseline.version3.springboot.controllerAdvice.exception.abs.AbstractCustomException;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;

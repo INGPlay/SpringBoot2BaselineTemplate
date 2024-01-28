@@ -1,6 +1,6 @@
 package baseline.version3.springboot.pageAdmin.controller;
 
-import baseline.version3.springboot.exceptionHandler.exception.CustomValidationException;
+import baseline.version3.springboot.controllerAdvice.exception.CustomValidationException;
 import baseline.version3.springboot.pageAdmin.domain.pageAuthority.PageAuthorityRequest;
 import baseline.version3.springboot.pageAdmin.service.PageAuthorityService;
 import jakarta.servlet.http.HttpServletRequest;

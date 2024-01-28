@@ -1,6 +1,6 @@
 package baseline.version3.springboot.common.util;
 
-import baseline.version3.springboot.exceptionHandler.exception.CustomValidationException;
+import baseline.version3.springboot.controllerAdvice.exception.CustomValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 

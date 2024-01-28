@@ -1,13 +1,5 @@
 package baseline.version3.springboot.pageAdmin.domain.subPage;
 
-import baseline.version3.springboot.exceptionHandler.exception.ServiceLayerException;
-import baseline.version3.springboot.exceptionHandler.subType.ServiceException;
-import baseline.version3.springboot.pageAdmin.repository.PageAuthorityRepository;
-import baseline.version3.springboot.pageAdmin.repository.SubPageRepository;
-import baseline.version3.springboot.pageAdmin.repository.entity.PageAuthority;
-import baseline.version3.springboot.pageAdmin.repository.entity.QSubPage;
-import baseline.version3.springboot.pageAdmin.repository.querydsl.QSubPageRepository;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;

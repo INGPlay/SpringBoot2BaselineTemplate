@@ -1,7 +1,7 @@
 package baseline.version3.springboot.pageAdmin.service;
 
-import baseline.version3.springboot.exceptionHandler.exception.ServiceLayerException;
-import baseline.version3.springboot.exceptionHandler.subType.ServiceException;
+import baseline.version3.springboot.controllerAdvice.exception.ServiceLayerException;
+import baseline.version3.springboot.controllerAdvice.subType.ServiceException;
 import baseline.version3.springboot.pageAdmin.domain.pageAuthority.PageAuthorityMapper;
 import baseline.version3.springboot.pageAdmin.domain.pageAuthority.PageAuthorityRequest;
 import baseline.version3.springboot.pageAdmin.domain.pageAuthority.PageAuthorityResponse;

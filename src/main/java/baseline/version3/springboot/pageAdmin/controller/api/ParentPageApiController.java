@@ -2,9 +2,9 @@ package baseline.version3.springboot.pageAdmin.controller.api;
 
 import baseline.version3.springboot.common.util.ResponseUtil;
 import baseline.version3.springboot.common.domain.ResponseForm;
-import baseline.version3.springboot.exceptionHandler.exception.CustomValidationException;
-import baseline.version3.springboot.exceptionHandler.exception.ServiceLayerException;
-import baseline.version3.springboot.exceptionHandler.subType.ServiceException;
+import baseline.version3.springboot.controllerAdvice.exception.CustomValidationException;
+import baseline.version3.springboot.controllerAdvice.exception.ServiceLayerException;
+import baseline.version3.springboot.controllerAdvice.subType.ServiceException;
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageRequest;
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageResponse;
 import baseline.version3.springboot.pageAdmin.service.ParentPageService;

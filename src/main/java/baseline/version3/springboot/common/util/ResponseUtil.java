@@ -2,7 +2,7 @@ package baseline.version3.springboot.common.util;
 
 import baseline.version3.springboot.common.domain.ExceptionForm;
 import baseline.version3.springboot.common.domain.ResponseForm;
-import baseline.version3.springboot.exceptionHandler.subType.ServiceException;
+import baseline.version3.springboot.controllerAdvice.subType.ServiceException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

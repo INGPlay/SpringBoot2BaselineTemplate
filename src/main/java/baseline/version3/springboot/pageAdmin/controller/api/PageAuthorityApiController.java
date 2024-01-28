@@ -2,7 +2,7 @@ package baseline.version3.springboot.pageAdmin.controller.api;
 
 import baseline.version3.springboot.common.util.ResponseUtil;
 import baseline.version3.springboot.common.domain.ResponseForm;
-import baseline.version3.springboot.exceptionHandler.exception.CustomValidationException;
+import baseline.version3.springboot.controllerAdvice.exception.CustomValidationException;
 import baseline.version3.springboot.pageAdmin.domain.pageAuthority.PageAuthorityRequest;
 import baseline.version3.springboot.pageAdmin.domain.pageAuthority.PageAuthorityResponse;
 import baseline.version3.springboot.pageAdmin.service.PageAuthorityService;

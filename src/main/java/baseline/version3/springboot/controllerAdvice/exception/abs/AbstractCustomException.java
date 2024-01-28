@@ -1,4 +1,4 @@
-package baseline.version3.springboot.exceptionHandler.exception.abs;
+package baseline.version3.springboot.controllerAdvice.exception.abs;
 
 import org.springframework.http.HttpStatus;
 

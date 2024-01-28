@@ -1,25 +1,22 @@
-package baseline.version3.springboot.exceptionHandler;
+package baseline.version3.springboot.controllerAdvice;
 
 import baseline.version3.springboot.common.util.ResponseUtil;
-import baseline.version3.springboot.exceptionHandler.exception.ServiceLayerException;
-import baseline.version3.springboot.exceptionHandler.exception.CustomValidationException;
-import jakarta.servlet.http.HttpServletRequest;
+import baseline.version3.springboot.controllerAdvice.exception.ServiceLayerException;
+import baseline.version3.springboot.controllerAdvice.exception.CustomValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
-@RestControllerAdvice
+@RestControllerAdvice(annotations = RestController.class)
 @RequiredArgsConstructor
 @Order(100)
-public class CustomRestExceptionHandler {
+public class CustomRestControllerAdvice {
 
     /**
      * Service Layer 예외 처리
