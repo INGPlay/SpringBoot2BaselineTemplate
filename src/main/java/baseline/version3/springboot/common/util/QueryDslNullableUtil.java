@@ -2,6 +2,7 @@ package baseline.version3.springboot.common.util;
 
 import com.querydsl.core.types.dsl.*;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 @Component
 public class QueryDslNullableUtil {
@@ -33,7 +34,7 @@ public class QueryDslNullableUtil {
     }
 
     public BooleanExpression eq(StringPath path, String string){
-        if (string == null || string.isBlank()){
+        if (!StringUtils.hasText(string)){
             return null;
         }
 
@@ -59,7 +60,7 @@ public class QueryDslNullableUtil {
     }
 
     public BooleanExpression ne(StringPath path, String string){
-        if (string == null || string.isBlank()){
+        if (!StringUtils.hasText(string)){
             return null;
         }
 

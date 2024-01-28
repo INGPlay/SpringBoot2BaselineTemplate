@@ -1,5 +1,8 @@
 package baseline.version3.springboot.controllerAdvice;
 
+import baseline.version3.springboot.pageAdmin.domain.concatPage.ConcatPageRequest;
+import baseline.version3.springboot.pageAdmin.domain.concatPage.ConcatPageResponse;
+import baseline.version3.springboot.pageAdmin.service.ConcatPageService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,11 +18,24 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 public class CustomControllerAdvice {
 
+    private final ConcatPageService concatPageService;
+
     /**
      * 모든 컨트롤러 매핑 공통
      */
     @ModelAttribute
     public void handleRequest(HttpServletRequest request, Model model) {
+        ConcatPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new ConcatPageRequest.RequestDynamicQueryOne();
+        requestDynamicQueryOne.setConcatPagePath(request.getRequestURI());
+        ConcatPageResponse.Response response = concatPageService.findOne(requestDynamicQueryOne).orElse(null);
+
+        if (response != null){
+            log.info("Matching !!!!!");
+            model.addAttribute("parentPageTitle", response.getParentPageTitle());
+            model.addAttribute("subPageTitle", response.getParentPageTitle());
+            model.addAttribute("pageIndexPath", response.getParentPageIndexPath());
+        }
+
         log.info("Request : {} {}", request.getMethod(), request.getRequestURI());
     }
 

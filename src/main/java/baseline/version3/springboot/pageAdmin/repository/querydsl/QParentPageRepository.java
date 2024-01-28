@@ -1,6 +1,7 @@
 package baseline.version3.springboot.pageAdmin.repository.querydsl;
 
 import baseline.version3.springboot.common.util.QueryDslNullableUtil;
+import baseline.version3.springboot.pageAdmin.domain.concatPage.ConcatPageResponse;
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageRequest;
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageResponse;
 import baseline.version3.springboot.pageAdmin.repository.entity.QParentPage;
