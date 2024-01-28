@@ -14,24 +14,24 @@ import java.util.Date;
 
 public class PageAuthorityResponse {
 
-    @Getter
-    @AllArgsConstructor
-    public static class Response {
-        // 권한 id
-        private Long pageAuthorityId;
+    public record Response (
+            // 권한 id
+            Long pageAuthorityId,
 
-        // 권한 코드
-        private String pageAuthorityCode;
+            // 권한 코드
+            String pageAuthorityCode,
 
-        // 권한 이름
-        private String pageAuthorityName;
+            // 권한 이름
+            String pageAuthorityName,
 
-        // 권한 묘사
-        private String pageAuthorityDescription;
+            // 권한 묘사
+            String pageAuthorityDescription,
 
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
-        private Date registerDate;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
-        private Date lastModifyDate;
+            @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+            Date registerDate,
+            @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+            Date lastModifyDate
+    ){
+
     }
 }

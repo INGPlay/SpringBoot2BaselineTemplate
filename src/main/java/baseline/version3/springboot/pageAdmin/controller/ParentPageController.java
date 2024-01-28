@@ -95,8 +95,8 @@ public class ParentPageController {
             ParentPageResponse.Response response = parentPageService.findOneById(requestUpdate.getParentPageId()).orElseThrow(() -> {
                 throw new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY);
             });
-            model.addAttribute("registerDate", response.getRegisterDate());
-            model.addAttribute("lastModifyDate", response.getLastModifyDate());
+            model.addAttribute("registerDate", response.registerDate());
+            model.addAttribute("lastModifyDate", response.lastModifyDate());
             return "page-admin/page/update";
         }
 

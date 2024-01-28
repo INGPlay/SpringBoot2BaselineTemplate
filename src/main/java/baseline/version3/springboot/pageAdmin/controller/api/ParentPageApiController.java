@@ -92,7 +92,7 @@ public class ParentPageApiController {
 
         if (responseOptional.isPresent()){
             ParentPageResponse.Response response = responseOptional.get();
-            if (!response.getParentPageRootPath().equals(requestUpdate.getParentPageRootPath())){
+            if (!response.parentPageRootPath().equals(requestUpdate.getParentPageRootPath())){
                 FieldError fieldError = new FieldError("duplicated", "parentPageRootPath", "이미 존재하는 루트 경로입니다.");
                 bindingResult.addError(fieldError);
                 throw new CustomValidationException(bindingResult);

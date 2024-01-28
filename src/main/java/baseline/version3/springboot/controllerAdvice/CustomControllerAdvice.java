@@ -31,9 +31,9 @@ public class CustomControllerAdvice {
 
         if (response != null){
             log.info("Matching !!!!!");
-            model.addAttribute("parentPageTitle", response.getParentPageTitle());
-            model.addAttribute("subPageTitle", response.getParentPageTitle());
-            model.addAttribute("pageIndexPath", response.getParentPageIndexPath());
+            model.addAttribute("parentPageTitle", response.parentPageTitle());
+            model.addAttribute("subPageTitle", response.parentPageTitle());
+            model.addAttribute("pageIndexPath", response.parentPageIndexPath());
         }
 
         log.info("Request : {} {}", request.getMethod(), request.getRequestURI());

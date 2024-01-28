@@ -22,8 +22,8 @@ public class PageAdminTypeApiController {
     public ResponseEntity<ResponseForm> authorityType(){
         List<ResponseTypeForm> responseTypeList = pageAuthorityService.findList().stream().map(authority -> {
             return new ResponseTypeForm(
-                    authority.getPageAuthorityName() + " (" + authority.getPageAuthorityCode() +  ")",
-                    authority.getPageAuthorityCode());
+                    authority.pageAuthorityName() + " (" + authority.pageAuthorityCode() +  ")",
+                    authority.pageAuthorityCode());
         }).toList();
         return ResponseUtil.makeResponseEntity(responseTypeList);
     }

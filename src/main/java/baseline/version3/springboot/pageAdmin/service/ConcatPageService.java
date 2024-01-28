@@ -1,7 +1,5 @@
 package baseline.version3.springboot.pageAdmin.service;
 
-import baseline.version3.springboot.controllerAdvice.exception.ServiceLayerException;
-import baseline.version3.springboot.controllerAdvice.subType.ServiceException;
 import baseline.version3.springboot.pageAdmin.domain.concatPage.ConcatPageRequest;
 import baseline.version3.springboot.pageAdmin.domain.concatPage.ConcatPageResponse;
 import baseline.version3.springboot.pageAdmin.repository.querydsl.QConcatPageRepository;
@@ -27,7 +25,7 @@ public class ConcatPageService {
 
     public Optional<ConcatPageResponse.Response> findOne(ConcatPageRequest.RequestDynamicQueryOne requestDynamicQueryOne){
         return qConcatPageRepository.selectList().stream().filter(
-                page -> page.getConcatPagePath().equals(requestDynamicQueryOne.getConcatPagePath())
+                page -> page.concatPagePath().equals(requestDynamicQueryOne.getConcatPagePath())
         ).findAny();
     }
 }

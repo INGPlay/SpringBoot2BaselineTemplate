@@ -8,19 +8,19 @@ import java.util.Date;
 
 public class ParentPageResponse {
 
-    @Getter
-    @AllArgsConstructor
-    public static class Response {
-        private Long parentPageId;
-        private String parentPageTitle;
-        private String parentPageDescription;
-        private String parentPageRootPath;
-        private String parentPageIndexPath;
-        private Long countSubPageList;
+    public record Response(
+            Long parentPageId,
+            String parentPageTitle,
+            String parentPageDescription,
+            String parentPageRootPath,
+            String parentPageIndexPath,
+            Long countSubPageList,
 
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
-        private Date registerDate;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
-        private Date lastModifyDate;
+            @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+            Date registerDate,
+            @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+            Date lastModifyDate
+    ) {
+
     }
 }
