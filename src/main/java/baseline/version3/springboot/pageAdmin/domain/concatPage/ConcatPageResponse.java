@@ -15,7 +15,6 @@ public class ConcatPageResponse {
             String parentPageTitle,
             String parentPageDescription,
             String parentPageRootPath,
-            String parentPageIndexPath,
 
             // PageAuthority
             // 권한 코드

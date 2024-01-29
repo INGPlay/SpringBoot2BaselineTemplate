@@ -34,15 +34,12 @@ public class QSubPageRepository {
                                 subPage.subPageTitle,
                                 subPage.subPageDescription,
                                 subPage.subPagePath,
-                                pageAuthority.pageAuthorityCode.coalesce(""),
-                                pageAuthority.pageAuthorityName.coalesce(""),
                                 subPage.registerDate,
                                 subPage.lastModifyDate
                         )
                 )
                 .from(subPage)
                 .join(subPage.parentPage, parentPage)
-                .leftJoin(subPage.pageAuthority, pageAuthority)
                 .where(
                         parentPage.parentPageId.eq(requestDynamicQuery.getParentPageId())
                 )
@@ -60,15 +57,12 @@ public class QSubPageRepository {
                                         subPage.subPageTitle,
                                         subPage.subPageDescription,
                                         subPage.subPagePath,
-                                        pageAuthority.pageAuthorityCode.coalesce(""),
-                                        pageAuthority.pageAuthorityName.coalesce(""),
                                         subPage.registerDate,
                                         subPage.lastModifyDate
                                 )
                         )
                         .from(subPage)
                         .join(subPage.parentPage, parentPage)
-                        .leftJoin(subPage.pageAuthority, pageAuthority)
                         .where(
                                 queryDslNullableUtil.eq(parentPage.parentPageId, requestDynamicQueryOne.getParentPageId()),
                                 queryDslNullableUtil.eq(subPage.subPageId, requestDynamicQueryOne.getSubPageId()),

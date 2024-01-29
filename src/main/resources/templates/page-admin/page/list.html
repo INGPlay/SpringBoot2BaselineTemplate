@@ -89,11 +89,25 @@
                 filter: 'select'
             },
             {
-                header: '인덱스 경로', name: 'parentPageIndexPath', width: 150, align: 'center',
-                resizable : true,
-                sortable : true,
-                filter: 'select'
+                header: '페이지 권한', width: 150, align : 'center',
+                resizable: true,
+                sortable: true,
+                filter: 'select',
+                formatter: function (e) {
+                    pageAuthorityName = e.row.pageAuthorityName
+                    pageAuthorityCode = e.row.pageAuthorityCode
+                    if (!pageAuthorityCode && !pageAuthorityName){
+                        return  '.'
+                    }
+                    return e.row.pageAuthorityName + ' (' + e.row.pageAuthorityCode + ')'
+                }
             },
+            {
+                header: '권한코드', name: 'pageAuthorityCode', hidden: true,
+            },
+            {
+                header: '권한이름', name: 'pageAuthorityName', hidden: true
+            }
         ],
         data: {
             api: {

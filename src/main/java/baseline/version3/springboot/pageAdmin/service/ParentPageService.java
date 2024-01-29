@@ -43,9 +43,6 @@ public class ParentPageService {
     }
 
     public void registerParentPage(ParentPageRequest.RequestInsert requestInsert){
-        if (requestInsert.getParentPageIndexPath() == null || requestInsert.getParentPageIndexPath().isEmpty()){
-            requestInsert.setParentPageIndexPath(requestInsert.getParentPageIndexPath());
-        }
         ParentPage entity = parentPageMapper.toInsertEntity(requestInsert);
         parentPageRepository.save(entity);
     }

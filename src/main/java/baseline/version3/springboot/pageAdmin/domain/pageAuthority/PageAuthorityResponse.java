@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class PageAuthorityResponse {
 
@@ -33,5 +34,9 @@ public class PageAuthorityResponse {
             Date lastModifyDate
     ){
 
+        public Response {
+            pageAuthorityCode = Objects.requireNonNullElse(pageAuthorityCode, "");
+            pageAuthorityName = Objects.requireNonNullElse(pageAuthorityName, "");
+        }
     }
 }

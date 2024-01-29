@@ -35,8 +35,4 @@ public class SubPage extends DateTimeBase {
     @ManyToOne(fetch = FetchType.LAZY)
     private ParentPage parentPage;
 
-    @ManyToOne
-    @JoinColumn(name = "page_authority_condition_page_authority_id")
-    private PageAuthority pageAuthority;
-
 }

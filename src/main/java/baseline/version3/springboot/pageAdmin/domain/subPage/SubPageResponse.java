@@ -13,8 +13,6 @@ public class SubPageResponse {
             String subPageTitle,
             String subPageDescription,
             String subPagePath,
-            String pageAuthorityCode,
-            String pageAuthorityName,
 
             @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
             Date registerDate,

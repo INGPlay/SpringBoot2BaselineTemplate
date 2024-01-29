@@ -24,10 +24,6 @@ public class SubPageRequest {
         @Size(max = 128)
         private String subPagePath;
 
-        // 권한 코드
-        @Size(max = 64)
-        private String pageAuthorityCode;
-
         public void setSubPagePath(String subPagePath) {
             this.subPagePath = subPagePath.strip();
         }
@@ -49,13 +45,7 @@ public class SubPageRequest {
 //        @Size(max = 128)
 //        private String subPageRootPath;
 
-        // 권한 코드
-        @Size(max = 64)
-        private String pageAuthorityCode;
 
-//        public void setSubPageRootPath(String subPageRootPath) {
-//            this.subPageRootPath = subPageRootPath.strip();
-//        }
     }
 
     @Getter @Setter

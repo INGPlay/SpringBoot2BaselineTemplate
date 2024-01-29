@@ -33,7 +33,6 @@ public class CustomControllerAdvice {
             log.info("Matching !!!!!");
             model.addAttribute("parentPageTitle", response.parentPageTitle());
             model.addAttribute("subPageTitle", response.parentPageTitle());
-            model.addAttribute("pageIndexPath", response.parentPageIndexPath());
         }
 
         log.info("Request : {} {}", request.getMethod(), request.getRequestURI());

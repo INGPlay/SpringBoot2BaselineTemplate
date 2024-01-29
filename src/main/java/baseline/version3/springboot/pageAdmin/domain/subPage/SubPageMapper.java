@@ -18,20 +18,13 @@ public abstract class SubPageMapper {
 
     @Autowired
     protected ParentPageRepository parentPageRepository;
-    @Autowired
-    protected PageAuthorityRepository pageAuthorityRepository;
 
     @Mappings({
-            @Mapping(expression = "java( getParentPage(requestInsert) )", target = "parentPage"),
-            @Mapping(expression = "java( getPageAuthority(requestInsert.getPageAuthorityCode()) )", target = "pageAuthority")
-//            @Mapping(expression = "java( getPageAuthority(requestInsert) )", target = "pageAuthorityCondition")
+            @Mapping(expression = "java( getParentPage(requestInsert) )", target = "parentPage")
     })
     public abstract SubPage toInsertEntity(SubPageRequest.RequestInsert requestInsert);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    @Mappings({
-            @Mapping(expression = "java( getPageAuthority(requestUpdate.getPageAuthorityCode()) )", target = "pageAuthority")
-    })
     public abstract void toUpdateEntity(SubPageRequest.RequestUpdate requestUpdate, @MappingTarget SubPage subPage);
 
     public abstract SubPageResponse.Response toResponse(SubPage subPage);
@@ -42,8 +35,5 @@ public abstract class SubPageMapper {
         );
     }
 
-    // 없으면 없는대로 감
-    protected PageAuthority getPageAuthority(String pageAuthorityCode){
-        return pageAuthorityRepository.findByPageAuthorityCode(pageAuthorityCode).orElse(null);
-    }
+
 }

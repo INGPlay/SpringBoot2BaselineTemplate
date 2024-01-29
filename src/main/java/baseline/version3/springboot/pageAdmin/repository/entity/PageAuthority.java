@@ -35,6 +35,5 @@ public class PageAuthority extends DateTimeBase {
     private String pageAuthorityDescription;
 
     @OneToMany(mappedBy = "pageAuthority", orphanRemoval = true)
-    private List<SubPage> subPageList = new ArrayList<>();
-
+    private List<ParentPage> parentPageList = new ArrayList<>();
 }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class ParentPageResponse {
 
@@ -13,8 +14,10 @@ public class ParentPageResponse {
             String parentPageTitle,
             String parentPageDescription,
             String parentPageRootPath,
-            String parentPageIndexPath,
             Long countSubPageList,
+
+            String pageAuthorityCode,
+            String pageAuthorityName,
 
             @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
             Date registerDate,
@@ -22,5 +25,9 @@ public class ParentPageResponse {
             Date lastModifyDate
     ) {
 
+        public Response {
+            pageAuthorityCode = Objects.requireNonNullElse(pageAuthorityCode, "");
+            pageAuthorityName = Objects.requireNonNullElse(pageAuthorityName, "");
+        }
     }
 }

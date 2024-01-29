@@ -4,6 +4,7 @@ import baseline.version3.springboot.common.util.QueryDslNullableUtil;
 import baseline.version3.springboot.pageAdmin.domain.concatPage.ConcatPageResponse;
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageRequest;
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageResponse;
+import baseline.version3.springboot.pageAdmin.repository.entity.QPageAuthority;
 import baseline.version3.springboot.pageAdmin.repository.entity.QParentPage;
 import baseline.version3.springboot.pageAdmin.repository.entity.QSubPage;
 import com.querydsl.core.types.Projections;
@@ -23,6 +24,8 @@ public class QParentPageRepository {
     private QParentPage parentPage = QParentPage.parentPage;
     private QSubPage subPage = QSubPage.subPage;
 
+    private QPageAuthority pageAuthority = QPageAuthority.pageAuthority;
+
     public List<ParentPageResponse.Response> selectList(){
 
         return jpaQueryFactory
@@ -33,13 +36,15 @@ public class QParentPageRepository {
                                 parentPage.parentPageTitle,
                                 parentPage.parentPageDescription,
                                 parentPage.parentPageRootPath,
-                                parentPage.parentPageIndexPath,
                                 subPage.count().coalesce(0L).as("countSubPageList"),
+                                pageAuthority.pageAuthorityCode,
+                                pageAuthority.pageAuthorityName,
                                 parentPage.registerDate,
                                 parentPage.lastModifyDate
                         )
                 )
                 .from(parentPage)
+                .leftJoin(parentPage.pageAuthority, pageAuthority)
                 .leftJoin(parentPage.subPageList, subPage)
                 .groupBy(parentPage.parentPageId)
                 .fetch();
@@ -55,18 +60,20 @@ public class QParentPageRepository {
                                         parentPage.parentPageTitle,
                                         parentPage.parentPageDescription,
                                         parentPage.parentPageRootPath,
-                                        parentPage.parentPageIndexPath,
                                         subPage.count().coalesce(0L).as("countSubPageList"),
+                                        pageAuthority.pageAuthorityCode,
+                                        pageAuthority.pageAuthorityName,
                                         parentPage.registerDate,
                                         parentPage.lastModifyDate
                                 )
                         )
                         .from(parentPage)
+                        .leftJoin(parentPage.pageAuthority, pageAuthority)
+                        .leftJoin(parentPage.subPageList, subPage)
                         .where(
                                 queryDslNullableUtil.eq(parentPage.parentPageRootPath, requestDynamicQueryOne.getParentPageRootPath()),
                                 queryDslNullableUtil.eq(parentPage.parentPageId, requestDynamicQueryOne.getParentPageId())
                         )
-                        .leftJoin(parentPage.subPageList, subPage)
                         .groupBy(parentPage.parentPageId)
                         .fetchOne()
         );

@@ -81,23 +81,6 @@ public class ParentPageApiController {
     private void validateForUpdate(ParentPageRequest.RequestUpdate requestUpdate, BindingResult bindingResult) {
 
         checkHasErrors(bindingResult);
-        validateDuplicateParentPagePathForUpdate(requestUpdate, bindingResult);
-    }
-
-    private void validateDuplicateParentPagePathForUpdate(ParentPageRequest.RequestUpdate requestUpdate, BindingResult bindingResult) {
-        ParentPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new ParentPageRequest.RequestDynamicQueryOne(
-                requestUpdate.getParentPageRootPath()
-        );
-        Optional<ParentPageResponse.Response> responseOptional = parentPageService.findOne(requestDynamicQueryOne);
-
-        if (responseOptional.isPresent()){
-            ParentPageResponse.Response response = responseOptional.get();
-            if (!response.parentPageRootPath().equals(requestUpdate.getParentPageRootPath())){
-                FieldError fieldError = new FieldError("duplicated", "parentPageRootPath", "이미 존재하는 루트 경로입니다.");
-                bindingResult.addError(fieldError);
-                throw new CustomValidationException(bindingResult);
-            }
-        }
     }
 
     @DeleteMapping

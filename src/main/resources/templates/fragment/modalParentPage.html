@@ -15,9 +15,8 @@
                     </div>
                     <div class="modal-body">
                         <form method="post" class="row g-3">
-                            <input type="hidden" name="parentPageId" v-model="submitForm.parentPageId">
                             <div class="col-md-12">
-                                <label class="form-label">상위 페이지 명</label>
+                                <label class="form-label">상위 페이지 명*</label>
                                 <input type="text" class="form-control" name="parentPageTitle" v-model="submitForm.parentPageTitle" required>
                                 <div class="form-text">{{ validateText.parentPageTitle }}</div>
                             </div>
@@ -32,9 +31,11 @@
                                 <div class="form-text">{{ validateText.parentPageRootPath }}</div>
                             </div>
                             <div class="col-12">
-                                <label class="form-label">인덱스 페이지 경로</label>
-                                <input type="text" class="form-control" name="parentPageIndexPath" v-model="submitForm.parentPageIndexPath">
-                                <div class="form-text">{{ validateText.parentPageIndexPath }}</div>
+                                <label class="form-label">권한 선택</label>
+                                <select class="form-select form-select-sm" name="pageAuthorityCode" v-model="submitForm.pageAuthorityCode">
+                                    <option value="">선택</option>
+                                </select>
+                                <div class="form-text"></div>
                             </div>
                         </form>
                     </div>
@@ -67,17 +68,15 @@
                 return{
                     modalId : "parentPageRegisterModal",
                     submitForm : {
-                        parentPageId : null,
                         parentPageTitle : '',
                         parentPageDescription : '',
                         parentPageRootPath : '',
-                        parentPageIndexPath : ''
+                        pageAuthorityCode : ''
                     },
                     validateText : {
                         parentPageTitle : '',
                         parentPageDescription : '',
-                        parentPageRootPath : '',
-                        parentPageIndexPath : ''
+                        parentPageRootPath : ''
                     }
                 }
             },
@@ -85,13 +84,15 @@
                     
             },
             mounted(){
-
+                requestSelectOption("select[name='pageAuthorityCode']", {
+                    url: "/api/page-admin/type/authority",
+                    method: "GET",
+                    data: {}
+                })
             },
             methods: {
                 reset : function (){
-                    this.submitForm = {
-                        parentPageId: this.submitForm.parentPageId
-                    }
+                    this.submitForm = {}
                     this.validateText = {}
                 },
                 close : function (){
@@ -135,7 +136,7 @@
                     <form method="post" class="row g-3">
                         <input type="hidden" name="parentPageId" v-model="submitForm.parentPageId">
                         <div class="col-md-12">
-                            <label class="form-label">상위 페이지 명</label>
+                            <label class="form-label">상위 페이지 명*</label>
                             <input type="text" class="form-control" name="parentPageTitle" v-model="submitForm.parentPageTitle" required>
                             <div class="form-text">{{ validateText.parentPageTitle }}</div>
                         </div>
@@ -146,13 +147,15 @@
                         </div>
                         <div class="col-12">
                             <label class="form-label">상위 페이지 경로*</label>
-                            <input type="text" class="form-control" name="parentPageRootPath" v-model="submitForm.parentPageRootPath" placeholder="/" required>
-                            <div class="form-text">{{ validateText.parentPageRootPath }}</div>
+                            <input type="text" class="form-control" name="parentPageRootPath" v-model="submitForm.parentPageRootPath" placeholder="/" disabled>
+                            <div class="form-text"></div>
                         </div>
                         <div class="col-12">
-                            <label class="form-label">인덱스 페이지 경로</label>
-                            <input type="text" class="form-control" name="parentPageIndexPath" v-model="submitForm.parentPageIndexPath">
-                            <div class="form-text">{{ validateText.parentPageIndexPath }}</div>
+                            <label class="form-label">권한 선택</label>
+                            <select class="form-select form-select-sm" name="pageAuthorityCode" v-model="submitForm.pageAuthorityCode">
+                                <option value="">선택</option>
+                            </select>
+                            <div class="form-text"></div>
                         </div>
                     </form>
                 </div>
@@ -187,13 +190,10 @@
                         parentPageTitle : '',
                         parentPageDescription : '',
                         parentPageRootPath : '',
-                        parentPageIndexPath : ''
                     },
                     validateText : {
                         parentPageTitle : '',
                         parentPageDescription : '',
-                        parentPageRootPath : '',
-                        parentPageIndexPath : ''
                     }
                 }
             },

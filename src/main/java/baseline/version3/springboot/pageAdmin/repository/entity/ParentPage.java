@@ -32,11 +32,10 @@ public class ParentPage extends DateTimeBase {
     @Column(name = "parent_page_root_path", nullable = false, length = 128, unique = true)
     private String parentPageRootPath;
 
-    // 인덱스 페이지 경로
-    @Column(name = "parent_page_index_path" ,length = 256)
-    private String parentPageIndexPath;
-
     @OneToMany(mappedBy = "parentPage", orphanRemoval = true)
     private List<SubPage> subPageList = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "page_authority_page_authority_id")
+    private PageAuthority pageAuthority;
 }

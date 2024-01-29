@@ -34,7 +34,6 @@ public class QConcatPageRepository {
                                 parentPage.parentPageTitle,
                                 parentPage.parentPageDescription,
                                 parentPage.parentPageRootPath,
-                                parentPage.parentPageIndexPath,
 
                                 pageAuthority.pageAuthorityCode,
                                 pageAuthority.pageAuthorityName,
@@ -49,8 +48,8 @@ public class QConcatPageRepository {
                         )
                 )
                 .from(parentPage)
+                .join(parentPage.pageAuthority, pageAuthority)
                 .rightJoin(parentPage.subPageList, subPage)
-                .leftJoin(subPage.pageAuthority, pageAuthority)
                 .fetch();
     }
 }
