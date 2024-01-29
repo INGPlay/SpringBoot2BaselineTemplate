@@ -18,6 +18,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -69,10 +70,35 @@ public class SubPageApiController {
     public ResponseEntity<ResponseForm> update(@Valid @RequestBody SubPageRequest.RequestUpdate requestUpdate,
                                                BindingResult bindingResult){
         ValidationUtil.checkErrors(bindingResult);
+        validateForUpdate(requestUpdate, bindingResult);
 
         subPageService.updateSubPage(requestUpdate);
 
         return ResponseUtil.makeResponseEntity();
+    }
+
+    private void validateForUpdate(SubPageRequest.RequestUpdate requestUpdate, BindingResult bindingResult) {
+        SubPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new SubPageRequest.RequestDynamicQueryOne(
+                requestUpdate.getSubPageId()
+        );
+
+        SubPageResponse.Response response = subPageService.findOne(requestDynamicQueryOne).orElseThrow(
+                () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)
+        );
+        // 같은 경로가 입력된 게 아니고
+        if (!requestUpdate.getSubPagePath().equals(response.subPagePath())){
+
+            SubPageRequest.RequestDynamicQueryOne requestDynamicQueryOne1 = new SubPageRequest.RequestDynamicQueryOne(
+                    response.parentPageId(), requestUpdate.getSubPagePath()
+            );
+            // 같은 경로가 존재한다면
+            if (subPageService.findOne(requestDynamicQueryOne1).isPresent()){
+                FieldError fieldError = new FieldError("Duplicated", "subPagePath", "중복되는 경로가 존재합니다.");
+                bindingResult.addError(fieldError);
+                throw new CustomValidationException(bindingResult);
+            }
+
+        }
     }
 
     @DeleteMapping

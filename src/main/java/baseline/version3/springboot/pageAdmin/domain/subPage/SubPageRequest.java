@@ -41,11 +41,13 @@ public class SubPageRequest {
         @Size(max = 1024)
         private String subPageDescription;
 
-//        @Pattern(regexp = "^/[a-zA-Z1-9/!@#$%^&*-]{0,}$", message = "첫 글자가 슬래쉬(/)가 아니거나, 허용되지 않은 기호를 사용하였습니다.")
-//        @Size(max = 128)
-//        private String subPageRootPath;
+        @Pattern(regexp = "^/[a-zA-Z1-9/!@#$%^&*-]{0,}$", message = "첫 글자가 슬래쉬(/)가 아니거나, 허용되지 않은 기호를 사용하였습니다.")
+        @Size(max = 128)
+        private String subPagePath;
 
-
+        public void setSubPagePath(String subPagePath) {
+            this.subPagePath = subPagePath.strip();
+        }
     }
 
     @Getter @Setter

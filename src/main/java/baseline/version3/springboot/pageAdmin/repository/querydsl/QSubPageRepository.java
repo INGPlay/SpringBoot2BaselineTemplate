@@ -3,6 +3,7 @@ package baseline.version3.springboot.pageAdmin.repository.querydsl;
 import baseline.version3.springboot.common.util.QueryDslNullableUtil;
 import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageRequest;
 import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageResponse;
+import baseline.version3.springboot.pageAdmin.repository.PageAuthorityRepository;
 import baseline.version3.springboot.pageAdmin.repository.entity.QPageAuthority;
 import baseline.version3.springboot.pageAdmin.repository.entity.QParentPage;
 import baseline.version3.springboot.pageAdmin.repository.entity.QSubPage;
@@ -24,6 +25,7 @@ public class QSubPageRepository {
     private QParentPage parentPage = QParentPage.parentPage;
     private QSubPage subPage = QSubPage.subPage;
     private QPageAuthority pageAuthority = QPageAuthority.pageAuthority;
+    private final PageAuthorityRepository pageAuthorityRepository;
 
     public List<SubPageResponse.Response> selectList(SubPageRequest.RequestDynamicQuery requestDynamicQuery){
         return jpaQueryFactory
@@ -35,13 +37,20 @@ public class QSubPageRepository {
                                 subPage.subPageDescription,
                                 subPage.subPagePath,
                                 subPage.registerDate,
-                                subPage.lastModifyDate
+                                subPage.lastModifyDate,
+                                parentPage.parentPageId,
+                                parentPage.parentPageTitle,
+                                parentPage.parentPageRootPath,
+                                parentPage.parentPageDescription,
+                                pageAuthority.pageAuthorityCode,
+                                pageAuthority.pageAuthorityName
                         )
                 )
                 .from(subPage)
                 .join(subPage.parentPage, parentPage)
+                .leftJoin(parentPage.pageAuthority, pageAuthority)
                 .where(
-                        parentPage.parentPageId.eq(requestDynamicQuery.getParentPageId())
+                        queryDslNullableUtil.eq(parentPage.parentPageId, requestDynamicQuery.getParentPageId())
                 )
                 .fetch();
 
@@ -58,7 +67,13 @@ public class QSubPageRepository {
                                         subPage.subPageDescription,
                                         subPage.subPagePath,
                                         subPage.registerDate,
-                                        subPage.lastModifyDate
+                                        subPage.lastModifyDate,
+                                        parentPage.parentPageId,
+                                        parentPage.parentPageTitle,
+                                        parentPage.parentPageRootPath,
+                                        parentPage.parentPageDescription,
+                                        pageAuthority.pageAuthorityCode,
+                                        pageAuthority.pageAuthorityName
                                 )
                         )
                         .from(subPage)
