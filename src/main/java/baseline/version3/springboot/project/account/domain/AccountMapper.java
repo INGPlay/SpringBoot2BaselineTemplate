@@ -1,6 +1,6 @@
 package baseline.version3.springboot.project.account.domain;
 
-import baseline.version3.springboot.entity.Account;
+import baseline.version3.springboot.project.account.repository.entity.Account;
 import org.mapstruct.*;
 
 import org.mapstruct.Mapper;

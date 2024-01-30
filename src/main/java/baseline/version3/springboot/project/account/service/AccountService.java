@@ -4,7 +4,7 @@ import baseline.version3.springboot.project.account.domain.AccountMapper;
 import baseline.version3.springboot.project.account.domain.AccountRequest;
 import baseline.version3.springboot.project.account.repository.AccountRepository;
 import baseline.version3.springboot.project.account.repository.querydsl.AccountQRepository;
-import baseline.version3.springboot.entity.Account;
+import baseline.version3.springboot.project.account.repository.entity.Account;
 import baseline.version3.springboot.controllerAdvice.exception.ServiceLayerException;
 import baseline.version3.springboot.controllerAdvice.subType.ServiceException;
 import lombok.extern.slf4j.Slf4j;

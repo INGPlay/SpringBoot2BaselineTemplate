@@ -1,7 +1,7 @@
-package baseline.version3.springboot.entity;
+package baseline.version3.springboot.project.account.repository.entity;
 
 import baseline.version3.springboot.project.account.domain.AccountSub;
-import baseline.version3.springboot.entity.base.DateTimeBase;
+import baseline.version3.springboot.common.entity.base.DateTimeBase;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

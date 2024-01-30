@@ -1,6 +1,6 @@
-package baseline.version3.springboot.entity;
+package baseline.version3.springboot.project.example.repository.entity;
 
-import baseline.version3.springboot.entity.base.DateTimeBase;
+import baseline.version3.springboot.common.entity.base.DateTimeBase;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

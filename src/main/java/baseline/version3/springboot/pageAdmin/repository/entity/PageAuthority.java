@@ -1,6 +1,6 @@
 package baseline.version3.springboot.pageAdmin.repository.entity;
 
-import baseline.version3.springboot.entity.base.DateTimeBase;
+import baseline.version3.springboot.common.entity.base.DateTimeBase;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

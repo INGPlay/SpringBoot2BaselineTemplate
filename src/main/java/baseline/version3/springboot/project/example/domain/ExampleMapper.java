@@ -1,6 +1,6 @@
 package baseline.version3.springboot.project.example.domain;
 
-import baseline.version3.springboot.entity.Example;
+import baseline.version3.springboot.project.example.repository.entity.Example;
 import org.mapstruct.*;
 
 @Mapper(

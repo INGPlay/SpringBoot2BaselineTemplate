@@ -1,6 +1,6 @@
 package baseline.version3.springboot.project.account.repository;
 
-import baseline.version3.springboot.entity.Account;
+import baseline.version3.springboot.project.account.repository.entity.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

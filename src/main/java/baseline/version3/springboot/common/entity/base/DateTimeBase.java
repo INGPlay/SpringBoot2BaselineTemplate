@@ -1,4 +1,4 @@
-package baseline.version3.springboot.entity.base;
+package baseline.version3.springboot.common.entity.base;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

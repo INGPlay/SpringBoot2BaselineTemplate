@@ -2,7 +2,7 @@ package baseline.version3.springboot.project.example.service;
 
 import baseline.version3.springboot.project.example.domain.ExampleMapper;
 import baseline.version3.springboot.project.example.domain.ExampleRequest;
-import baseline.version3.springboot.entity.Example;
+import baseline.version3.springboot.project.example.repository.entity.Example;
 import baseline.version3.springboot.project.example.domain.ExampleResponse;
 import baseline.version3.springboot.project.example.repository.ExampleRepository;
 import baseline.version3.springboot.project.example.repository.queryDsl.QueryExampleRepository;
