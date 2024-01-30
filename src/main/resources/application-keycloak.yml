@@ -4,6 +4,7 @@ spring:
             client:
                 provider:
                     keycloak:
+                        # http://{host}:{port}/realms/{realm}
                         issuer-uri:
                         user-name-attribute: preferred_username
                 registration:

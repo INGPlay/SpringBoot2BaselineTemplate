@@ -56,8 +56,8 @@ public class ParentPageRequest {
     @Getter @Setter
     public static class RequestDynamicQuery {
         private Long parentPageId;
-        private Long notParentPageId;
         private String parentPageRootPath;
+        private String authorityCode;
     }
 
     @Getter
