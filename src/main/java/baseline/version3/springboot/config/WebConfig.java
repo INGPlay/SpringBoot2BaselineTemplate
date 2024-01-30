@@ -13,22 +13,23 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
-
-    private final ParentPageService parentPageService;
     private final SubPageService subPageService;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
+        log.info("WebConfig.addViewControllers : Initialize Start");
         subPageService.findList(new SubPageRequest.RequestDynamicQuery()).forEach(
                 subPage -> {
                     String url = subPage.concatPagePath();
-                    String viewName = subPage.concatPagePath().replace("/", "");
+                    String viewName = subPage.concatPagePath().replaceFirst("/", "");
                     registry
                             .addViewController(url)
                             .setViewName(viewName);
 
-                    log.info("Url : '{}' | View : {}", url, viewName);
+                    log.info("Mapping | Url : \"{}\" ---> View : \"{}\"", url, viewName);
                 }
         );
+
+        log.info("WebConfig.addViewControllers : Initialize End");
     }
 }

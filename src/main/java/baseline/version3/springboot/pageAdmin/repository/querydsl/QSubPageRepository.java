@@ -25,7 +25,6 @@ public class QSubPageRepository {
     private QParentPage parentPage = QParentPage.parentPage;
     private QSubPage subPage = QSubPage.subPage;
     private QPageAuthority pageAuthority = QPageAuthority.pageAuthority;
-    private final PageAuthorityRepository pageAuthorityRepository;
 
     public List<SubPageResponse.Response> selectList(SubPageRequest.RequestDynamicQuery requestDynamicQuery){
         return jpaQueryFactory
@@ -78,6 +77,7 @@ public class QSubPageRepository {
                         )
                         .from(subPage)
                         .join(subPage.parentPage, parentPage)
+                        .leftJoin(parentPage.pageAuthority, pageAuthority)
                         .where(
                                 queryDslNullableUtil.eq(parentPage.parentPageId, requestDynamicQueryOne.getParentPageId()),
                                 queryDslNullableUtil.eq(subPage.subPageId, requestDynamicQueryOne.getSubPageId()),

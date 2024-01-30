@@ -1,8 +1,8 @@
 package baseline.version3.springboot.controllerAdvice;
 
-import baseline.version3.springboot.pageAdmin.domain.concatPage.ConcatPageRequest;
-import baseline.version3.springboot.pageAdmin.domain.concatPage.ConcatPageResponse;
-import baseline.version3.springboot.pageAdmin.service.ConcatPageService;
+import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageRequest;
+import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageResponse;
+import baseline.version3.springboot.pageAdmin.service.SubPageService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,26 +13,31 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Optional;
+
 @Slf4j
 @ControllerAdvice(annotations = Controller.class)
 @RequiredArgsConstructor
 public class CustomControllerAdvice {
 
-    private final ConcatPageService concatPageService;
+    private final SubPageService subPageService;
 
     /**
      * 모든 컨트롤러 매핑 공통
      */
     @ModelAttribute
     public void handleRequest(HttpServletRequest request, Model model) {
-        ConcatPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new ConcatPageRequest.RequestDynamicQueryOne();
-        requestDynamicQueryOne.setConcatPagePath(request.getRequestURI());
-        ConcatPageResponse.Response response = concatPageService.findOne(requestDynamicQueryOne).orElse(null);
 
-        if (response != null){
+        Optional<SubPageResponse.Response> optionalResponse = subPageService.findList(new SubPageRequest.RequestDynamicQuery()).stream().filter(
+                subPage -> subPage.concatPagePath().equals(request.getRequestURI())
+        ).findAny();
+
+        if (optionalResponse.isPresent()){
+            SubPageResponse.Response subPage = optionalResponse.get();
+            model.addAttribute("parentPageTitle", subPage.parentPageTitle());
+            model.addAttribute("subPageTitle", subPage.parentPageTitle());
+
             log.info("Matching !!!!!");
-            model.addAttribute("parentPageTitle", response.parentPageTitle());
-            model.addAttribute("subPageTitle", response.parentPageTitle());
         }
 
         log.info("Request : {} {}", request.getMethod(), request.getRequestURI());
