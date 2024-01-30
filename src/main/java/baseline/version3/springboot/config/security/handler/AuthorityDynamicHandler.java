@@ -59,11 +59,12 @@ public class AuthorityDynamicHandler {
             OidcUser oidcUser = (OidcUser) principal;
             List<String> roles = (List<String>) (((Map<String, Object>) oidcUser.getAttribute("realm_access")).get("roles"));
             authorities = roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role)).collect(Collectors.toList());
-        } else if (principal instanceof OAuth2User){
-            OAuth2User oauth2User = (OAuth2User) principal;
-            authorities = oauth2User.getAuthorities();
         } else {
             assert false : "지원하지 않는 유저 토큰입니다.";
+        }
+
+        if (authorities == null){
+            return !StringUtils.hasText(subPage.pageAuthorityCode());
         }
 
         return authorities.contains(new SimpleGrantedAuthority(getRoleString(subPage.pageAuthorityCode())));

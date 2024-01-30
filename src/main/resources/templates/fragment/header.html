@@ -24,8 +24,21 @@
                         <div class="uk-navbar-item">
 
                             <div sec:authorize="isAnonymous()">
-                                <button class="uk-button uk-button-secondary" th:onclick="|location.href='@{/account/login}'|">로그인</button>
-                                <button class="uk-button uk-button-primary" th:onclick="|location.href='@{/account/register}'|">계정생성</button>
+                                <button class="uk-button uk-button-secondary"
+                                        th:if="${@environment.getProperty('custom.account.type') == 'form'}"
+                                        th:onclick="|location.href='@{/account/login}'|">
+                                    로그인
+                                </button>
+                                <button class="uk-button uk-button-secondary"
+                                        th:if="${@environment.getProperty('custom.account.type') == 'keycloak'}"
+                                        th:onclick="|location.href='@{/oauth2/authorization/keycloak}'|">
+                                    로그인
+                                </button>
+                                <button class="uk-button uk-button-primary"
+                                        th:if="${@environment.getProperty('custom.account.type') == 'form'}"
+                                        th:onclick="|location.href='@{/account/register}'|">
+                                    계정생성
+                                </button>
                             </div>
 
 
