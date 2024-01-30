@@ -28,7 +28,7 @@ public class CustomControllerAdvice {
     @ModelAttribute
     public void handleRequest(HttpServletRequest request, Model model) {
 
-        Optional<SubPageResponse.Response> optionalResponse = subPageService.findList(new SubPageRequest.RequestDynamicQuery()).stream().filter(
+        Optional<SubPageResponse.Response> optionalResponse = subPageService.findList(SubPageRequest.RequestDynamicQuery.builder().build()).stream().filter(
                 subPage -> subPage.concatPagePath().equals(request.getRequestURI())
         ).findAny();
 

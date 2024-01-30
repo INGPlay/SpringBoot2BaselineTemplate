@@ -18,7 +18,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         log.info("WebConfig.addViewControllers : Initialize Start");
-        subPageService.findList(new SubPageRequest.RequestDynamicQuery()).forEach(
+
+        subPageService.findList(SubPageRequest.RequestDynamicQuery.builder().build()).forEach(
                 subPage -> {
                     String url = subPage.concatPagePath();
                     String viewName = subPage.concatPagePath().replaceFirst("/", "");

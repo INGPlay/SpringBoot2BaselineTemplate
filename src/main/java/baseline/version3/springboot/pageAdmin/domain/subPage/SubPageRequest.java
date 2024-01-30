@@ -56,7 +56,8 @@ public class SubPageRequest {
         private Long subPageId;
     }
 
-    @Getter @Setter
+    @Getter
+    @Builder
     public static class RequestDynamicQuery {
         private Long parentPageId;
     }

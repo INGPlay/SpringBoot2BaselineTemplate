@@ -38,7 +38,7 @@ public class AuthorityDynamicHandler {
         String requestRoute = request.getRequestURI();
 
         // 해당하는 URI 찾기
-        Optional<SubPageResponse.Response> response = subPageService.findList(new SubPageRequest.RequestDynamicQuery()).stream().filter(
+        Optional<SubPageResponse.Response> response = subPageService.findList(SubPageRequest.RequestDynamicQuery.builder().build()).stream().filter(
                 subPage -> antPathMatcher().match(subPage.concatPagePath(), requestRoute)
         ).findAny();
 

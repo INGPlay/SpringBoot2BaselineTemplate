@@ -3,6 +3,7 @@ package baseline.version3.springboot.pageAdmin.domain.parentPage;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -53,7 +54,8 @@ public class ParentPageRequest {
         private Long parentPageId;
     }
 
-    @Getter @Setter
+    @Getter
+    @Builder
     public static class RequestDynamicQuery {
         private Long parentPageId;
         private String parentPageRootPath;
