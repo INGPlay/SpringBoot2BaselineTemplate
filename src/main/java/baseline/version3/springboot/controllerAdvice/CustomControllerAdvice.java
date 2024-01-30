@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -28,7 +29,8 @@ public class CustomControllerAdvice {
     @ModelAttribute
     public void handleRequest(HttpServletRequest request, Model model) {
 
-        Optional<SubPageResponse.Response> optionalResponse = subPageService.findList(SubPageRequest.RequestDynamicQuery.builder().build()).stream().filter(
+        List<SubPageResponse.Response> responseList = subPageService.findList(SubPageRequest.RequestDynamicQuery.builder().build());
+        Optional<SubPageResponse.Response> optionalResponse = responseList.stream().filter(
                 subPage -> subPage.concatPagePath().equals(request.getRequestURI())
         ).findAny();
 
@@ -43,14 +45,14 @@ public class CustomControllerAdvice {
         log.info("Request : {} {}", request.getMethod(), request.getRequestURI());
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    protected String exception(RuntimeException exception,
+    @ExceptionHandler(Exception.class)
+    protected String exception(Exception exception,
                                HttpServletRequest httpServletRequest,
                                RedirectAttributes redirectAttributes){
         log.error("[RuntimeException] {}", exception.getStackTrace()[0]);
         redirectAttributes.addFlashAttribute("referer", getReferer(httpServletRequest));
-        redirectAttributes.addFlashAttribute("errorMessage", exception.getMessage());
-        return "redirect:/exception";
+        redirectAttributes.addFlashAttribute("errorMessage", "페이지에서 에러가 발생하였습니다.");
+        return "redirect:/error";
     }
 
     private static String getReferer(HttpServletRequest httpServletRequest) {
