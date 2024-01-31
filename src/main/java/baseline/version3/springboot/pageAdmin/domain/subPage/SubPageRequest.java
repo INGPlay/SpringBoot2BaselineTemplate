@@ -67,6 +67,12 @@ public class SubPageRequest {
         private Long parentPageId;
         private Long subPageId;
         private String subPagePath;
+        private String concatPagePath;
+
+        public RequestDynamicQueryOne(String concatPagePath) {
+            this.concatPagePath = concatPagePath;
+        }
+
         public RequestDynamicQueryOne(Long subPageId) {
             this.subPageId = subPageId;
         }

@@ -29,13 +29,11 @@ public class CustomControllerAdvice {
     @ModelAttribute
     public void handleRequest(HttpServletRequest request, Model model) {
 
-        List<SubPageResponse.Response> responseList = subPageService.findList(SubPageRequest.RequestDynamicQuery.builder().build());
-        Optional<SubPageResponse.Response> optionalResponse = responseList.stream().filter(
-                subPage -> subPage.concatPagePath().equals(request.getRequestURI())
-        ).findAny();
+        SubPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new SubPageRequest.RequestDynamicQueryOne(request.getRequestURI());
+        Optional<SubPageResponse.Response> response = subPageService.findOne(requestDynamicQueryOne);
 
-        if (optionalResponse.isPresent()){
-            SubPageResponse.Response subPage = optionalResponse.get();
+        if (response.isPresent()){
+            SubPageResponse.Response subPage = response.get();
             model.addAttribute("parentPageTitle", subPage.parentPageTitle());
             model.addAttribute("subPageTitle", subPage.parentPageTitle());
 

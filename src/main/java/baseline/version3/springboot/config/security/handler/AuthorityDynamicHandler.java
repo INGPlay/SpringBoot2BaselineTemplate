@@ -35,12 +35,9 @@ public class AuthorityDynamicHandler {
 
     public boolean isAuthorization(HttpServletRequest request, Authentication authentication){
 
-        String requestRoute = request.getRequestURI();
-
         // 해당하는 URI 찾기
-        Optional<SubPageResponse.Response> response = subPageService.findList(SubPageRequest.RequestDynamicQuery.builder().build()).stream().filter(
-                subPage -> antPathMatcher().match(subPage.concatPagePath(), requestRoute)
-        ).findAny();
+        SubPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new SubPageRequest.RequestDynamicQueryOne(request.getRequestURI());
+        Optional<SubPageResponse.Response> response = subPageService.findOne(requestDynamicQueryOne);
 
         if (response.isEmpty()){
             return true;

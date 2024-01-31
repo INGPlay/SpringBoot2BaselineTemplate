@@ -33,7 +33,7 @@ public class QueryDslNullableUtil {
         return path.eq(e);
     }
 
-    public BooleanExpression eq(StringPath path, String string){
+    public BooleanExpression eq(StringExpression path, String string){
         if (!StringUtils.hasText(string)){
             return null;
         }
@@ -59,7 +59,7 @@ public class QueryDslNullableUtil {
         return path.ne(date);
     }
 
-    public BooleanExpression ne(StringPath path, String string){
+    public BooleanExpression ne(StringExpression path, String string){
         if (!StringUtils.hasText(string)){
             return null;
         }

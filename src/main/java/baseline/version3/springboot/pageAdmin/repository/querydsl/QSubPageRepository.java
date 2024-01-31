@@ -8,6 +8,9 @@ import baseline.version3.springboot.pageAdmin.repository.entity.QPageAuthority;
 import baseline.version3.springboot.pageAdmin.repository.entity.QParentPage;
 import baseline.version3.springboot.pageAdmin.repository.entity.QSubPage;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.StringExpression;
+import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -42,7 +45,11 @@ public class QSubPageRepository {
                                 parentPage.parentPageRootPath,
                                 parentPage.parentPageDescription,
                                 pageAuthority.pageAuthorityCode,
-                                pageAuthority.pageAuthorityName
+                                pageAuthority.pageAuthorityName,
+                                Expressions.stringTemplate(
+                                        "function('regexp_replace',{0},{1},{2})",
+                                        parentPage.parentPageRootPath.concat(subPage.subPagePath), "/+", "/"
+                                ).as("concatPagePath")
                         )
                 )
                 .from(subPage)
@@ -72,7 +79,11 @@ public class QSubPageRepository {
                                         parentPage.parentPageRootPath,
                                         parentPage.parentPageDescription,
                                         pageAuthority.pageAuthorityCode,
-                                        pageAuthority.pageAuthorityName
+                                        pageAuthority.pageAuthorityName,
+                                        Expressions.stringTemplate(
+                                                "function('regexp_replace',{0},{1},{2})",
+                                                parentPage.parentPageRootPath.concat(subPage.subPagePath), "/+", "/"
+                                        ).as("concatPagePath")
                                 )
                         )
                         .from(subPage)
@@ -81,7 +92,14 @@ public class QSubPageRepository {
                         .where(
                                 queryDslNullableUtil.eq(parentPage.parentPageId, requestDynamicQueryOne.getParentPageId()),
                                 queryDslNullableUtil.eq(subPage.subPageId, requestDynamicQueryOne.getSubPageId()),
-                                queryDslNullableUtil.eq(subPage.subPagePath, requestDynamicQueryOne.getSubPagePath())
+                                queryDslNullableUtil.eq(subPage.subPagePath, requestDynamicQueryOne.getSubPagePath()),
+                                queryDslNullableUtil.eq(
+                                        Expressions.stringTemplate(
+                                                "function('regexp_replace',{0},{1},{2})",
+                                                parentPage.parentPageRootPath.concat(subPage.subPagePath), "/+", "/"
+                                        ),
+                                        requestDynamicQueryOne.getConcatPagePath()
+                                )
                         )
                         .fetchOne()
         );

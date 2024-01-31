@@ -56,6 +56,12 @@ logging.level:
     org.hibernate.SQL: debug
     #    org.hibernate.type: trace
     org.hibernate.type.descriptor.sql.BasicBinder: trace
-    org.springframework: DEBUG
+    org.springframework: INFO
 
-
+    jdbc:       # log4jdbc 설정
+        sqlonly: off
+        sqltiming: info
+        resultsettable: info
+        audit: off
+        resultset: off
+        connection: off
