@@ -4,14 +4,18 @@
 
 <th:block th:fragment="bootstrap">
     <link rel="stylesheet" href="/framework/bootstrap-5.3.2/css/bootstrap.css" />
-    <script src="/framework/bootstrap-5.3.2/js/bootstrap.js"></script>
-    <script src="/framework/bootstrap-5.3.2/js/bootstrap.bundle.js"></script>
+    <script src="/framework/bootstrap-5.3.2/js/bootstrap.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
+    <script src="/framework/bootstrap-5.3.2/js/bootstrap.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
+    <script src="/framework/bootstrap-5.3.2/js/bootstrap.bundle.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
+    <script src="/framework/bootstrap-5.3.2/js/bootstrap.bundle.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
 </th:block>
 
 <th:block th:fragment="uikit">
     <link rel="stylesheet" href="/framework/uikit-3.17.11/css/uikit.css" />
-    <script src="/framework/uikit-3.17.11/js/uikit.js"></script>
-    <script src="/framework/uikit-3.17.11/js/uikit-icons.js"></script>
+    <script src="/framework/uikit-3.17.11/js/uikit.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
+    <script src="/framework/uikit-3.17.11/js/uikit.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
+    <script src="/framework/uikit-3.17.11/js/uikit-icons.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
+    <script src="/framework/uikit-3.17.11/js/uikit-icons.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
 </th:block>
 
 <th:block th:fragment="vue">

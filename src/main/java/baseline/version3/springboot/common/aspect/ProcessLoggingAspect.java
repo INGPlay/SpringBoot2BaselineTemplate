@@ -22,12 +22,20 @@ public class ProcessLoggingAspect {
         String methodName = joinPoint.getSignature().getName();
         Object[] params = joinPoint.getArgs();
 
-        log.info("['{}'] in ['{}']", methodName, className);
+        log.info("Start ['{}'] in ['{}']", methodName, className);
 
         for(int i = 0; i < params.length; i++){
             String param = params[i].toString();
-            log.info(" - Param | {} : {}", i, param);
+            log.info(" - ['{}'] Param {} : {}", methodName, i, param);
         }
+    }
+
+    @After("cut()")
+    public void after(JoinPoint joinPoint){
+        String className = joinPoint.getSignature().getDeclaringTypeName();
+        String methodName = joinPoint.getSignature().getName();
+
+        log.info("End ['{}'] in ['{}']", methodName, className);
     }
 
 }

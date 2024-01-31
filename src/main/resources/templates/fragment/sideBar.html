@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:fragment="pageSideBar">
+    <button class="btn btn-sm btn-info" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon">button</span>
+    </button>
+    <div id = "pageSideBar" class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">페이지 목록</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">인덱스 페이지</a>
+                </li>
+
+                <li class="nav-item">
+
+                    <button class="nav-link active d-inline-flex align-items-center rounded border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Button with data-bs-target
+                    </button>
+                    <div class="collapse" id="collapseExample">
+                        <ul>
+                            <li>
+                                첫번째
+                            </li>
+                            <li>
+                                두번째
+                            </li>
+                            <li>
+                                세번째
+                            </li>
+                        </ul>
+                    </div>
+
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    <script type="application/javascript" th:inline="javascript">
+        const app = Vue.createApp({
+            data(){
+                return{
+
+                }
+            },
+            created(){
+
+            },
+            mounted(){
+
+            },
+            methods: {
+
+            }
+        }).mount("#pageSideBar")
+    </script>
+
+</th:block>
+
+</html>
