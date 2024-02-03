@@ -9,11 +9,11 @@
             <div uk-navbar>
 
                 <div class="uk-navbar-left">
-
                     <ul class="uk-navbar-nav">
                         <li class="uk-active"><a th:href="@{/}">홈</a></li>
-
                     </ul>
+
+                    <th:block sec:authorize="hasRole('ADMIN')" th:replace="~{fragment/sideBar :: pageSideBar}"></th:block>
 
                 </div>
 

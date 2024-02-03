@@ -28,9 +28,4 @@ public class PageAdminController {
     public String hierachyPage(){
         return "page-admin/page/hierachy";
     }
-
-    @GetMapping("/develop")
-    public String developPage(){
-        return "page-admin/develop";
-    }
 }
