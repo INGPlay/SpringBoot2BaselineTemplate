@@ -10,23 +10,27 @@
     <div id="pageSideBar" uk-offcanvas="overlay: true">
         <div class="uk-offcanvas-bar">
 
-            <ul class="uk-nav-default" uk-nav="multiple: true">
+            <ul class="uk-nav-default uk-overflow-auto" uk-nav="multiple: true">
                 <li class="uk-active">
                     <a href="/" uk-icon="icon: home; ratio: 1.5"></a>
                 </li>
                 <li class="uk-nav-divider"></li>
-                <li class="uk-parent">
-                    <a href="#">Parent <span uk-nav-parent-icon></span></a>
+
+                <li v-for="(parentPage, index) in parentPageList" class="uk-parent">
+                    <a>
+                        {{ parentPage.parentPageTitle }} ({{ parentPage.pageAuthorityCode }}) : {{ parentPage.countSubPageList }} pages
+                        <br>
+                        : {{ parentPage.parentPageRootPath }}
+                        <span uk-nav-parent-icon></span>
+                    </a>
                     <ul class="uk-nav-sub">
-                        <li><a href="#">Sub item</a></li>
-                        <li><a href="#">Sub item</a></li>
-                    </ul>
-                </li>
-                <li class="uk-parent">
-                    <a href="#">Parent <span uk-nav-parent-icon></span></a>
-                    <ul class="uk-nav-sub">
-                        <li><a href="#">Sub item</a></li>
-                        <li><a href="#">Sub item</a></li>
+                        <li v-for="subPage in subPageList[index]">
+                            <a :href="subPage.concatPagePath">
+                                <span uk-icon="icon: arrow-right; ratio: 1.5"></span>{{ subPage.subPageTitle }}
+                                <br>
+                                : {{ subPage.concatPagePath }}
+                            </a>
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -38,17 +42,51 @@
         const pageSideBar = Vue.createApp({
             data(){
                 return{
-                    
+                    parentPageList : [
+
+                    ],
+                    subPageList : [
+
+                    ]
                 }
             },
             created(){
                     
             },
             mounted(){
-        
+                this.init()
             },
             methods: {
-                
+                init : function (){
+                    requestJsonAjaxPromise({
+                        url: "/api/parent-page",
+                        method: "GET",
+                        data: {}
+                    }).then((response) => {
+                        this.parentPageList = response.data.contents
+                        console.log(response.data.contents)
+                        this.parentPageList.forEach((page) =>{
+                            this.getSubPage(page.parentPageId)
+                        });
+                    }).catch((error) => {
+                        alert("사이드 바 메뉴를 불러오지 못하였습니다.")
+                    })
+                },
+                getSubPage : function (id){
+                    requestJsonAjaxPromise({
+                        url: "/api/parent-page/sub-page",
+                        method: "GET",
+                        data : {
+                            parentPageId: id
+                        },
+                        async : false
+                    }).then((response) => {
+                        this.subPageList.push(response.data.contents)
+                        console.log(response.data.contents)
+                    }).catch((error) => {
+                        console.log("서브 메뉴를 가져오지 못하였습니다.")
+                    })
+                }
             }
         }).mount("#pageSideBar")
     </script>
