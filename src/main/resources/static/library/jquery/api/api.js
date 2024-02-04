@@ -21,6 +21,32 @@ function requestJsonAjaxPromise(object){
 }
 
 /**
+ * JSON 통신
+ * Ajax에서 반환하는 불필요한 경로를 건너뛰고 데이터를 가져올 수 있도록 변경
+ * - response.data -> response
+ * - error.responseJSON.data -> error
+ *
+ * @param object
+ *    url : {url},
+ *    method : {Http method},
+ *    data : {json object}
+ * @returns {Promise<unknown>}
+ */
+function requestJsonAjaxPromiseV2Form(object){
+
+    object.dataType =  "json"
+    object.contentType = 'application/json'
+
+    if (object.method?.toLowerCase() !== 'get' && object.type?.toLowerCase() !== 'get'){
+        if (object.data){
+            object.data = JSON.stringify(object.data)
+        }
+    }
+
+    return requestAjaxPromiseResponseForm(object)
+}
+
+/**
  * Image 통신
  * @param object
  *    url : {url},
@@ -48,6 +74,30 @@ function requestAjaxPromise(object) {
             })
             .fail(function (error) {
                 reject(error)
+            })
+            .always(function () {
+
+            })
+    });
+}
+
+/**
+ * response -> response.data
+ * error -> error.responseJSON.data
+ * @param object
+ * @returns {Promise<unknown>}
+ */
+function requestAjaxPromiseResponseForm(object) {
+
+    return new Promise((resolve, reject) => {
+        $.ajax(
+            object
+        )
+            .done(function (response) {
+                resolve(response.data)
+            })
+            .fail(function (error) {
+                reject(error.responseJSON.data)
             })
             .always(function () {
 
