@@ -39,32 +39,38 @@ public class AuthorityDynamicHandler {
         SubPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new SubPageRequest.RequestDynamicQueryOne(request.getRequestURI());
         Optional<SubPageResponse.Response> response = subPageService.findOne(requestDynamicQueryOne);
 
+        // 등록해놓은 경로가 아닌 경우
         if (response.isEmpty()){
             return true;
         }
-
-        // 로그인 방식에 따른 처리
-        Object principal = authentication.getPrincipal();
-
-        Collection<? extends GrantedAuthority> authorities = null;
         SubPageResponse.Response subPage = response.get();
-        if (principal instanceof AccountContext){
-            AccountContext accountContext = (AccountContext) principal;
+        Collection<? extends GrantedAuthority> authorities = getGrantedAuthorities(authentication.getPrincipal());
+        
+        // 등록해놓은 페이지에 제한사항이 없을 경우
+        if (!StringUtils.hasText(subPage.pageAuthorityCode())){
+            return true;
+
+        // 제한사항은 있는데, 사용자의 권한이 없을 경우
+        } else if (authorities == null){
+            return false;
+        }
+
+        return authorities.contains(new SimpleGrantedAuthority(getRoleString(subPage.pageAuthorityCode())));
+    }
+
+    private static Collection<? extends GrantedAuthority> getGrantedAuthorities(Object principal) {
+        Collection<? extends GrantedAuthority> authorities = null;
+        // 로그인 방식에 따른 처리
+        if (principal instanceof AccountContext accountContext){
             authorities = accountContext.getAuthorities();
 
-        } else if (principal instanceof OidcUser){
-            OidcUser oidcUser = (OidcUser) principal;
+        } else if (principal instanceof OidcUser oidcUser){
             List<String> roles = (List<String>) (((Map<String, Object>) oidcUser.getAttribute("realm_access")).get("roles"));
             authorities = roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role)).collect(Collectors.toList());
         } else {
             assert false : "지원하지 않는 유저 토큰입니다.";
         }
-
-        if (authorities == null){
-            return !StringUtils.hasText(subPage.pageAuthorityCode());
-        }
-
-        return authorities.contains(new SimpleGrantedAuthority(getRoleString(subPage.pageAuthorityCode())));
+        return authorities;
     }
 
     @Bean
