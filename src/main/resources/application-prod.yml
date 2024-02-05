@@ -4,6 +4,12 @@ spring:
         username: {user}
         password: {password}
         driver-class-name: org.mariadb.jdbc.Driver
+
+        #        validation query 설정
+        tomcat:
+            test-on-borrow: true
+            validation-query: select 1
+
     jpa:
         hibernate:
 #            ddl-auto: create
@@ -58,3 +64,19 @@ logging.level:
     web:
         resources:
             static-locations: classpath:static/
+
+    jdbc:       # log4jdbc 설정
+        sqlonly: off
+        sqltiming: info
+        resultsettable: off
+        audit: off
+        resultset: off
+        connection: off
+
+custom:
+    account:
+        # form
+        # keycloak
+        type: form
+    page:
+        intro: /index
