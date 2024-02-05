@@ -18,23 +18,29 @@
                             <input type="hidden" name="parentPageId" v-model="submitForm.parentPageId">
                             <div class="col-md-12">
                                 <label class="form-label">서브 페이지 명</label>
-                                <input type="text" class="form-control" name="subPageTitle" v-model="submitForm.subPageTitle" required>
+                                <input type="text" class="form-control" name="subPageTitle" v-model="submitForm.subPageTitle"
+                                       @keyup.enter="register()"
+                                       required>
                                 <div class="form-text">{{ validateText.subPageTitle }}</div>
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label">설명</label>
-                                <input type="text" class="form-control" name="subPageDescription" v-model="submitForm.subPageDescription">
+                                <input type="text" class="form-control" name="subPageDescription" v-model="submitForm.subPageDescription"
+                                       @keyup.enter="register()"
+                                >
                                 <div class="form-text">{{ validateText.subPageDescription }}</div>
                             </div>
                             <div class="col-12">
                                 <label class="form-label">서브 페이지 경로*</label>
-                                <input type="text" class="form-control" name="subPagePath" v-model="submitForm.subPagePath" placeholder="/" required>
+                                <input type="text" class="form-control" name="subPagePath" v-model="submitForm.subPagePath" placeholder="/"
+                                       @keyup.enter="register()"
+                                       required>
                                 <div class="form-text">{{ validateText.subPagePath }}</div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button @click="register" type="button" class="btn btn-primary btn-sm">권한 등록</button>
+                        <button @click="register()" type="button" class="btn btn-primary btn-sm">권한 등록</button>
                         <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">닫기</button>
                     </div>
                 </div>
@@ -143,17 +149,23 @@
 
                         <div class="col-md-12">
                             <label class="form-label">서브 페이지 명</label>
-                            <input type="text" class="form-control" name="subPageTitle" v-model="submitForm.subPageTitle" required>
+                            <input type="text" class="form-control" name="subPageTitle" v-model="submitForm.subPageTitle"
+                                   @keyup.enter="update()"
+                                   required>
                             <div class="form-text">{{ validateText.subPageTitle }}</div>
                         </div>
                         <div class="col-md-12">
                             <label class="form-label">설명</label>
-                            <input type="text" class="form-control" name="subPageDescription" v-model="submitForm.subPageDescription">
+                            <input type="text" class="form-control" name="subPageDescription" v-model="submitForm.subPageDescription"
+                                   @keyup.enter="update()"
+                            >
                             <div class="form-text">{{ validateText.subPageDescription }}</div>
                         </div>
                         <div class="col-12">
                             <label class="form-label">서브 페이지 경로*</label>
-                            <input type="text" class="form-control" name="subPagePath" v-model="submitForm.subPagePath" placeholder="/">
+                            <input type="text" class="form-control" name="subPagePath" v-model="submitForm.subPagePath" placeholder="/"
+                                   @keyup.enter="update()"
+                            >
                             <div class="form-text">{{ validateText.subPagePath }}</div>
                         </div>
                         <div class="col-12">
@@ -165,10 +177,10 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <div>
-                        <button @click="remove" type="button" class="btn btn-danger btn-sm">삭제</button>
+                        <button @click="remove()" type="button" class="btn btn-danger btn-sm">삭제</button>
                     </div>
                     <div>
-                        <button @click="update" type="button" class="btn btn-primary btn-sm">서브 페이지 수정</button>
+                        <button @click="update()" type="button" class="btn btn-primary btn-sm">서브 페이지 수정</button>
                         <button type="button" class="btn btn-secondary btn-sm ms-2" data-bs-dismiss="modal">닫기</button>
                     </div>
                 </div>

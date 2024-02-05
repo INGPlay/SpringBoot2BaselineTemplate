@@ -11,12 +11,15 @@
         <div class="uk-offcanvas-bar">
 
             <ul class="uk-nav-default uk-overflow-auto" uk-nav="multiple: true">
-                <li class="uk-active">
+                <li class="uk-flex uk-flex-between">
                     <a href="/" uk-icon="icon: home; ratio: 1.5"></a>
+                    <a @click="init()" uk-icon="icon: refresh; ratio: 1.5"></a>
                 </li>
+
                 <li class="uk-nav-divider"></li>
 
-                <li v-for="(parentPage, index) in parentPageList" class="uk-parent">
+                <li v-for="(parentPage, index) in parentPageList"
+                    :class="[parentPage.parentPageId === targetPage.parentPageId ? 'uk-open uk-active ' : '','uk-parent']">
                     <a>
                         {{ parentPage.parentPageTitle }} ({{ parentPage.pageAuthorityCode }}) : {{ parentPage.countSubPageList }} pages
                         <br>
@@ -24,7 +27,7 @@
                         <span uk-nav-parent-icon></span>
                     </a>
                     <ul class="uk-nav-sub">
-                        <li v-for="subPage in subPageList[index]">
+                        <li v-for="subPage in subPageList[index]" :class="[subPage.subPageId === targetPage.subPageId ? 'uk-active' : '']">
                             <a :href="subPage.concatPagePath">
                                 <span uk-icon="icon: arrow-right; ratio: 1.5"></span>{{ subPage.subPageTitle }}
                                 <br>
@@ -46,12 +49,15 @@
 
                     ],
                     subPageList : [
-
-                    ]
+                        // 내부 Array 값이 들어옴 [[], [], ...]
+                    ],
+                    targetPage : {
+                        parentPageId : null
+                    }
                 }
             },
             created(){
-                    
+
             },
             mounted(){
                 this.init()
@@ -64,10 +70,12 @@
                         data: {}
                     }).then((response) => {
                         this.parentPageList = response.data.contents
-                        console.log(response.data.contents)
+
+                        this.subPageList = []
                         this.parentPageList.forEach((page) =>{
                             this.getSubPage(page.parentPageId)
                         });
+
                     }).catch((error) => {
                         alert("사이드 바 메뉴를 불러오지 못하였습니다.")
                     })
@@ -82,13 +90,26 @@
                         async : false
                     }).then((response) => {
                         this.subPageList.push(response.data.contents)
-                        console.log(response.data.contents)
+
+                        let matchingData = response.data.contents.find(function (value) {
+                            return value.concatPagePath === window.location.pathname
+                        })
+
+                        // console.log(matchingData)
+                        if (matchingData){
+                            this.targetPage = matchingData;
+                        }
+
                     }).catch((error) => {
                         console.log("서브 메뉴를 가져오지 못하였습니다.")
                     })
-                }
+                },
             }
         }).mount("#pageSideBar")
+
+        UIkit.util.on('#pageSideBar', 'shown', function () {
+            pageSideBar.init();
+        });
     </script>
 
 </th:block>

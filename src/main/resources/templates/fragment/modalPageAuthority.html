@@ -17,27 +17,33 @@
                             <label class="form-label">권한 코드*</label>
                             <input type="text" class="form-control" name="pageAuthorityCode" placeholder=""
                                    v-model="submitForm.pageAuthorityCode"
-                                   :class="[validateText.pageAuthorityCode ? errorClass : '', normalClass]">
+                                   :class="[validateText.pageAuthorityCode ? errorClass : '', normalClass]"
+                                   @keyup.enter="create()"
+                            >
                             <div class="form-text">{{ validateText.pageAuthorityCode }}</div>
                         </div>
                         <div class="col-12">
                             <label class="form-label">권한 이름</label>
                             <input type="text" class="form-control" name="pageAuthorityName" placeholder=""
                                    v-model="submitForm.pageAuthorityName"
-                                   :class="[validateText.pageAuthorityName ? errorClass : '', normalClass]">
+                                   :class="[validateText.pageAuthorityName ? errorClass : '', normalClass]"
+                                   @keyup.enter="create()"
+                            >
                             <div class="form-text">{{ validateText.pageAuthorityName }}</div>
                         </div>
                         <div class="col-12">
                             <label class="form-label">권한 설명</label>
                             <input type="text" class="form-control" name="pageAuthorityDescription" placeholder=""
                                    v-model="submitForm.pageAuthorityDescription"
-                                   :class="[validateText.pageAuthorityDescription ? errorClass : '', normalClass]">
+                                   :class="[validateText.pageAuthorityDescription ? errorClass : '', normalClass]"
+                                   @keyup.enter="create()"
+                            >
                             <div class="form-text">{{ validateText.pageAuthorityDescription }}</div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button @click="create" type="button" class="btn btn-primary btn-sm">권한 등록</button>
+                    <button @click="create()" type="button" class="btn btn-primary btn-sm">권한 등록</button>
                     <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">닫기</button>
                 </div>
             </div>
@@ -156,14 +162,18 @@
                             <label class="form-label">권한 이름</label>
                             <input type="text" class="form-control" name="pageAuthorityName" placeholder=""
                                    v-model="submitForm.pageAuthorityName"
-                                   :class="[validateText.pageAuthorityName ? errorClass : '', normalClass]">
+                                   :class="[validateText.pageAuthorityName ? errorClass : '', normalClass]"
+                                   @keyup.enter="update()"
+                            >
                             <div class="form-text">{{ validateText.pageAuthorityName }}</div>
                         </div>
                         <div class="col-12">
                             <label class="form-label">권한 설명</label>
                             <input type="text" class="form-control" name="pageAuthorityDescription" placeholder=""
                                    v-model="submitForm.pageAuthorityDescription"
-                                   :class="[validateText.pageAuthorityDescription ? errorClass : '', normalClass]">
+                                   :class="[validateText.pageAuthorityDescription ? errorClass : '', normalClass]"
+                                   @keyup.enter="update()"
+                            >
                             <div class="form-text">{{ validateText.pageAuthorityDescription }}</div>
                         </div>
                     </form>
@@ -173,7 +183,7 @@
                         <button @click="remove" type="button" class="btn btn-danger btn-sm">삭제</button>
                     </div>
                     <div>
-                        <button @click="update" type="button" class="btn btn-primary btn-sm">권한 정보 수정</button>
+                        <button @click="update()" type="button" class="btn btn-primary btn-sm">권한 정보 수정</button>
                         <button type="button" class="btn btn-secondary btn-sm ms-2" data-bs-dismiss="modal">닫기</button>
                     </div>
                 </div>

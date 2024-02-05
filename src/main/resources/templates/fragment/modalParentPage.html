@@ -17,17 +17,23 @@
                         <form method="post" class="row g-3">
                             <div class="col-md-12">
                                 <label class="form-label">상위 페이지 명*</label>
-                                <input type="text" class="form-control" name="parentPageTitle" v-model="submitForm.parentPageTitle" required>
+                                <input type="text" class="form-control" name="parentPageTitle" v-model="submitForm.parentPageTitle"
+                                       @keyup.enter="register()"
+                                       required>
                                 <div class="form-text">{{ validateText.parentPageTitle }}</div>
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label">설명</label>
-                                <input type="text" class="form-control" name="parentPageDescription" v-model="submitForm.parentPageDescription">
+                                <input type="text" class="form-control" name="parentPageDescription" v-model="submitForm.parentPageDescription"
+                                       @keyup.enter="register()"
+                                >
                                 <div class="form-text">{{ validateText.parentPageDescription }}</div>
                             </div>
                             <div class="col-12">
                                 <label class="form-label">상위 페이지 경로*</label>
-                                <input type="text" class="form-control" name="parentPageRootPath" v-model="submitForm.parentPageRootPath" placeholder="/" required>
+                                <input type="text" class="form-control" name="parentPageRootPath" v-model="submitForm.parentPageRootPath" placeholder="/"
+                                       @keyup.enter="register()"
+                                       required>
                                 <div class="form-text">{{ validateText.parentPageRootPath }}</div>
                             </div>
                             <div class="col-12">
@@ -40,7 +46,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button @click="register" type="button" class="btn btn-primary btn-sm">상위 페이지 등록</button>
+                        <button @click="register()" type="button" class="btn btn-primary btn-sm">상위 페이지 등록</button>
                         <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">닫기</button>
                     </div>
                 </div>
@@ -149,12 +155,16 @@
 
                         <div class="col-md-12">
                             <label class="form-label">상위 페이지 명*</label>
-                            <input type="text" class="form-control" name="parentPageTitle" v-model="submitForm.parentPageTitle" required>
+                            <input type="text" class="form-control" name="parentPageTitle" v-model="submitForm.parentPageTitle"
+                                   @keyup.enter="update()"
+                                   required>
                             <div class="form-text">{{ validateText.parentPageTitle }}</div>
                         </div>
                         <div class="col-md-12">
                             <label class="form-label">설명</label>
-                            <input type="text" class="form-control" name="parentPageDescription" v-model="submitForm.parentPageDescription">
+                            <input type="text" class="form-control" name="parentPageDescription" v-model="submitForm.parentPageDescription"
+                                   @keyup.enter="update()"
+                            >
                             <div class="form-text">{{ validateText.parentPageDescription }}</div>
                         </div>
                         <div class="col-12">
@@ -173,10 +183,10 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <div>
-                        <button @click="remove" type="button" class="btn btn-danger btn-sm">삭제</button>
+                        <button @click="remove()" type="button" class="btn btn-danger btn-sm">삭제</button>
                     </div>
                     <div>
-                        <button @click="update" type="button" class="btn btn-primary btn-sm">서브 페이지 수정</button>
+                        <button @click="update()" type="button" class="btn btn-primary btn-sm">서브 페이지 수정</button>
                         <button type="button" class="btn btn-secondary btn-sm ms-2" data-bs-dismiss="modal">닫기</button>
                     </div>
                 </div>
