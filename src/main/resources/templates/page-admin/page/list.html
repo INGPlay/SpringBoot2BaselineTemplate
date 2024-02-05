@@ -28,7 +28,7 @@
                 <th:block th:replace="~{fragment/modalParentPage :: parentPageRegister}"></th:block>
             </div>
             <div>
-                <a type="button" id="addAuthButton"
+                <a type="button" href='/page-admin/page/auth/list'
                    class="link-secondary link-offset-2 link-underline-opacity-50 link-underline-opacity-100-hover ms-3">
                     페이지 권한 추가
                 </a>
@@ -201,10 +201,6 @@
         let subPageId = gridSub.getRow(rowKey).subPageId;
         subPageUpdate.show(subPageId)
     });
-
-    document.getElementById("addAuthButton").addEventListener("click", function (e){
-        location.href='/page-admin/page/auth/register';
-    })
 
     // modal callback
     parentPageRegister.closeCallback = () => {

@@ -23,7 +23,7 @@ public class PageAuthorityController {
 
     private final PageAuthorityService pageAuthorityService;
 
-    @GetMapping("/register")
+    @GetMapping("/list")
     public String registerPage(){
         return "page-admin/page/auth/list";
     }
