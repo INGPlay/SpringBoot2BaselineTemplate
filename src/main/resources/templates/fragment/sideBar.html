@@ -22,19 +22,22 @@
                 <li v-for="(parentPage, index) in parentPageList"
                     :class="[parentPage.parentPageId === targetPage.parentPageId ? 'uk-open uk-active ' : '','uk-parent']">
                     <a>
-                        {{ parentPage.parentPageTitle }} ({{ parentPage.pageAuthorityCode }}) : {{ parentPage.countSubPageList }} pages
+                        {{ parentPage.parentPageTitle }} {{ parentPage.pageAuthorityCode ? '(' +  parentPage.pageAuthorityCode + ')' : '(-)' }} : {{ parentPage.countSubPageList }} pages
                         <br>
                         : {{ parentPage.parentPageRootPath }}
                         <span uk-nav-parent-icon></span>
                     </a>
                     <ul class="uk-nav-sub">
-                        <li v-for="subPage in subPageList[index]" :class="[subPage.subPageId === targetPage.subPageId ? 'uk-active' : '']">
-                            <a :href="subPage.concatPagePath">
-                                <span uk-icon="icon: arrow-right; ratio: 1.5"></span>{{ subPage.subPageTitle }}
-                                <br>
-                                : {{ subPage.concatPagePath }}
-                            </a>
-                        </li>
+                        <div v-for="subPage in subPageList">
+                            <li v-if="parentPage.parentPageId === subPage.parentPageId"
+                                :class="[subPage.subPageId === targetPage.subPageId ? 'uk-active' : '']">
+                                <a :href="subPage.concatPagePath">
+                                    <span uk-icon="icon: arrow-right; ratio: 1.5"></span>{{ subPage.subPageTitle }}
+                                    <br>
+                                    : {{ subPage.concatPagePath }}
+                                </a>
+                            </li>
+                        </div>
                     </ul>
                 </li>
             </ul>
@@ -47,13 +50,13 @@
             data(){
                 return{
                     parentPageList : [
-
+                        // 모든 상위 페이지 Response
                     ],
                     subPageList : [
-                        // 내부 Array 값이 들어옴 [[], [], ...]
+                        // 모든 서브 페이지 Response
                     ],
                     targetPage : {
-                        parentPageId : null
+                        // 현재 URL에 상응하는 서브 페이지 Response
                     }
                 }
             },
@@ -65,46 +68,37 @@
             },
             methods: {
                 init : function (){
-                    requestJsonAjaxPromise({
+                    this.getParentPageList()
+                    this.getSubPageList()
+                },
+                getParentPageList : function() {
+                    requestJsonAjaxPromiseV2Form({
                         url: "/api/parent-page",
                         method: "GET",
                         data: {}
                     }).then((response) => {
-                        this.parentPageList = response.data.contents
-
-                        this.subPageList = []
-                        this.parentPageList.forEach((page) =>{
-                            this.getSubPage(page.parentPageId)
-                        });
-
+                        this.parentPageList = response.contents
                     }).catch((error) => {
                         alert("사이드 바 메뉴를 불러오지 못하였습니다.")
                     })
                 },
-                getSubPage : function (id){
-                    requestJsonAjaxPromise({
+                getSubPageList : function() {
+                    requestJsonAjaxPromiseV2Form({
                         url: "/api/parent-page/sub-page",
                         method: "GET",
-                        data : {
-                            parentPageId: id
-                        },
-                        async : false
+                        data : {}
                     }).then((response) => {
-                        this.subPageList.push(response.data.contents)
-
-                        let matchingData = response.data.contents.find(function (value) {
-                            return value.concatPagePath === window.location.pathname
+                        this.subPageList = response.contents;
+                        this.targetPage = response.contents.find((c) => {
+                            if (c.concatPagePath === window.location.pathname) {
+                                return true;
+                            }
+                            return false;
                         })
-
-                        // console.log(matchingData)
-                        if (matchingData){
-                            this.targetPage = matchingData;
-                        }
-
                     }).catch((error) => {
-                        console.log("서브 메뉴를 가져오지 못하였습니다.")
+                        alert("사이드 바 서브 메뉴를 불러오지 못하였습니다.")
                     })
-                },
+                }
             }
         }).mount("#pageSideBar")
 
