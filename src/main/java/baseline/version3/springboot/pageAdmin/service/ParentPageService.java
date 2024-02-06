@@ -11,6 +11,7 @@ import baseline.version3.springboot.pageAdmin.repository.querydsl.QParentPageRep
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -45,13 +46,25 @@ public class ParentPageService {
         return qParentPageRepository.selectOne(requestDynamicQueryOne);
     }
 
-    @CacheEvict(cacheNames = "ParentPageService.findList", allEntries = true)
+    @Caching(
+            evict = {
+                    @CacheEvict(cacheNames = "ParentPageService.findList", allEntries = true),
+                    @CacheEvict(cacheNames = "SubPageService.findList", allEntries = true),
+                    @CacheEvict(cacheNames = "SubPageService.findOne", allEntries = true)
+            }
+    )
     public void registerParentPage(ParentPageRequest.RequestInsert requestInsert){
         ParentPage entity = parentPageMapper.toInsertEntity(requestInsert);
         parentPageRepository.save(entity);
     }
 
-    @CacheEvict(cacheNames = "ParentPageService.findList", allEntries = true)
+    @Caching(
+            evict = {
+                    @CacheEvict(cacheNames = "ParentPageService.findList", allEntries = true),
+                    @CacheEvict(cacheNames = "SubPageService.findList", allEntries = true),
+                    @CacheEvict(cacheNames = "SubPageService.findOne", allEntries = true)
+            }
+    )
     public void updateParentPage(ParentPageRequest.RequestUpdate requestUpdate){
         ParentPage parentPage = parentPageRepository.findById(requestUpdate.getParentPageId()).orElseThrow(() -> {
             throw new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY);
@@ -61,6 +74,13 @@ public class ParentPageService {
         parentPageRepository.save(parentPage);
     }
 
+    @Caching(
+            evict = {
+                    @CacheEvict(cacheNames = "ParentPageService.findList", allEntries = true),
+                    @CacheEvict(cacheNames = "SubPageService.findList", allEntries = true),
+                    @CacheEvict(cacheNames = "SubPageService.findOne", allEntries = true)
+            }
+    )
     public void deleteParentPageById(Long id){
         parentPageRepository.deleteById(id);
     }

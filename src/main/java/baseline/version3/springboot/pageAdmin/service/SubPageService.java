@@ -11,7 +11,9 @@ import baseline.version3.springboot.pageAdmin.repository.querydsl.QSubPageReposi
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,21 +36,34 @@ public class SubPageService {
     }
 
     @Cacheable(
-            cacheNames = "SubPageService.find",
+            cacheNames = "SubPageService.findOne",
             key = "'_' + #requestDynamicQuery.concatPagePath + '_'",
-            condition = "#requestDynamicQuery.concatPagePath != null"
+            condition = "#requestDynamicQuery.concatPagePath != null && #requestDynamicQuery.parentPageId != '' "
     )
     public Optional<SubPageResponse.Response> findOne(SubPageRequest.RequestDynamicQueryOne requestDynamicQuery){
         return qSubPageRepository.selectOne(requestDynamicQuery);
     }
 
-    @CacheEvict(cacheNames = "SubService.findList", allEntries = true)
+
+
+    @Caching(
+            evict = {
+                    @CacheEvict(cacheNames = "ParentPageService.findList", allEntries = true),
+                    @CacheEvict(cacheNames = "SubPageService.findList", allEntries = true),
+                    @CacheEvict(cacheNames = "SubPageService.findOne", allEntries = true)
+            }
+    )
     public void registerSubPage(SubPageRequest.RequestInsert requestInsert){
         SubPage entity = subPageMapper.toInsertEntity(requestInsert);
         subPageRepository.save(entity);
     }
 
-    @CacheEvict(cacheNames = "SubService.findList", allEntries = true)
+    @Caching(
+            evict = {
+                    @CacheEvict(cacheNames = "SubPageService.findList", allEntries = true),
+                    @CacheEvict(cacheNames = "SubPageService.findOne", allEntries = true)
+            }
+    )
     public void updateSubPage(SubPageRequest.RequestUpdate requestUpdate){
         SubPage subPage = subPageRepository.findById(requestUpdate.getSubPageId()).orElseThrow(
                 () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)
@@ -57,6 +72,13 @@ public class SubPageService {
         subPageRepository.save(subPage);
     }
 
+    @Caching(
+            evict = {
+                    @CacheEvict(cacheNames = "ParentPageService.findList", allEntries = true),
+                    @CacheEvict(cacheNames = "SubPageService.findList", allEntries = true),
+                    @CacheEvict(cacheNames = "SubPageService.findOne", allEntries = true)
+            }
+    )
     public void deleteParentPageById(Long id){
         subPageRepository.deleteById(id);
     }

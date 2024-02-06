@@ -20,7 +20,7 @@
                 <li class="uk-nav-divider"></li>
 
                 <li v-for="(parentPage, index) in parentPageList"
-                    :class="[parentPage.parentPageId === targetPage.parentPageId ? 'uk-open uk-active ' : '','uk-parent']">
+                    :class="[targetPage && parentPage.parentPageId === targetPage.parentPageId ? 'uk-open uk-active ' : '','uk-parent']">
                     <a>
                         {{ parentPage.parentPageTitle }} {{ parentPage.pageAuthorityCode ? '(' +  parentPage.pageAuthorityCode + ')' : '(-)' }} : {{ parentPage.countSubPageList }} pages
                         <br>
@@ -30,7 +30,7 @@
                     <ul class="uk-nav-sub">
                         <div v-for="subPage in subPageList">
                             <li v-if="parentPage.parentPageId === subPage.parentPageId"
-                                :class="[subPage.subPageId === targetPage.subPageId ? 'uk-active' : '']">
+                                :class="[targetPage && subPage.subPageId === targetPage.subPageId ? 'uk-active' : '']">
                                 <a :href="subPage.concatPagePath">
                                     <span uk-icon="icon: arrow-right; ratio: 1.5"></span>{{ subPage.subPageTitle }}
                                     <br>
