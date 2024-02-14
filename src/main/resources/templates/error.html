@@ -22,10 +22,13 @@
         <span class="uk-text-large uk-text-bold" th:text="${errorMessage}"></span>
     </div>
 
-    <div class="uk-flex uk-flex-center uk-margin-top" th:if="${referer!=null}">
-        <a th:href="${referer}" class="uk-button uk-button-secondary">
+    <div class="uk-flex uk-flex-center uk-margin-top">
+        <a th:if="${referer!=null}" th:href="${referer}" class="uk-button uk-button-secondary">
             이전 페이지로 이동
         </a>
+        <button class="uk-button uk-button-secondary" onclick="history.back();">
+            이전 페이지로 이동
+        </button>
     </div>
 </div>
 

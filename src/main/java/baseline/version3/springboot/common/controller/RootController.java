@@ -18,7 +18,7 @@ public class RootController {
 
     @GetMapping
     public String rootPage(){
-        return "redirect:" + introPage;
+        return "forward:" + introPage;
     }
 
     @GetMapping("/index")
@@ -26,10 +26,4 @@ public class RootController {
         return "index";
     }
 
-    @GetMapping("/error")
-    public String errorPage(@ModelAttribute("errorMessage") String errorMessage,
-                            @ModelAttribute("referer") String referer,
-                            Model model){
-        return "error";
-    }
 }

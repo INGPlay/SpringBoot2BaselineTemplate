@@ -36,8 +36,6 @@ public class CustomControllerAdvice {
             SubPageResponse.Response subPage = response.get();
             model.addAttribute("parentPageTitle", subPage.parentPageTitle());
             model.addAttribute("subPageTitle", subPage.parentPageTitle());
-
-            log.info("Matching !!!!!");
         }
 
         log.info("Request : {} {}", request.getMethod(), request.getRequestURI());
