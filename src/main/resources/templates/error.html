@@ -26,7 +26,7 @@
         <a th:if="${referer!=null}" th:href="${referer}" class="uk-button uk-button-secondary">
             이전 페이지로 이동
         </a>
-        <button class="uk-button uk-button-secondary" onclick="history.back();">
+        <button th:if="${referer==null}" class="uk-button uk-button-secondary" onclick="history.back();">
             이전 페이지로 이동
         </button>
     </div>

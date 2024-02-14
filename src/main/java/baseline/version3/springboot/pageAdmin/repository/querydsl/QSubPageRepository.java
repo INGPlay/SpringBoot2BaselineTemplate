@@ -48,7 +48,11 @@ public class QSubPageRepository {
                                 pageAuthority.pageAuthorityName,
                                 Expressions.stringTemplate(
                                         "function('regexp_replace',{0},{1},{2})",
-                                        parentPage.parentPageRootPath.concat(subPage.subPagePath), "/+", "/"
+                                        Expressions.stringTemplate(
+                                                "function('regexp_replace',{0},{1},{2})",
+                                                parentPage.parentPageRootPath.concat(subPage.subPagePath), "/$", ""
+                                        ),
+                                        "/+", "/"
                                 ).as("concatPagePath")
                         )
                 )
@@ -82,7 +86,11 @@ public class QSubPageRepository {
                                         pageAuthority.pageAuthorityName,
                                         Expressions.stringTemplate(
                                                 "function('regexp_replace',{0},{1},{2})",
-                                                parentPage.parentPageRootPath.concat(subPage.subPagePath), "/+", "/"
+                                                Expressions.stringTemplate(
+                                                        "function('regexp_replace',{0},{1},{2})",
+                                                        parentPage.parentPageRootPath.concat(subPage.subPagePath), "/$", ""
+                                                ),
+                                                "/+", "/"
                                         ).as("concatPagePath")
                                 )
                         )
@@ -96,7 +104,11 @@ public class QSubPageRepository {
                                 queryDslNullableUtil.eq(
                                         Expressions.stringTemplate(
                                                 "function('regexp_replace',{0},{1},{2})",
-                                                parentPage.parentPageRootPath.concat(subPage.subPagePath), "/+", "/"
+                                                Expressions.stringTemplate(
+                                                        "function('regexp_replace',{0},{1},{2})",
+                                                        parentPage.parentPageRootPath.concat(subPage.subPagePath), "/$", ""
+                                                ),
+                                                "/+", "/"
                                         ),
                                         requestDynamicQueryOne.getConcatPagePath()
                                 )
