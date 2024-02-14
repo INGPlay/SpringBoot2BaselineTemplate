@@ -16,10 +16,10 @@ public class PageAdminController {
 
     @GetMapping
     public String pageAdminRoot(){
-        return "redirect:/page-admin/index";
+        return "forward:/page-admin/index";
     }
 
-    @GetMapping("/index")
+    @GetMapping(value = {"/", "/index"})
     public String pageAdminIndex(){
         return "page-admin/index";
     }

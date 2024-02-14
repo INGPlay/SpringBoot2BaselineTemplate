@@ -31,7 +31,7 @@
                         <div v-for="subPage in subPageList">
                             <li v-if="parentPage.parentPageId === subPage.parentPageId"
                                 :class="[targetPage && subPage.subPageId === targetPage.subPageId ? 'uk-active' : '']">
-                                <a :href="subPage.concatPagePath">
+                                <a :href="subPage.concatPagePath + '?open=y'">
                                     <span uk-icon="icon: arrow-right; ratio: 1.5"></span>{{ subPage.subPageTitle }}
                                     <br>
                                     : {{ subPage.concatPagePath }}
@@ -105,6 +105,17 @@
         UIkit.util.on('#pageSideBar', 'shown', function () {
             pageSideBar.init();
         });
+
+
+        function getUrlParams() {
+            var params = {};
+            window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
+            return params;
+        }
+
+        if (getUrlParams().open) {
+            UIkit.offcanvas(document.getElementById("pageSideBar")).show()
+        }
     </script>
 
 </th:block>
