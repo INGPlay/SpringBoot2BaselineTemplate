@@ -1,6 +1,6 @@
 package baseline.version3.springboot.config;
 
-import baseline.version3.springboot.common.Initializer;
+import baseline.version3.springboot.config.init.Initializer;
 import baseline.version3.springboot.project.account.repository.AccountRepository;
 import baseline.version3.springboot.project.account.service.AccountService;
 import lombok.RequiredArgsConstructor;

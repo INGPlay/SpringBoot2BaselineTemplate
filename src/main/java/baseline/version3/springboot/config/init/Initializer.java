@@ -1,4 +1,4 @@
-package baseline.version3.springboot.common;
+package baseline.version3.springboot.config.init;
 
 import baseline.version3.springboot.project.account.domain.AccountRequest;
 import baseline.version3.springboot.project.account.domain.AccountSub;
