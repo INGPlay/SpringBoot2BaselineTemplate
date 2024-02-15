@@ -1,13 +1,13 @@
 package baseline.version3.springboot.pageAdmin.service;
 
-import baseline.version3.springboot.controllerAdvice.exception.ServiceLayerException;
-import baseline.version3.springboot.controllerAdvice.subType.ServiceException;
 import baseline.version3.springboot.pageAdmin.domain.pageAuthority.PageAuthorityMapper;
 import baseline.version3.springboot.pageAdmin.domain.pageAuthority.PageAuthorityRequest;
 import baseline.version3.springboot.pageAdmin.domain.pageAuthority.PageAuthorityResponse;
 import baseline.version3.springboot.pageAdmin.repository.PageAuthorityRepository;
 import baseline.version3.springboot.pageAdmin.repository.entity.PageAuthority;
 import baseline.version3.springboot.pageAdmin.repository.querydsl.QPageAuthorityRepository;
+import faraway.util.restformat.domain.exception.ServiceException;
+import faraway.util.restformat.domain.exception.ServiceLayerException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

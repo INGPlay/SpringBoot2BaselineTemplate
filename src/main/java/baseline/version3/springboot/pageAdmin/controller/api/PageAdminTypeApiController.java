@@ -1,9 +1,9 @@
 package baseline.version3.springboot.pageAdmin.controller.api;
 
-import baseline.version3.springboot.common.domain.ResponseForm;
-import baseline.version3.springboot.common.domain.ResponseTypeForm;
-import baseline.version3.springboot.common.util.ResponseUtil;
 import baseline.version3.springboot.pageAdmin.service.PageAuthorityService;
+import faraway.util.restformat.domain.response.ResponseForm;
+import faraway.util.restformat.domain.response.ResponseTypeForm;
+import faraway.util.restformat.util.ResponseUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
