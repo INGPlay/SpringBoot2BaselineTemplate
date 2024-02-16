@@ -1,5 +1,53 @@
 # SpringBoot3Baseline
 
+# Tech Stack
+## BackEnd
+- JDK 17
+- Spring Boot 3
+- Spring MVC
+
+### Persistence
+- Spring Data JPA
+- QueryDSL
+
+### Authentication
+- Keycloak
+- Spring Security
+
+### Cache
+- Spring Data Redis
+- Spring Cache
+
+### Logging
+- log4jdbc
+
+### Object Mapping
+- MapStruct
+- ModelMapper
+
+### Request API
+- RestTemplate
+
+### Etc
+- Spring Validation
+- Spring AOP
+
+
+## FrontEnd
+
+### Template Engine
+- Thymeleaf
+
+### JavaScript
+- Vue.js
+- AJAX
+
+### CSS
+- BootStrap 5
+- UIKit
+
+
+# 기록
 ## 계층
 - Controller :
     - View : _Controller,
