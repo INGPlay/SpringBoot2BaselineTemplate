@@ -47,9 +47,20 @@ server:
                 http-only: true # 브라우저에서 해당 쿠키에 대한 JavaScript 접근을 제한합니다. 이를 통해 XSS 공격을 방지할 수 있습니다.
                 secure: true # 쿠키가 HTTPS(SSL/TLS) 연결을 통해서만 전송되어야 함을 나타냅니다. 즉, HTTPS로 암호화된 연결에서만 쿠키가 전송되어야 합니다.
             timeout: 3600 # 세션의 유효 시간을 지정합니다. 단위는 초입니다.
+
     error:
         include-exception: false # 오류 응답에 exception의 내용을 포함할지 여부
         include-stacktrace: never # 오류 응답에 stacktrace 내용을 포함할 지 여부
+
+    # 톰캣 액세스 로그
+    tomcat:
+        accesslog:
+            enabled: true
+            directory: logs
+            file-date-format: yyyy-MM-dd
+            prefix: access_
+            suffix: .log
+
 
 logging.level:
     org.hibernate.SQL: debug
