@@ -1,8 +1,8 @@
 package baseline.version3.springboot.controllerAdvice;
 
-import faraway.util.restformat.domain.exception.CustomValidationException;
-import faraway.util.restformat.domain.exception.ServiceLayerException;
-import faraway.util.restformat.util.ResponseUtil;
+import baseline.version3.springboot.common.util.ResponseUtil;
+import baseline.version3.springboot.controllerAdvice.exception.ServiceLayerException;
+import baseline.version3.springboot.controllerAdvice.exception.CustomValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;

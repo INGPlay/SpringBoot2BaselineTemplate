@@ -1,6 +1,6 @@
 package baseline.version3.springboot.project.account.domain;
 
-import faraway.util.restformat.domain.subType.EnumBase;
+import baseline.version3.springboot.common.domain.subType.EnumBase;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

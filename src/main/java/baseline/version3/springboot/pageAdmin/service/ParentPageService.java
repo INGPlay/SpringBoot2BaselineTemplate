@@ -1,13 +1,13 @@
 package baseline.version3.springboot.pageAdmin.service;
 
 import baseline.version3.springboot.pageAdmin.repository.entity.ParentPage;
+import baseline.version3.springboot.controllerAdvice.exception.ServiceLayerException;
+import baseline.version3.springboot.controllerAdvice.subType.ServiceException;
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageMapper;
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageRequest;
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageResponse;
 import baseline.version3.springboot.pageAdmin.repository.ParentPageRepository;
 import baseline.version3.springboot.pageAdmin.repository.querydsl.QParentPageRepository;
-import faraway.util.restformat.domain.exception.ServiceException;
-import faraway.util.restformat.domain.exception.ServiceLayerException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;

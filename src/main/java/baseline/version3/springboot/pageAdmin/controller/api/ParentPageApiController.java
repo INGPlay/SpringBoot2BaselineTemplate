@@ -1,13 +1,13 @@
 package baseline.version3.springboot.pageAdmin.controller.api;
 
+import baseline.version3.springboot.common.util.ResponseUtil;
+import baseline.version3.springboot.common.domain.ResponseForm;
+import baseline.version3.springboot.controllerAdvice.exception.CustomValidationException;
+import baseline.version3.springboot.controllerAdvice.exception.ServiceLayerException;
+import baseline.version3.springboot.controllerAdvice.subType.ServiceException;
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageRequest;
 import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageResponse;
 import baseline.version3.springboot.pageAdmin.service.ParentPageService;
-import faraway.util.restformat.domain.exception.CustomValidationException;
-import faraway.util.restformat.domain.exception.ServiceException;
-import faraway.util.restformat.domain.exception.ServiceLayerException;
-import faraway.util.restformat.domain.response.ResponseForm;
-import faraway.util.restformat.util.ResponseUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +17,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
