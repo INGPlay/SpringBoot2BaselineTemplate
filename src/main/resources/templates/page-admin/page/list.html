@@ -2,8 +2,6 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
                 xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8">
-    <title>상위 페이지 목록</title>
 
     <th:block th:replace="~{fragment/common :: commonStatic}"></th:block>
     <th:block th:replace="~{fragment/framework :: uikit}"></th:block>
@@ -13,14 +11,16 @@
 </head>
 <body>
 
-<th:block th:replace="~{fragment/header :: commonHeader}"></th:block>
+<!-- 모달창 -->
 <th:block th:replace="~{fragment/modalSubPage :: subPageUpdate}"></th:block>
 <th:block th:replace="~{fragment/modalParentPage :: parentPageUpdate}"></th:block>
 
+<!-- 헤더 -->
+<th:block th:replace="~{fragment/header :: commonHeader}"></th:block>
+<!-- 타이틀 -->
+<th:block th:include="~{fragment/common :: commonTitle}"></th:block>
+
 <div class="container mt-3">
-    <div class="d-flex justify-content-center">
-        <span class="fs-3 fw-bold">페이지 관리</span>
-    </div>
 
     <div id="buttons" class="row my-2">
         <div class="col d-flex justify-content-between">

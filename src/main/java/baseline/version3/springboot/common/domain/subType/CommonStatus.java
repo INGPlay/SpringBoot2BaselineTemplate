@@ -2,7 +2,7 @@ package baseline.version3.springboot.common.domain.subType;
 
 import lombok.AllArgsConstructor;
 
-public class CommonSub {
+public class CommonStatus {
     @AllArgsConstructor
     public enum ActiveStatus implements EnumBase {
         ACTIVE("활성화"),

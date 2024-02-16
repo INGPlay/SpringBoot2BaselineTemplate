@@ -13,19 +13,8 @@ import org.springframework.web.bind.annotation.*;
 public class PageAdminController {
 
     private final ParentPageService parentPageService;
-
-    @GetMapping
-    public String pageAdminRoot(){
-        return "forward:/page-admin/index";
-    }
-
-    @GetMapping(value = {"/", "/index"})
+    @GetMapping(value = {"", "/index"})
     public String pageAdminIndex(){
         return "page-admin/index";
-    }
-
-    @GetMapping("/page/hierachy")
-    public String hierachyPage(){
-        return "page-admin/page/hierachy";
     }
 }

@@ -27,29 +27,4 @@ public class ParentPageController {
     public String listPage(){
         return "page-admin/page/list";
     }
-
-    /**
-     * register 페이지
-     * @param model
-     * @return
-     */
-    @GetMapping("/register")
-    public String registerPage(Model model){
-        model.addAttribute("requestInsert", new ParentPageRequest.RequestInsert());
-        return "page-admin/page/register";
-    }
-
-
-    /**
-     * Update 페이지
-     * @param id
-     * @param model
-     * @return
-     */
-    @GetMapping("/list/update")
-    public String updatePage(@RequestParam Long id,
-                             Model model){
-        model.addAttribute("id", id);
-        return "page-admin/page/update";
-    }
 }

@@ -11,9 +11,6 @@
 </head>
 <body>
 
-<!-- 모달창 -->
-<th:block th:replace="~{fragment/modalPageAuthority :: pageAuthorityUpdate}"></th:block>
-
 <!-- 헤더 -->
 <th:block th:replace="~{fragment/header :: commonHeader}"></th:block>
 <!-- 타이틀 -->
@@ -22,11 +19,10 @@
 <div class="container mt-3">
 
     <div class="d-flex justify-content-between my-2">
-        <a type="button" href='/page-admin/page/list'
+        <a type="button" href=''
            class="link-secondary link-offset-2 link-underline-opacity-50 link-underline-opacity-100-hover">
-            페이지 관리
+            버튼
         </a>
-        <th:block th:replace="~{fragment/modalPageAuthority :: pageAuthorityRegister}"></th:block>
     </div>
 
     <div id="gridTarget"></div>
@@ -52,25 +48,24 @@
         selectionUnit: 'row',
         columns: [
             {
-                header: '권한 아이디', name: 'pageAuthorityId', align: 'center', hidden: true
+                header: 'id', name: 'ipAccessId', align: 'center', hidden: true
             },
             {
-                header : '권한 코드', name: 'pageAuthorityCode', width : 150, align: 'center',
+                header : 'IP 주소', name: 'ipAddress', width : 150, align: 'center',
                 resizable : true,
                 sortable : true,
                 filter: 'select'
             },
             {
-                header: '권한명', name: 'pageAuthorityName', width: 150, align : 'center',
+                header: '상태', name: 'activeStatus', width: 150, align : 'center',
                 resizable : true,
                 sortable : true,
                 filter: 'select'
             },
             {
-                header: '권한 설명', name: 'pageAuthorityDescription', width: 150, align: 'center',
+                header: '메모', name: 'ipAccessDescription', width: 150, align: 'center',
                 resizable : true,
-                sortable : true,
-                filter: 'select'
+                sortable : true
             },
             {
                 header: '등록일', name: 'registerDate', width: 150, align: 'center',
@@ -88,7 +83,7 @@
         data: {
             api: {
                 readData: {
-                    url : '/api/page-admin/auth',
+                    url : '/api/ip-access',
                     method : 'GET',
                     initParams : {}
                 }
@@ -100,24 +95,6 @@
             perPage: 30
         },
         bodyHeight: 300
-    })
-
-    gridTarget.on('dblclick', function (ev) {
-        let pageAuthorityId = gridTarget.getRow(ev.rowKey).pageAuthorityId;
-        pageAuthorityUpdate.show(pageAuthorityId)
-    });
-
-    pageAuthorityRegister.closeCallback = () => {
-        console.log("test")
-        gridTarget.readData()
-    }
-    pageAuthorityUpdate.closeCallback = () => {
-        console.log("test")
-        gridTarget.readData()
-    }
-
-    document.getElementById("asdf").addEventListener("click", function (e){
-        pageAuthorityUpdate.show(2)
     })
 
 </script>

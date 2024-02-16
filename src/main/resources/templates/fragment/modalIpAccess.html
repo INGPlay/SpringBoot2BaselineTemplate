@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:fragment="ipAccessRegister">
+
+    <span id="ipAccessRegister">
+        <!-- Modal -->
+        <div id="ipAccessRegisterModal" class="modal" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">서브 페이지 등록</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" class="row g-3">
+                            <input type="hidden" name="parentPageId" v-model="submitForm.parentPageId">
+                            <div class="col-md-12">
+                                <label class="form-label">서브 페이지 명</label>
+                                <input type="text" class="form-control" name="subPageTitle" v-model="submitForm.subPageTitle"
+                                       @keyup.enter="register()"
+                                       required>
+                                <div class="form-text">{{ validateText.subPageTitle }}</div>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label">설명</label>
+                                <input type="text" class="form-control" name="subPageDescription" v-model="submitForm.subPageDescription"
+                                       @keyup.enter="register()"
+                                >
+                                <div class="form-text">{{ validateText.subPageDescription }}</div>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">서브 페이지 경로*</label>
+                                <input type="text" class="form-control" name="subPagePath" v-model="submitForm.subPagePath" placeholder="/"
+                                       @keyup.enter="register()"
+                                       required>
+                                <div class="form-text">{{ validateText.subPagePath }}</div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button @click="register()" type="button" class="btn btn-primary btn-sm">권한 등록</button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Button trigger modal -->
+        <button type="button" data-bs-toggle="modal" data-bs-target="#ipAccessRegisterModal"
+                :class="[submitForm.parentPageId ? '' : 'disabled', 'btn', 'btn-primary', 'btn-sm']">
+            서브 페이지 추가
+        </button>
+        
+    </span>
+
+
+    <script type="application/javascript" th:inline="javascript">
+        /**
+         * method :
+         * - closeCallback : Modal Close Callback
+         * ex)
+         * pageAuthorityRegister.closeCallback = () => {
+         *      // code
+         * }
+         */
+        const ipAccessRegister = Vue.createApp({
+            data(){
+                return{
+                    modalId : "ipAccessRegisterModal",
+                    submitForm : {
+                        parentPageId : null,
+                        subPageTitle : '',
+                        subPageDescription : '',
+                        subPagePath : '',
+                    },
+                    validateText : {
+                        subPageTitle: '',
+                        subPageDescription: '',
+                        subPagePath: '',
+                    }
+                }
+            },
+            created(){
+                    
+            },
+            mounted(){
+
+            },
+            methods: {
+                reset : function (){
+                    this.submitForm = {
+                        parentPageId: this.submitForm.parentPageId
+                    }
+                    this.validateText = {}
+                },
+                close : function (){
+                    document.getElementById(this.modalId).style.display = "none";
+                    $('.modal-backdrop').remove();
+                    this.closeCallback()
+                },
+                closeCallback : function (){
+                    // 닫을 때 콜백
+                },
+                register : function () {
+                    requestJsonAjaxPromise({
+                        url: "/api/parent-page/sub-page",
+                        method: "POST",
+                        data: this.submitForm,
+                        async: true
+                    }).then((response) => {
+                        this.reset()
+                        this.close()
+                        alert("서브 페이지를 등록하였습니다.")
+                    }).catch((error) => {
+                        this.validateText = error.responseJSON.data.errorMessage
+                    })
+                }
+            }
+        }).mount("#ipAccessRegister")
+
+    </script>
+</th:block>
+
+
+<th:block th:fragment="ipAccessUpdate">
+    <!-- Modal -->
+    <div class="modal" id="ipAccessUpdate" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">서브페이지 정보 수정</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" class="row g-3">
+                        <input type="hidden" name="ipAccessId" v-model="submitForm.ipAccessId">
+
+                        <div class="col-6">
+                            <label class="form-label">등록시간</label>
+                            <input type="text" class="form-control"
+                                   v-model="submitForm.registerDate" disabled>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">수정시간</label>
+                            <input type="text" class="form-control"
+                                   v-model="submitForm.lastModifyDate" disabled>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label class="form-label">서브 페이지 명</label>
+                            <input type="text" class="form-control" name="subPageTitle" v-model="submitForm.subPageTitle"
+                                   @keyup.enter="update()"
+                                   required>
+                            <div class="form-text">{{ validateText.subPageTitle }}</div>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">설명</label>
+                            <input type="text" class="form-control" name="subPageDescription" v-model="submitForm.subPageDescription"
+                                   @keyup.enter="update()"
+                            >
+                            <div class="form-text">{{ validateText.subPageDescription }}</div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">서브 페이지 경로*</label>
+                            <input type="text" class="form-control" name="subPagePath" v-model="submitForm.subPagePath" placeholder="/"
+                                   @keyup.enter="update()"
+                            >
+                            <div class="form-text">{{ validateText.subPagePath }}</div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">절대 경로</label>
+                            <input type="text" class="form-control" :value="submitForm.concatPagePath" placeholder="/" disabled>
+                            <div class="form-text"></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <div>
+                        <button @click="remove()" type="button" class="btn btn-danger btn-sm">삭제</button>
+                    </div>
+                    <div>
+                        <button @click="update()" type="button" class="btn btn-primary btn-sm">서브 페이지 수정</button>
+                        <button type="button" class="btn btn-secondary btn-sm ms-2" data-bs-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="application/javascript" th:inline="javascript">
+        /**
+         * method :
+         * - closeCallback : Modal Close Callback
+         * ex)
+         * pageAuthorityRegister.closeCallback = () => {
+         *      // code
+         * }
+         */
+        const ipAccessUpdate = Vue.createApp({
+            data(){
+                return{
+                    modalId : "ipAccessUpdate",
+                    submitForm : {
+                        ipAccessId : null,
+                        subPageTitle : '',
+                        subPageDescription : '',
+                        subPagePath : '',
+                        registerDate : '',
+                        lastModifyDate : '',
+                        concatPagePath : ''
+                    },
+                    validateText : {
+                        subPageTitle: '',
+                        subPageDescription: '',
+                        subPagePath: '',
+                    }
+                }
+            },
+            created(){
+
+            },
+            mounted(){
+
+            },
+            methods: {
+                reset : function (){
+                    this.submitForm = {}
+                    this.validateText = {}
+                },
+                close : function (){
+                    document.getElementById(this.modalId).style.display = "none";
+                    $('.modal-backdrop').remove();
+                    this.closeCallback()
+                },
+                closeCallback : function (){
+
+                },
+                show : function (ipAccessId){
+                    requestJsonAjaxPromise({
+                        url: "/api/parent-page/sub-page/" + ipAccessId,
+                        method: "GET",
+                        data: {},
+                        async: true
+                    }).then((response) => {
+                        this.submitForm = response.data.contents
+                        new bootstrap.Modal(document.getElementById(this.modalId)).show();
+                    }).catch((error) => {
+                        alert("데이터를 불러오지 못하였습니다. 다시 시도해주세요.")
+                    })
+                },
+                update: function (){
+                    requestJsonAjaxPromise({
+                        url: "/api/parent-page/sub-page",
+                        method: "PUT",
+                        data: this.submitForm,
+                        async: true
+                    }).then((response) => {
+                        this.reset()
+                        this.close()
+                        alert("서브페이지 정보를 수정하였습니다.")
+                    }).catch((error) => {
+                        this.validateText = error.responseJSON.data.errorMessage
+                    })
+                },
+                remove: function (){
+                    if (confirm("삭제하시겠습니까?")){
+                        requestJsonAjaxPromise({
+                            url: "/api/parent-page/sub-page",
+                            method: "DELETE",
+                            data: this.submitForm,
+                            async: true
+                        }).then((response) => {
+                            this.reset()
+                            this.close()
+                            alert("삭제하였습니다.")
+                        }).catch((error) => {
+                            alert("삭제에 실패하였습니다. 다시 시도해주세요.")
+                        })
+                    }
+
+                }
+            }
+        }).mount("#ipAccessUpdate")
+    </script>
+</th:block>
+
+</html>

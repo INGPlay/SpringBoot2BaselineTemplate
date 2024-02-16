@@ -1,4 +1,4 @@
-package baseline.version3.springboot.project.example.repository.entity;
+package baseline.version3.springboot.project.example.entity;
 
 import baseline.version3.springboot.common.entity.base.DateTimeBase;
 import jakarta.persistence.*;

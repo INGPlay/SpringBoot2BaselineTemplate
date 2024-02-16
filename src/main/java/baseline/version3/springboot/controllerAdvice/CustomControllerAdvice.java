@@ -34,8 +34,7 @@ public class CustomControllerAdvice {
 
         if (response.isPresent()){
             SubPageResponse.Response subPage = response.get();
-            model.addAttribute("parentPageTitle", subPage.parentPageTitle());
-            model.addAttribute("subPageTitle", subPage.parentPageTitle());
+            model.addAttribute("pageInfo", subPage);
         }
 
         log.info("Request : {} {}", request.getMethod(), request.getRequestURI());

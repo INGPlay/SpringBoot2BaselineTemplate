@@ -20,10 +20,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -33,7 +30,17 @@ public class AuthorityDynamicHandler {
 
     private final SubPageService subPageService;
 
+    private final List<String> staticPaths = new ArrayList<>(List.of(new String[]{
+            "/framework/*",
+            "/library/*",
+            "/favicon.ico"
+    }));
+
     public boolean isAuthorization(HttpServletRequest request, Authentication authentication){
+
+        if (staticPaths.stream().anyMatch(p -> antPathMatcher().match(p, request.getRequestURI()))){
+            return true;
+        }
 
         // 해당하는 URI 찾기
         SubPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new SubPageRequest.RequestDynamicQueryOne(request.getRequestURI());
