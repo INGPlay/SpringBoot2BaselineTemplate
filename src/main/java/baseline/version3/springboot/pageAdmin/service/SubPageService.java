@@ -2,7 +2,7 @@ package baseline.version3.springboot.pageAdmin.service;
 
 import baseline.version3.springboot.controllerAdvice.exception.ServiceLayerException;
 import baseline.version3.springboot.controllerAdvice.subType.ServiceException;
-import baseline.version3.springboot.pageAdmin.repository.entity.SubPage;
+import baseline.version3.springboot.pageAdmin.entity.SubPage;
 import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageMapper;
 import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageRequest;
 import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageResponse;
@@ -11,7 +11,6 @@ import baseline.version3.springboot.pageAdmin.repository.querydsl.QSubPageReposi
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;

@@ -6,7 +6,7 @@ import baseline.version3.springboot.pageAdmin.domain.pageAuthority.PageAuthority
 import baseline.version3.springboot.pageAdmin.domain.pageAuthority.PageAuthorityRequest;
 import baseline.version3.springboot.pageAdmin.domain.pageAuthority.PageAuthorityResponse;
 import baseline.version3.springboot.pageAdmin.repository.PageAuthorityRepository;
-import baseline.version3.springboot.pageAdmin.repository.entity.PageAuthority;
+import baseline.version3.springboot.pageAdmin.entity.PageAuthority;
 import baseline.version3.springboot.pageAdmin.repository.querydsl.QPageAuthorityRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

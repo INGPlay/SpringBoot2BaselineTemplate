@@ -1,8 +1,8 @@
 package baseline.version3.springboot.project.account.repository.querydsl;
 
 import baseline.version3.springboot.project.account.domain.AccountSub;
-import baseline.version3.springboot.project.account.repository.entity.Account;
-import baseline.version3.springboot.project.account.repository.entity.QAccount;
+import baseline.version3.springboot.project.account.entity.Account;
+import baseline.version3.springboot.project.account.entity.QAccount;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

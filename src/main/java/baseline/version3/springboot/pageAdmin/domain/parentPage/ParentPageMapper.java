@@ -1,8 +1,8 @@
 package baseline.version3.springboot.pageAdmin.domain.parentPage;
 
 import baseline.version3.springboot.pageAdmin.repository.PageAuthorityRepository;
-import baseline.version3.springboot.pageAdmin.repository.entity.PageAuthority;
-import baseline.version3.springboot.pageAdmin.repository.entity.ParentPage;
+import baseline.version3.springboot.pageAdmin.entity.PageAuthority;
+import baseline.version3.springboot.pageAdmin.entity.ParentPage;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 

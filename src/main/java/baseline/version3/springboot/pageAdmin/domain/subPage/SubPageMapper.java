@@ -1,9 +1,7 @@
 package baseline.version3.springboot.pageAdmin.domain.subPage;
 
-import baseline.version3.springboot.pageAdmin.repository.PageAuthorityRepository;
-import baseline.version3.springboot.pageAdmin.repository.entity.PageAuthority;
-import baseline.version3.springboot.pageAdmin.repository.entity.ParentPage;
-import baseline.version3.springboot.pageAdmin.repository.entity.SubPage;
+import baseline.version3.springboot.pageAdmin.entity.ParentPage;
+import baseline.version3.springboot.pageAdmin.entity.SubPage;
 import baseline.version3.springboot.controllerAdvice.exception.ServiceLayerException;
 import baseline.version3.springboot.controllerAdvice.subType.ServiceException;
 import baseline.version3.springboot.pageAdmin.repository.ParentPageRepository;

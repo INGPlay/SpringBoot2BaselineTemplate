@@ -1,4 +1,4 @@
-package baseline.version3.springboot.project.account.repository.entity;
+package baseline.version3.springboot.project.account.entity;
 
 import baseline.version3.springboot.project.account.domain.AccountSub;
 import baseline.version3.springboot.common.entity.base.DateTimeBase;

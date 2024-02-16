@@ -1,4 +1,4 @@
-package baseline.version3.springboot.pageAdmin.repository.entity;
+package baseline.version3.springboot.pageAdmin.entity;
 
 import baseline.version3.springboot.common.entity.base.DateTimeBase;
 import jakarta.persistence.*;
