@@ -30,16 +30,19 @@ public class ParentPageService {
     private final QParentPageRepository qParentPageRepository;
     private final ParentPageMapper parentPageMapper;
 
+    @Transactional(readOnly = true)
     @Cacheable(cacheNames = "ParentPageService.findList")
     public List<ParentPageResponse.Response> findList(){
         return qParentPageRepository.selectList();
     }
 
 
+    @Transactional(readOnly = true)
     public Optional<ParentPageResponse.Response> findOne(ParentPageRequest.RequestDynamicQueryOne requestDynamicQueryOne){
         return qParentPageRepository.selectOne(requestDynamicQueryOne);
     }
 
+    @Transactional(readOnly = true)
     public Optional<ParentPageResponse.Response> findOneById(Long id){
 
         ParentPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new ParentPageRequest.RequestDynamicQueryOne(id);

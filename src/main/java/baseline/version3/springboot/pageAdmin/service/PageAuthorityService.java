@@ -25,10 +25,12 @@ public class PageAuthorityService {
     private final QPageAuthorityRepository qPageAuthorityRepository;
     private final PageAuthorityMapper pageAuthorityMapper;
 
+    @Transactional(readOnly = true)
     public List<PageAuthorityResponse.Response> findList(){
         return qPageAuthorityRepository.selectList();
     }
 
+    @Transactional(readOnly = true)
     public Optional<PageAuthorityResponse.Response> findOne(PageAuthorityRequest.RequestDynamicQueryOne requestDynamicQueryOne){
         return qPageAuthorityRepository.selectOne(requestDynamicQueryOne);
     }
@@ -46,6 +48,7 @@ public class PageAuthorityService {
         pageAuthorityRepository.save(pageAuthority);
     }
 
+    @Transactional(readOnly = true)
     public PageAuthorityResponse.Response findById(Long id) {
         PageAuthority pageAuthority = pageAuthorityRepository.findById(id).orElseThrow(
                 () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)

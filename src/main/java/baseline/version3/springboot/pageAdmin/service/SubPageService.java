@@ -29,11 +29,13 @@ public class SubPageService {
     private final QSubPageRepository qSubPageRepository;
     private final SubPageMapper subPageMapper;
 
+    @Transactional(readOnly = true)
     @Cacheable(cacheNames = "SubPageService.findList", key = "'_' + #requestDynamicQuery.parentPageId + '_'")
     public List<SubPageResponse.Response> findList(SubPageRequest.RequestDynamicQuery requestDynamicQuery){
         return qSubPageRepository.selectList(requestDynamicQuery);
     }
 
+    @Transactional(readOnly = true)
     @Cacheable(
             cacheNames = "SubPageService.findOne",
             key = "'_' + #requestDynamicQuery.concatPagePath + '_'",
