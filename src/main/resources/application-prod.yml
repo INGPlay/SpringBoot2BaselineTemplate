@@ -30,10 +30,16 @@ spring:
         host:
         port: 6379
         password:
+
+        # Redis Cache Option
+        cache:
+            prefix: "prod:cache::"
+            ttl: 30
+
     session:
         store-type: redis   # 세션 저장소를 지정합니다.
         redis:
-            namespace: shopping:session   # 세션을 저장하는 데 사용되는 키의 네임스페이스를 지정합니다.
+            namespace: prod:session   # 세션을 저장하는 데 사용되는 키의 네임스페이스를 지정합니다.
     # Redis Cache
     cache:
         type: redis
@@ -52,7 +58,7 @@ server:
         include-exception: false # 오류 응답에 exception의 내용을 포함할지 여부
         include-stacktrace: never # 오류 응답에 stacktrace 내용을 포함할 지 여부
 
-    # 톰캣 액세스 로그
+    # 톰캣 액세스 로그 기록
     tomcat:
         accesslog:
             enabled: true

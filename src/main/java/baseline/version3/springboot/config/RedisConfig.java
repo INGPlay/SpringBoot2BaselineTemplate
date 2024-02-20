@@ -1,7 +1,9 @@
 package baseline.version3.springboot.config;
 
+import baseline.version3.springboot.config.properties.RedisCacheProperties;
 import baseline.version3.springboot.config.properties.RedisProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +30,7 @@ import java.time.Duration;
 public class RedisConfig {
 
     private final RedisProperties redisProperties;
+    private final RedisCacheProperties redisCacheProperties;
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory(){
@@ -54,8 +57,8 @@ public class RedisConfig {
     public CacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration
                 .defaultCacheConfig()
-                .entryTtl(Duration.ofMinutes(30))
-                .prefixCacheNameWith("base:cache::")       // 캐시 접두사
+                .entryTtl(Duration.ofMinutes(redisCacheProperties.ttl()))
+                .prefixCacheNameWith(redisCacheProperties.prefix())       // 캐시 접두사
                 .serializeKeysWith(
                         RedisSerializationContext.SerializationPair
                                 .fromSerializer(new StringRedisSerializer()))

@@ -40,10 +40,16 @@ spring:
         host: # host
         port: 6379
         password: # password
+
+        # Redis Cache Option
+        cache:
+            prefix: "local:cache::"
+            ttl: 30
+
     session:
         store-type: redis   # 세션 저장소를 지정합니다.
         redis:
-            namespace: project:session   # 세션을 저장하는 데 사용되는 키의 네임스페이스를 지정합니다.
+            namespace: local:session   # 세션을 저장하는 데 사용되는 키의 네임스페이스를 지정합니다.
     # Redis Cache
     cache:
         type: redis
