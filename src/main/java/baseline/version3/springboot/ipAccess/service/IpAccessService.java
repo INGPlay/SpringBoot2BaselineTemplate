@@ -27,8 +27,6 @@ public class IpAccessService {
 
     private final IpAccessRepository ipAccessRepository;
 
-    private final ApplicationEventPublisher applicationEventPublisher;
-
     @Transactional(readOnly = true)
     public IpAccessResponse.Response findOne(Long id){
         IpAccess ipAccess = ipAccessRepository.findById(id).orElseThrow(
@@ -45,8 +43,8 @@ public class IpAccessService {
                 .collect(Collectors.toList());
     }
 
-    public void insertOne(IpAccessRequest.Request editExampleDTO){
-        IpAccess ipAccess = ipAccessMapper.requestInsert(editExampleDTO);
+    public void insertOne(IpAccessRequest.Request request){
+        IpAccess ipAccess = ipAccessMapper.requestInsert(request);
 
         ipAccessRepository.save(ipAccess);
     }
@@ -60,5 +58,13 @@ public class IpAccessService {
         ipAccessMapper.requestUpdate(request, ipAccess);
 
         ipAccessRepository.save(ipAccess);
+    }
+
+    public void deleteOne(IpAccessRequest.RequestDelete request){
+        IpAccess ipAccess = ipAccessRepository.findById(request.getIpAccessId()).orElseThrow(
+                () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)
+        );
+
+        ipAccessRepository.delete(ipAccess);
     }
 }

@@ -4,7 +4,7 @@
 
 <th:block th:fragment="commonStatic">
     <meta charset="UTF-8">
-    <title th:text="${pageInfo.parentPageTitle + ' - ' + pageInfo.subPageTitle}">페이지</title>
+    <title th:text="${pageInfo?.parentPageTitle + ' - ' + pageInfo?.subPageTitle}">페이지</title>
 
     <script src="/library/jquery/jquery-3.7.1.min.js"></script>
 
@@ -28,10 +28,10 @@
 
     <div class="container mt-3">
         <div class="d-flex justify-content-center">
-            <span class="fw-bold uk-text-lead" th:text="${pageInfo.subPageTitle}">title</span>
+            <span class="fw-bold uk-text-lead" th:text="${pageInfo?.subPageTitle}">title</span>
         </div>
         <div class="d-flex justify-content-center">
-            <span class="uk-text-meta" th:text="${pageInfo.subPageDescription}">description</span>
+            <span class="uk-text-meta" th:text="${pageInfo?.subPageDescription}">description</span>
         </div>
     </div>
 

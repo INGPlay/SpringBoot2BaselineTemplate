@@ -1,11 +1,9 @@
 package baseline.version3.springboot.ipAccess.domain;
 
-import baseline.version3.springboot.common.domain.subType.CommonStatus;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import baseline.version3.springboot.common.domain.subType.ApplyStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Date;
 
@@ -19,9 +17,11 @@ public class IpAccessResponse {
 
         private String ipAddress;
 
-        private CommonStatus.ActiveStatus activeStatus;
+        private ApplyStatus applyStatus;
 
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
         private Date registerDate;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
         private Date lastModifyDate;
 
     }

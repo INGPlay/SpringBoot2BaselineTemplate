@@ -2,12 +2,15 @@ package baseline.version3.springboot.ipAccess.controller.api;
 
 import baseline.version3.springboot.common.domain.ResponseForm;
 import baseline.version3.springboot.common.util.ResponseUtil;
+import baseline.version3.springboot.common.util.ValidationUtil;
 import baseline.version3.springboot.ipAccess.domain.IpAccessRequest;
 import baseline.version3.springboot.ipAccess.domain.IpAccessResponse;
 import baseline.version3.springboot.ipAccess.service.IpAccessService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,15 +35,33 @@ public class IpAccessApiController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseForm> insert(@RequestBody IpAccessRequest.Request request){
+    public ResponseEntity<ResponseForm> insert(@Valid @RequestBody IpAccessRequest.Request request,
+                                               BindingResult bindingResult){
+
+        ValidationUtil.checkErrors(bindingResult);
+
         ipAccessService.insertOne(request);
 
         return ResponseUtil.makeResponseEntity();
     }
 
     @PutMapping
-    public ResponseEntity<ResponseForm> update(@RequestBody IpAccessRequest.RequestUpdate requestUpdate){
+    public ResponseEntity<ResponseForm> update(@Valid @RequestBody IpAccessRequest.RequestUpdate requestUpdate,
+                                               BindingResult bindingResult){
+
+        ValidationUtil.checkErrors(bindingResult);
+
         ipAccessService.updateOne(requestUpdate);
+
+        return ResponseUtil.makeResponseEntity();
+    }
+
+    @DeleteMapping
+    public ResponseEntity<ResponseForm> delete(@Valid @RequestBody IpAccessRequest.RequestDelete requestDelete,
+                                               BindingResult bindingResult){
+        ValidationUtil.checkErrors(bindingResult);
+
+        ipAccessService.deleteOne(requestDelete);
 
         return ResponseUtil.makeResponseEntity();
     }

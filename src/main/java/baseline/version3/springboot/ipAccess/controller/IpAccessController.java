@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class IpAccessController {
 
-    @GetMapping(value = {"", "/list"})
+    @GetMapping(value = { "/list"})
     public String list(){
         return "ip-access/list";
     }

@@ -1,9 +1,8 @@
 package baseline.version3.springboot.ipAccess.entity;
 
-import baseline.version3.springboot.common.domain.subType.CommonStatus;
+import baseline.version3.springboot.common.domain.subType.ApplyStatus;
 import baseline.version3.springboot.common.entity.base.DateTimeBase;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -25,10 +24,10 @@ public class IpAccess extends DateTimeBase {
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
-    private CommonStatus.ActiveStatus activeStatus;
+    private ApplyStatus applyStatus;
 
     @Column
-    @Max(value = 100)
+    @Size(max = 30)
     private String ipAccessDescription;
 
 }

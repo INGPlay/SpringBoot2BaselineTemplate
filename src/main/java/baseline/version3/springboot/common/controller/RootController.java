@@ -18,7 +18,7 @@ public class RootController {
 
     @GetMapping
     public String rootPage(){
-        return "forward:" + introPage;
+        return "redirect:" + introPage;
     }
 
     @GetMapping("/index")

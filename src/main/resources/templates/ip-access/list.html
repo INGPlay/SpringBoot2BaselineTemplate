@@ -16,13 +16,24 @@
 <!-- 타이틀 -->
 <th:block th:include="~{fragment/common :: commonTitle}"></th:block>
 
+<th:block th:include="~{fragment/modalIpAccess :: ipAccessUpdate}"></th:block>
+
 <div class="container mt-3">
 
     <div class="d-flex justify-content-between my-2">
-        <a type="button" href=''
-           class="link-secondary link-offset-2 link-underline-opacity-50 link-underline-opacity-100-hover">
-            버튼
-        </a>
+        <div id="buttons" class="row my-2">
+            <div class="col d-flex justify-content-between">
+                <div>
+                    <th:block th:replace="~{fragment/modalIpAccess :: ipAccessRegister}"></th:block>
+                </div>
+<!--                <div>-->
+<!--                    <a type="button" href='/page-admin/page/auth/list'-->
+<!--                       class="link-secondary link-offset-2 link-underline-opacity-50 link-underline-opacity-100-hover">-->
+<!--                        권한 관리-->
+<!--                    </a>-->
+<!--                </div>-->
+            </div>
+        </div>
     </div>
 
     <div id="gridTarget"></div>
@@ -57,7 +68,7 @@
                 filter: 'select'
             },
             {
-                header: '상태', name: 'activeStatus', width: 150, align : 'center',
+                header: '상태', name: 'applyStatus', width: 150, align : 'center',
                 resizable : true,
                 sortable : true,
                 filter: 'select'
@@ -97,5 +108,24 @@
         bodyHeight: 300
     })
 
+    gridTarget.on('dblclick', function(ev) {
+        console.log(ev)
+        let rowKey = ev.rowKey;
+        let record = {
+            start : [rowKey, 0],
+            end : [rowKey, gridTarget.getColumns().length]
+        }
+        gridTarget.setSelectionRange(record);
+
+        ipAccessUpdate.show(gridTarget.getRow(rowKey).ipAccessId)
+    });
+
+    ipAccessRegister.closeCallback = () => {
+        gridTarget.readData()
+    }
+
+    ipAccessUpdate.closeCallback = () => {
+        gridTarget.readData()
+    }
 </script>
 </html>

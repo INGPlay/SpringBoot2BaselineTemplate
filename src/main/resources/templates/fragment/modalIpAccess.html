@@ -10,46 +10,47 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5">서브 페이지 등록</h1>
+                        <h1 class="modal-title fs-5">
+                            {{ title }}
+                        </h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form method="post" class="row g-3">
                             <input type="hidden" name="parentPageId" v-model="submitForm.parentPageId">
                             <div class="col-md-12">
-                                <label class="form-label">서브 페이지 명</label>
-                                <input type="text" class="form-control" name="subPageTitle" v-model="submitForm.subPageTitle"
+                                <label class="form-label">IP 주소</label>
+                                <input type="text" class="form-control" name="ipAddress" v-model="submitForm.ipAddress"
                                        @keyup.enter="register()"
                                        required>
-                                <div class="form-text">{{ validateText.subPageTitle }}</div>
+                                <div class="form-text">{{ validateText.ipAddress }}</div>
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label">설명</label>
-                                <input type="text" class="form-control" name="subPageDescription" v-model="submitForm.subPageDescription"
+                                <input type="text" class="form-control" name="ipAccessDescription" v-model="submitForm.ipAccessDescription"
                                        @keyup.enter="register()"
                                 >
-                                <div class="form-text">{{ validateText.subPageDescription }}</div>
+                                <div class="form-text">{{ validateText.ipAccessDescription }}</div>
                             </div>
                             <div class="col-12">
-                                <label class="form-label">서브 페이지 경로*</label>
-                                <input type="text" class="form-control" name="subPagePath" v-model="submitForm.subPagePath" placeholder="/"
-                                       @keyup.enter="register()"
-                                       required>
-                                <div class="form-text">{{ validateText.subPagePath }}</div>
+                                <label class="form-label">적용 여부</label>
+                            <select name="applyStatus" v-model="submitForm.applyStatus" class="form-select form-select-sm" required>
+                                <option value="">선택</option>
+                            </select>
+                                <div class="form-text">{{ validateText.applyStatus }}</div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button @click="register()" type="button" class="btn btn-primary btn-sm">권한 등록</button>
+                        <button @click="register()" type="button" class="btn btn-primary btn-sm">IP 등록</button>
                         <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">닫기</button>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Button trigger modal -->
-        <button type="button" data-bs-toggle="modal" data-bs-target="#ipAccessRegisterModal"
-                :class="[submitForm.parentPageId ? '' : 'disabled', 'btn', 'btn-primary', 'btn-sm']">
-            서브 페이지 추가
+        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#ipAccessRegisterModal">
+            {{ buttonName }}
         </button>
         
     </span>
@@ -67,17 +68,18 @@
         const ipAccessRegister = Vue.createApp({
             data(){
                 return{
+                    title : "차단 IP 등록",
+                    buttonName : "차단 IP 등록",
                     modalId : "ipAccessRegisterModal",
                     submitForm : {
-                        parentPageId : null,
-                        subPageTitle : '',
-                        subPageDescription : '',
-                        subPagePath : '',
+                        ipAddress : '',
+                        ipAccessDescription : '',
+                        applyStatus : '',
                     },
                     validateText : {
-                        subPageTitle: '',
-                        subPageDescription: '',
-                        subPagePath: '',
+                        ipAddress : '',
+                        ipAccessDescription : '',
+                        applyStatus : '',
                     }
                 }
             },
@@ -85,7 +87,11 @@
                     
             },
             mounted(){
-
+                requestSelectOption("select[name='applyStatus']", {
+                    url: "/api/common/type/active-status",
+                    method: "GET",
+                    data: {}
+                })
             },
             methods: {
                 reset : function (){
@@ -104,14 +110,14 @@
                 },
                 register : function () {
                     requestJsonAjaxPromise({
-                        url: "/api/parent-page/sub-page",
+                        url: "/api/ip-access",
                         method: "POST",
                         data: this.submitForm,
                         async: true
                     }).then((response) => {
                         this.reset()
                         this.close()
-                        alert("서브 페이지를 등록하였습니다.")
+                        alert("등록하였습니다.")
                     }).catch((error) => {
                         this.validateText = error.responseJSON.data.errorMessage
                     })
@@ -129,49 +135,34 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">서브페이지 정보 수정</h1>
+                    <h1 class="modal-title fs-5">
+                        {{ title }}
+                    </h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form method="post" class="row g-3">
-                        <input type="hidden" name="ipAccessId" v-model="submitForm.ipAccessId">
-
-                        <div class="col-6">
-                            <label class="form-label">등록시간</label>
-                            <input type="text" class="form-control"
-                                   v-model="submitForm.registerDate" disabled>
-                        </div>
-                        <div class="col-6">
-                            <label class="form-label">수정시간</label>
-                            <input type="text" class="form-control"
-                                   v-model="submitForm.lastModifyDate" disabled>
-                        </div>
-
+                        <input type="hidden" name="parentPageId" v-model="submitForm.parentPageId">
                         <div class="col-md-12">
-                            <label class="form-label">서브 페이지 명</label>
-                            <input type="text" class="form-control" name="subPageTitle" v-model="submitForm.subPageTitle"
+                            <label class="form-label">IP 주소</label>
+                            <input type="text" class="form-control" name="ipAddress" v-model="submitForm.ipAddress"
                                    @keyup.enter="update()"
                                    required>
-                            <div class="form-text">{{ validateText.subPageTitle }}</div>
+                            <div class="form-text">{{ validateText.ipAddress }}</div>
                         </div>
                         <div class="col-md-12">
                             <label class="form-label">설명</label>
-                            <input type="text" class="form-control" name="subPageDescription" v-model="submitForm.subPageDescription"
+                            <input type="text" class="form-control" name="ipAccessDescription" v-model="submitForm.ipAccessDescription"
                                    @keyup.enter="update()"
                             >
-                            <div class="form-text">{{ validateText.subPageDescription }}</div>
+                            <div class="form-text">{{ validateText.ipAccessDescription }}</div>
                         </div>
                         <div class="col-12">
-                            <label class="form-label">서브 페이지 경로*</label>
-                            <input type="text" class="form-control" name="subPagePath" v-model="submitForm.subPagePath" placeholder="/"
-                                   @keyup.enter="update()"
-                            >
-                            <div class="form-text">{{ validateText.subPagePath }}</div>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label">절대 경로</label>
-                            <input type="text" class="form-control" :value="submitForm.concatPagePath" placeholder="/" disabled>
-                            <div class="form-text"></div>
+                            <label class="form-label">적용 여부</label>
+                            <select name="applyStatus" v-model="submitForm.applyStatus" class="form-select form-select-sm" required>
+                                <option value="">선택</option>
+                            </select>
+                            <div class="form-text">{{ validateText.applyStatus }}</div>
                         </div>
                     </form>
                 </div>
@@ -200,20 +191,19 @@
         const ipAccessUpdate = Vue.createApp({
             data(){
                 return{
+                    title : "차단 IP 등록",
+                    buttonName : "차단 IP 등록",
                     modalId : "ipAccessUpdate",
                     submitForm : {
-                        ipAccessId : null,
-                        subPageTitle : '',
-                        subPageDescription : '',
-                        subPagePath : '',
-                        registerDate : '',
-                        lastModifyDate : '',
-                        concatPagePath : ''
+                        ipAccessId : '',
+                        ipAddress : '',
+                        ipAccessDescription : '',
+                        applyStatus : '',
                     },
                     validateText : {
-                        subPageTitle: '',
-                        subPageDescription: '',
-                        subPagePath: '',
+                        ipAddress : '',
+                        ipAccessDescription : '',
+                        applyStatus : '',
                     }
                 }
             },
@@ -221,7 +211,11 @@
 
             },
             mounted(){
-
+                requestSelectOption("select[name='applyStatus']", {
+                    url: "/api/common/type/active-status",
+                    method: "GET",
+                    data: {}
+                })
             },
             methods: {
                 reset : function (){
@@ -238,7 +232,7 @@
                 },
                 show : function (ipAccessId){
                     requestJsonAjaxPromise({
-                        url: "/api/parent-page/sub-page/" + ipAccessId,
+                        url: "/api/ip-access/" + ipAccessId,
                         method: "GET",
                         data: {},
                         async: true
@@ -251,14 +245,14 @@
                 },
                 update: function (){
                     requestJsonAjaxPromise({
-                        url: "/api/parent-page/sub-page",
+                        url: "/api/ip-access",
                         method: "PUT",
                         data: this.submitForm,
                         async: true
                     }).then((response) => {
                         this.reset()
                         this.close()
-                        alert("서브페이지 정보를 수정하였습니다.")
+                        alert("수정하였습니다.")
                     }).catch((error) => {
                         this.validateText = error.responseJSON.data.errorMessage
                     })
@@ -266,7 +260,7 @@
                 remove: function (){
                     if (confirm("삭제하시겠습니까?")){
                         requestJsonAjaxPromise({
-                            url: "/api/parent-page/sub-page",
+                            url: "/api/ip-access",
                             method: "DELETE",
                             data: this.submitForm,
                             async: true

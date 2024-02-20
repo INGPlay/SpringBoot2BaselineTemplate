@@ -1,6 +1,7 @@
 package baseline.version3.springboot.project.account.domain;
 
 import baseline.version3.springboot.common.domain.subType.EnumBase;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -15,6 +16,11 @@ public class AccountSub {
         ;
 
         private String text;
+
+        @JsonCreator
+        public static OAuthTypeEnum from(String s){
+            return OAuthTypeEnum.valueOf(s);
+        }
     }
 
     @Getter
@@ -26,6 +32,11 @@ public class AccountSub {
         ;
 
         private final String text;
+
+        @JsonCreator
+        public static RoleEnum from(String s){
+            return RoleEnum.valueOf(s);
+        }
     }
 
 }

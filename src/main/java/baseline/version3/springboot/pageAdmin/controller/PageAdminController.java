@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class PageAdminController {
 
     private final ParentPageService parentPageService;
-    @GetMapping(value = {"", "/index"})
+    @GetMapping(value = { "/index"})
     public String pageAdminIndex(){
         return "page-admin/index";
     }
