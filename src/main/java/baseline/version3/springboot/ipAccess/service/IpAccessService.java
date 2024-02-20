@@ -9,6 +9,8 @@ import baseline.version3.springboot.ipAccess.entity.IpAccess;
 import baseline.version3.springboot.ipAccess.repository.IpAccessRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,8 +41,16 @@ public class IpAccessService {
     @Transactional(readOnly = true)
     public List<IpAccessResponse.Response> findList(){
         List<IpAccess> all = ipAccessRepository.findAll();
-        return all.stream().map(ipAccess -> ipAccessMapper.toResponse(ipAccess))
-                .collect(Collectors.toList());
+        return all.stream().map(ipAccessMapper::toResponse)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+//    @Cacheable(cacheNames = "IpAccessService.findList", key = "'_' + #requestDynamicQuery.applyStatus + '_'")
+    public List<IpAccessResponse.Response> findList(IpAccessRequest.RequestDynamicQuery requestDynamicQuery){
+        List<IpAccess> all = ipAccessRepository.findAllByApplyStatusEquals(requestDynamicQuery.getApplyStatus());
+        return all.stream().map(ipAccessMapper::toResponse)
+                .toList();
     }
 
     public void insertOne(IpAccessRequest.Request request){
@@ -49,6 +59,7 @@ public class IpAccessService {
         ipAccessRepository.save(ipAccess);
     }
 
+    @CacheEvict(cacheNames = "IpAccessService.findList", allEntries = true)
     public void updateOne(IpAccessRequest.RequestUpdate request){
 
         IpAccess ipAccess = ipAccessRepository.findById(request.getIpAccessId()).orElseThrow(
@@ -60,6 +71,7 @@ public class IpAccessService {
         ipAccessRepository.save(ipAccess);
     }
 
+    @CacheEvict(cacheNames = "IpAccessService.findList", allEntries = true)
     public void deleteOne(IpAccessRequest.RequestDelete request){
         IpAccess ipAccess = ipAccessRepository.findById(request.getIpAccessId()).orElseThrow(
                 () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)
