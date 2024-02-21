@@ -1,9 +1,6 @@
 package baseline.version3.springboot.config;
 
-import baseline.version3.springboot.ipAccess.interceptor.IpAccessInterceptor;
-import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageRequest;
-import baseline.version3.springboot.pageAdmin.service.ParentPageService;
-import baseline.version3.springboot.pageAdmin.service.SubPageService;
+import baseline.version3.springboot.pageAdmin.ipAccess.interceptor.IpAccessInterceptor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;

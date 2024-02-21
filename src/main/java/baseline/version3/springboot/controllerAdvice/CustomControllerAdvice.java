@@ -1,8 +1,8 @@
 package baseline.version3.springboot.controllerAdvice;
 
-import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageRequest;
-import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageResponse;
-import baseline.version3.springboot.pageAdmin.service.SubPageService;
+import baseline.version3.springboot.pageAdmin.page.domain.subPage.SubPageRequest;
+import baseline.version3.springboot.pageAdmin.page.domain.subPage.SubPageResponse;
+import baseline.version3.springboot.pageAdmin.page.service.SubPageService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j

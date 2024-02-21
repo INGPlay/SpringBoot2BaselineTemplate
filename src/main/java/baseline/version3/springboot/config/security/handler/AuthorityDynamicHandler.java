@@ -1,11 +1,9 @@
 package baseline.version3.springboot.config.security.handler;
 
 import baseline.version3.springboot.config.security.authenticationManager.AccountContext;
-import baseline.version3.springboot.pageAdmin.domain.parentPage.ParentPageRequest;
-import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageRequest;
-import baseline.version3.springboot.pageAdmin.domain.subPage.SubPageResponse;
-import baseline.version3.springboot.pageAdmin.service.ParentPageService;
-import baseline.version3.springboot.pageAdmin.service.SubPageService;
+import baseline.version3.springboot.pageAdmin.page.domain.subPage.SubPageRequest;
+import baseline.version3.springboot.pageAdmin.page.domain.subPage.SubPageResponse;
+import baseline.version3.springboot.pageAdmin.page.service.SubPageService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,9 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
