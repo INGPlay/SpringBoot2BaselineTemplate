@@ -31,9 +31,9 @@ public class IpAccessInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String clientIp = IpUtil.getClientIp(request);
-        if (clientIp.equals("127.0.0.1")) {
-            return true;
-        }
+//        if (clientIp.equals("127.0.0.1")) {
+//            return true;
+//        }
 
         IpAccessRequest.RequestDynamicQuery requestDynamicQuery = IpAccessRequest.RequestDynamicQuery
                 .builder()

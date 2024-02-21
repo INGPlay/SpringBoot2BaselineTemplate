@@ -110,7 +110,7 @@
                 },
                 register : function () {
                     requestJsonAjaxPromise({
-                        url: "/api/page-admin/ip-access/",
+                        url: "/api/page-admin/ip-access",
                         method: "POST",
                         data: this.submitForm,
                         async: true
@@ -245,7 +245,7 @@
                 },
                 update: function (){
                     requestJsonAjaxPromise({
-                        url: "/api/page-admin/ip-access/",
+                        url: "/api/page-admin/ip-access",
                         method: "PUT",
                         data: this.submitForm,
                         async: true
@@ -260,7 +260,7 @@
                 remove: function (){
                     if (confirm("삭제하시겠습니까?")){
                         requestJsonAjaxPromise({
-                            url: "/api/page-admin/ip-access/",
+                            url: "/api/page-admin/ip-access",
                             method: "DELETE",
                             data: this.submitForm,
                             async: true
