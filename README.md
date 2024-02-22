@@ -2,7 +2,7 @@
 
 # Tech Stack
 ## BackEnd
-- JDK 17
+- JDK 17 ~ 21
 - Spring Boot 3
 - Spring MVC
 
@@ -45,6 +45,7 @@
 ### CSS
 - BootStrap 5
 - UIKit
+- PrimeVue
 
 
 # 기록
