@@ -1,4 +1,4 @@
-package baseline.version3.springboot.config.security.handler;
+package baseline.version3.springboot.pageAdmin.page.handler;
 
 import baseline.version3.springboot.config.security.authenticationManager.AccountContext;
 import baseline.version3.springboot.pageAdmin.page.domain.subPage.SubPageRequest;
@@ -22,19 +22,23 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AuthorityDynamicHandler {
+public class DynamicPageAuthorityHandler {
 
     private final SubPageService subPageService;
 
     private final List<String> staticPaths = new ArrayList<>(List.of(new String[]{
-            "/framework/*",
-            "/library/*",
+            "/framework/**",
+            "/library/**",
+            "/img/**",
             "/favicon.ico"
     }));
 
-    public boolean isAuthorization(HttpServletRequest request, Authentication authentication){
+    public boolean isPageAuthorization(HttpServletRequest request, Authentication authentication){
 
-        if (staticPaths.stream().anyMatch(p -> antPathMatcher().match(p, request.getRequestURI()))){
+        // GET 방식만 체크한다.
+        if (!request.getMethod().equalsIgnoreCase("GET") ||
+                staticPaths.stream().anyMatch(p -> antPathMatcher().match(p, request.getRequestURI()))
+        ){
             return true;
         }
 

@@ -58,7 +58,7 @@ public class SecurityConfig {
         http
                 .authorizeRequests(a -> a
                         // 기본 페이지
-                        .requestMatchers("*", "/account/login", "/account/register", "/error").permitAll()
+                        .anyRequest().access("@dynamicPageAuthorityHandler.isPageAuthorization(request, authentication)")
                 )
                 .formLogin(f -> f
                         .loginPage("/account/login")
@@ -117,7 +117,7 @@ public class SecurityConfig {
         http
                 .authorizeRequests(a -> a
                         // 기본 페이지
-                        .anyRequest().access("@authorityDynamicHandler.isAuthorization(request, authentication)")
+                        .anyRequest().access("@dynamicPageAuthorityHandler.isPageAuthorization(request, authentication)")
                 )
                 .oauth2Login()
                 .and()
