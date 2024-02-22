@@ -1,43 +1,17 @@
 package baseline.version3.springboot.controllerAdvice;
 
-import baseline.version3.springboot.pageAdmin.page.domain.subPage.SubPageRequest;
-import baseline.version3.springboot.pageAdmin.page.domain.subPage.SubPageResponse;
-import baseline.version3.springboot.pageAdmin.page.service.SubPageService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.Optional;
 
 @Slf4j
 @ControllerAdvice(annotations = Controller.class)
 @RequiredArgsConstructor
-public class CustomControllerAdvice {
-
-    private final SubPageService subPageService;
-
-    /**
-     * 모든 컨트롤러 매핑 공통
-     */
-    @ModelAttribute
-    public void handleRequest(HttpServletRequest request, Model model) {
-
-        SubPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new SubPageRequest.RequestDynamicQueryOne(request.getRequestURI());
-        Optional<SubPageResponse.Response> response = subPageService.findOne(requestDynamicQueryOne);
-
-        if (response.isPresent()){
-            SubPageResponse.Response subPage = response.get();
-            model.addAttribute("pageInfo", subPage);
-        }
-
-        log.info("Request : {} {}", request.getMethod(), request.getRequestURI());
-    }
+public class CustomExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     protected String exception(Exception exception,

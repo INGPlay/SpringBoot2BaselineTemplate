@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice(annotations = RestController.class)
 @RequiredArgsConstructor
 @Order(100)
-public class CustomRestControllerAdvice {
+public class CustomRestExceptionHandler {
 
     /**
      * Service Layer 예외 처리
