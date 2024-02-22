@@ -21,6 +21,10 @@
 <th:block th:fragment="vue">
     <script src="/framework/vue/vue.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
     <script src="/framework/vue/vue.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
+
+    <!--  Vue module  -->
+    <script src="/framework/vue/module/vue-multiselect_2.1.6/vue-multiselect.js"></script>
+    <link rel="stylesheet" href="/framework/vue/module/vue-multiselect_2.1.6/vue-multiselect.css" />
 <th:block>
 
 </html>
