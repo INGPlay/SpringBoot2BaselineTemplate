@@ -5,10 +5,9 @@ spring:
         password: # password
         driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 
-        #        validation query 설정
-        tomcat:
-            test-on-borrow: true
-            validation-query: select 1
+        # validation query 설정
+        hikari:
+            connection-test-query: select 1
 
     jpa:
         hibernate:
