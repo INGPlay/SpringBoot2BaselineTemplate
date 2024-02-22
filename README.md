@@ -45,7 +45,7 @@
 ### CSS
 - BootStrap 5
 - UIKit
-- PrimeVue
+- Vuetify
 
 
 # 기록
