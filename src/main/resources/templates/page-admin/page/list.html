@@ -89,9 +89,9 @@
                     pageAuthorityName = e.row.pageAuthorityName
                     pageAuthorityCode = e.row.pageAuthorityCode
                     if (!pageAuthorityCode && !pageAuthorityName){
-                        return  '.'
+                        return  '-'
                     }
-                    return e.row.pageAuthorityName + ' (' + e.row.pageAuthorityCode + ')'
+                    return pageAuthorityName + ' (' + pageAuthorityCode + ')'
                 }
             },
             {

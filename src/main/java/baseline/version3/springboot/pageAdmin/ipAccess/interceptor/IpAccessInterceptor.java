@@ -1,7 +1,7 @@
 package baseline.version3.springboot.pageAdmin.ipAccess.interceptor;
 
 import baseline.version3.springboot.common.domain.subType.ApplyStatus;
-import baseline.version3.springboot.common.util.IpUtil;
+import baseline.version3.springboot.common.util.HttpUtil;
 import baseline.version3.springboot.pageAdmin.ipAccess.domain.IpAccessRequest;
 import baseline.version3.springboot.pageAdmin.ipAccess.service.IpAccessService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,10 +30,10 @@ public class IpAccessInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String clientIp = IpUtil.getClientIp(request);
-//        if (clientIp.equals("127.0.0.1")) {
-//            return true;
-//        }
+        String clientIp = HttpUtil.getClientIp();
+        if (clientIp.equals("127.0.0.1")) {
+            return true;
+        }
 
         IpAccessRequest.RequestDynamicQuery requestDynamicQuery = IpAccessRequest.RequestDynamicQuery
                 .builder()

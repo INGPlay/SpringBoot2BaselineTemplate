@@ -1,0 +1,19 @@
+server:
+    forward-headers-strategy: native
+
+spring:
+    datasource:
+        # validation query 설정
+        hikari:
+            connection-test-query: select 1
+
+    # Live Reload
+    devtools:
+        livereload:
+            enabled: true
+
+    thymeleaf:
+        prefix: classpath:templates/
+    web:
+        resources:
+            static-locations: classpath:static/
