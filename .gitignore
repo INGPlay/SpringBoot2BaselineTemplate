@@ -6,6 +6,7 @@ build/
 !**/src/test/**/build/
 
 application-test.yml
+.jpb/
 
 ### STS ###
 .apt_generated
