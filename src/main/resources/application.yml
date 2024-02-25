@@ -11,8 +11,8 @@ spring:
 
             prod:
                 - prod
-                - custom
-                - common
+                - customProd
+                - commonProd
 ---
 spring:
     profiles:

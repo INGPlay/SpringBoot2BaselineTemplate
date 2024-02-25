@@ -66,11 +66,3 @@ logging.level:
         audit: off
         resultset: off
         connection: off
-
-custom:
-    account:
-        # form
-        # keycloak
-        type: form
-    page:
-        intro: /index
