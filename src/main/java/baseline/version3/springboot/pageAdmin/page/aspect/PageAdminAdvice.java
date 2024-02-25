@@ -1,4 +1,4 @@
-package baseline.version3.springboot.pageAdmin.page.handler;
+package baseline.version3.springboot.pageAdmin.page.aspect;
 
 import baseline.version3.springboot.pageAdmin.page.domain.subPage.SubPageRequest;
 import baseline.version3.springboot.pageAdmin.page.domain.subPage.SubPageResponse;

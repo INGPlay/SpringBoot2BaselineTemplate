@@ -10,6 +10,7 @@ import baseline.version3.springboot.pageAdmin.page.repository.PageAuthorityRepos
 import baseline.version3.springboot.pageAdmin.page.repository.querydsl.QPageAuthorityRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,11 +36,13 @@ public class PageAuthorityService {
         return qPageAuthorityRepository.selectOne(requestDynamicQueryOne);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void createAuth(PageAuthorityRequest.RequestInsert requestInsert){
         PageAuthority entity = pageAuthorityMapper.toInsertEntity(requestInsert);
         pageAuthorityRepository.save(entity);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void updateAuth(PageAuthorityRequest.RequestUpdate requestUpdate){
         PageAuthority pageAuthority = pageAuthorityRepository.findById(requestUpdate.getPageAuthorityId()).orElseThrow(
                 () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)

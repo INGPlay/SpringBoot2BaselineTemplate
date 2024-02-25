@@ -8,6 +8,7 @@ import baseline.version3.springboot.project.account.entity.Account;
 import baseline.version3.springboot.controllerAdvice.exception.ServiceLayerException;
 import baseline.version3.springboot.controllerAdvice.subType.ServiceException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +48,7 @@ public class AccountService {
         return updateAccount.getAccountId();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteAccount(String accountName){
         accountRepository.deleteByAccountName(accountName);
     }

@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,7 +47,7 @@ public class SubPageService {
     }
 
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     @Caching(
             evict = {
                     @CacheEvict(cacheNames = "ParentPageService.findList", allEntries = true),
@@ -59,6 +60,7 @@ public class SubPageService {
         subPageRepository.save(entity);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Caching(
             evict = {
                     @CacheEvict(cacheNames = "SubPageService.findList", allEntries = true),
@@ -73,6 +75,7 @@ public class SubPageService {
         subPageRepository.save(subPage);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Caching(
             evict = {
                     @CacheEvict(cacheNames = "ParentPageService.findList", allEntries = true),

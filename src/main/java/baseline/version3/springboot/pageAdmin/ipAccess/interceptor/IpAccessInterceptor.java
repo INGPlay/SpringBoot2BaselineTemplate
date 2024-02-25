@@ -31,20 +31,12 @@ public class IpAccessInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String clientIp = HttpUtil.getClientIp();
+
         if (clientIp.equals("127.0.0.1")) {
             return true;
         }
 
-        IpAccessRequest.RequestDynamicQuery requestDynamicQuery = IpAccessRequest.RequestDynamicQuery
-                .builder()
-                .applyStatus(ApplyStatus.APPLY)
-                .build();
-
-        boolean isMatches = ipAccessService.findList(requestDynamicQuery).stream()
-                .map(ipAccess -> new IpAddressMatcher(ipAccess.getIpAddress()))
-                .anyMatch(ip -> ip.matches(clientIp));
-
-        if (isMatches) {
+        if (ipAccessService.isAppliedIp(clientIp)) {
             log.warn("Forbidden access, URI: {}, IP: {}", request.getRequestURI(), clientIp);
             response.sendError(403, "IP Forbidden");
             return false;

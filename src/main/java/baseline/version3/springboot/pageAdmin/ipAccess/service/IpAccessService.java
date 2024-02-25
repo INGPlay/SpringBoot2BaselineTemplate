@@ -1,5 +1,6 @@
 package baseline.version3.springboot.pageAdmin.ipAccess.service;
 
+import baseline.version3.springboot.common.domain.subType.ApplyStatus;
 import baseline.version3.springboot.controllerAdvice.exception.ServiceLayerException;
 import baseline.version3.springboot.controllerAdvice.subType.ServiceException;
 import baseline.version3.springboot.pageAdmin.ipAccess.domain.IpAccessMapper;
@@ -10,6 +11,9 @@ import baseline.version3.springboot.pageAdmin.ipAccess.repository.IpAccessReposi
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.web.util.matcher.IpAddressMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,13 +54,28 @@ public class IpAccessService {
                 .toList();
     }
 
+    @Cacheable(cacheNames = "IpAccessService.isAppliedIp", key = "'_' + #clientIp + '_'")
+    @Transactional(readOnly = true)
+    public Boolean isAppliedIp(String clientIp) {
+        IpAccessRequest.RequestDynamicQuery requestDynamicQuery = IpAccessRequest.RequestDynamicQuery
+                .builder()
+                .applyStatus(ApplyStatus.APPLY)
+                .build();
+
+        return findList(requestDynamicQuery).stream()
+                .map(ipAccess -> new IpAddressMatcher(ipAccess.getIpAddress()))
+                .anyMatch(ip -> ip.matches(clientIp));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     public void insertOne(IpAccessRequest.Request request){
         IpAccess ipAccess = ipAccessMapper.requestInsert(request);
 
         ipAccessRepository.save(ipAccess);
     }
 
-    @CacheEvict(cacheNames = "IpAccessService.findList", allEntries = true)
+    @PreAuthorize("hasRole('ADMIN')")
+    @CacheEvict(cacheNames = "IpAccessService.isAppliedIp", allEntries = true)
     public void updateOne(IpAccessRequest.RequestUpdate request){
 
         IpAccess ipAccess = ipAccessRepository.findById(request.getIpAccessId()).orElseThrow(
@@ -68,7 +87,8 @@ public class IpAccessService {
         ipAccessRepository.save(ipAccess);
     }
 
-    @CacheEvict(cacheNames = "IpAccessService.findList", allEntries = true)
+    @PreAuthorize("hasRole('ADMIN')")
+    @CacheEvict(cacheNames = "IpAccessService.isAppliedIp", allEntries = true)
     public void deleteOne(IpAccessRequest.RequestDelete request){
         IpAccess ipAccess = ipAccessRepository.findById(request.getIpAccessId()).orElseThrow(
                 () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)
