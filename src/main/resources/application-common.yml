@@ -17,3 +17,8 @@ spring:
     web:
         resources:
             static-locations: classpath:static/
+
+    # JDK 21 Virtual Thread
+    threads:
+        virtual:
+            enabled: false

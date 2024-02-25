@@ -1,5 +1,0 @@
-# JDK 21 Virtual Thread
-spring:
-    threads:
-        virtual:
-            enabled: true
