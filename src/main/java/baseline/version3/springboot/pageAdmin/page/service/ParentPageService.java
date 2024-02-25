@@ -61,9 +61,9 @@ public class ParentPageService {
                     @CacheEvict(cacheNames = "SubPageService.findOne", allEntries = true)
             }
     )
-    public Long registerParentPage(ParentPageRequest.RequestInsert requestInsert){
+    public void registerParentPage(ParentPageRequest.RequestInsert requestInsert){
         ParentPage entity = parentPageMapper.toInsertEntity(requestInsert);
-        return parentPageRepository.save(entity).getParentPageId();
+        parentPageRepository.save(entity);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
