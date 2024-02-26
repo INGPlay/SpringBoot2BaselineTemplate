@@ -1,0 +1,16 @@
+spring:
+    security:
+        oauth2:
+            client:
+                provider:
+                    keycloak:
+                        # http://{host}:{port}/realms/{realm}
+                        issuer-uri:
+                        user-name-attribute: preferred_username
+                registration:
+                    keycloak:
+                        client-id:
+                        client-secret:
+                        authorization-grant-type: authorization_code
+                        scope:
+                            - openid
