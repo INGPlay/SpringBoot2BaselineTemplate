@@ -7,12 +7,12 @@ import org.mapstruct.*;
         componentModel = MappingConstants.ComponentModel.SPRING,    // "spring"
         injectionStrategy = InjectionStrategy.FIELD
 )
-public interface IpAccessMapper {
+public abstract class IpAccessMapper {
 
-    IpAccess requestInsert(IpAccessRequest.Request request);
+    public abstract IpAccess requestInsert(IpAccessRequest.Request request);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     public abstract void requestUpdate(IpAccessRequest.RequestUpdate request, @MappingTarget IpAccess ipAccess);
 
-    IpAccessResponse.Response toResponse(IpAccess ipAccess);
+    public abstract IpAccessResponse.Response toResponse(IpAccess ipAccess);
 }
