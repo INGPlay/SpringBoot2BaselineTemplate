@@ -1,24 +1,10 @@
 spring:
-    security:
-        oauth2:
-            client:
-                provider:
-                    keycloak:
-                        issuer-uri: # http://{host}:{port}/realms/{realm}
-                        user-name-attribute: preferred_username
-                registration:
-                    keycloak:
-                        client-id:
-                        client-secret:
-                        authorization-grant-type: authorization_code
-                        scope:
-                            - openid
 
     datasource:
-        url: jdbc:mariadb://localhost:3306/{db}
+        url: jdbc:log4jdbc:mariadb:3306/{db}
         username: # user
         password: # password
-        driver-class-name: org.mariadb.jdbc.Driver
+        driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 
         # validation query 설정
         hikari:
@@ -61,6 +47,21 @@ spring:
         redis:
             namespace: local:session   # 세션을 저장하는 데 사용되는 키의 네임스페이스를 지정합니다.
 
+    security:
+        oauth2:
+            client:
+                provider:
+                    keycloak:
+                        issuer-uri: # http://{host}:{port}/realms/{realm}
+                        user-name-attribute: preferred_username
+                registration:
+                    keycloak:
+                        client-id:
+                        client-secret:
+                        authorization-grant-type: authorization_code
+                        scope:
+                            - openid
+
     threads:
         virtual:
             enabled: false
@@ -89,11 +90,20 @@ server:
             suffix: .log
 
 
-logging.level:
-    org.hibernate.SQL: debug
-    #    org.hibernate.type: trace
-    org.hibernate.type.descriptor.sql.BasicBinder: trace
-    org.springframework: DEBUG
+logging:
+    level:
+        #    org.hibernate.SQL: debug
+        #    org.hibernate.type: trace
+        #    org.hibernate.type.descriptor.sql.BasicBinder: trace
+        org.springframework: DEBUG
+
+        jdbc:       # log4jdbc 설정
+            sqlonly: off
+            sqltiming: info
+            resultsettable: off
+            audit: off
+            resultset: off
+            connection: off
 
 
 custom:
