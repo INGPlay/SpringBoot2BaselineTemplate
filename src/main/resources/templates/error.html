@@ -1,34 +1,35 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/no_title}">
 
-    <th:block th:replace="~{fragment/common :: commonStatic}"></th:block>
-    <th:block th:replace="~{fragment/framework :: uikit}"></th:block>
+<!-- 추가 정적 파일 -->
+<th:block layout:fragment="addStatic">
 
-</head>
-<body>
+</th:block>
 
-<th:block th:replace="~{fragment/header :: commonHeader}"></th:block>
+<!-- 내용 -->
+<th:block layout:fragment="content">
+    <div class="uk-container">
+        <div class="uk-flex uk-flex-center uk-margin-top">
+            <span class="uk-text-large uk-text-bold uk-text-danger">! Error !</span>
+        </div>
 
-<div class="uk-container">
-    <div class="uk-flex uk-flex-center uk-margin-top">
-        <span class="uk-text-large uk-text-bold uk-text-danger">! Error !</span>
+        <div class="uk-flex uk-flex-center uk-margin-top" th:if="${errorMessage!=null}">
+            <span class="uk-text-large uk-text-bold" th:text="${errorMessage}"></span>
+        </div>
+
+        <div class="uk-flex uk-flex-center uk-margin-top">
+            <a th:if="${referer!=null}" th:href="${referer}" class="uk-button uk-button-secondary">
+                이전 페이지로 이동
+            </a>
+            <button th:if="${referer==null}" class="uk-button uk-button-secondary" onclick="history.back();">
+                이전 페이지로 이동
+            </button>
+        </div>
     </div>
+</th:block>
 
-    <div class="uk-flex uk-flex-center uk-margin-top" th:if="${errorMessage!=null}">
-        <span class="uk-text-large uk-text-bold" th:text="${errorMessage}"></span>
-    </div>
-
-    <div class="uk-flex uk-flex-center uk-margin-top">
-        <a th:if="${referer!=null}" th:href="${referer}" class="uk-button uk-button-secondary">
-            이전 페이지로 이동
-        </a>
-        <button th:if="${referer==null}" class="uk-button uk-button-secondary" onclick="history.back();">
-            이전 페이지로 이동
-        </button>
-    </div>
-</div>
-
-</body>
 </html>

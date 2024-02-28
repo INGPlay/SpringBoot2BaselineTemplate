@@ -1,36 +1,33 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/default}">
 
-    <th:block th:replace="~{fragment/common :: commonStatic}"></th:block>
-    <th:block th:replace="~{fragment/framework :: uikit}"></th:block>
-    <th:block th:replace="~{fragment/framework :: bootstrap}"></th:block>
+<!-- 추가 정적 파일 -->
+<th:block layout:fragment="addStatic">
 
-</head>
-<body>
+</th:block>
 
-<!-- 헤더 -->
-<th:block th:replace="~{fragment/header :: commonHeader}"></th:block>
-<!-- 타이틀 -->
-<th:block th:include="~{fragment/common :: commonTitle}"></th:block>
+<!-- 내용 -->
+<th:block layout:fragment="content">
+    <div class="container mt-3">
 
-<div class="container mt-3">
-
-    <div class="container text-center">
-        <div class="row">
-            <div class="col">
-                <a href="/page-admin/page/list" class="fs-4 fw-light">페이지 등록</a>
-            </div>
-            <div class="col">
-                <a href="/page-admin/page/auth/list" class="fs-4 fw-light">페이지 권한 등록</a>
-            </div>
-            <div class="col">
-                <a href="/page-admin/ip-access/list" class="fs-4 fw-light">차단 IP 등록</a>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col">
+                    <a href="/page-admin/page/list" class="fs-4 fw-light">페이지 등록</a>
+                </div>
+                <div class="col">
+                    <a href="/page-admin/page/auth/list" class="fs-4 fw-light">페이지 권한 등록</a>
+                </div>
+                <div class="col">
+                    <a href="/page-admin/ip-access/list" class="fs-4 fw-light">차단 IP 등록</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</th:block>
 
-</body>
 </html>

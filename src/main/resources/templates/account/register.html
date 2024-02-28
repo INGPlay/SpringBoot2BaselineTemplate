@@ -1,93 +1,95 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/default}">
 
-    <th:block th:replace="~{fragment/common :: commonStatic}"></th:block>
-    <th:block th:replace="~{fragment/framework :: uikit}"></th:block>
+<!-- 추가 정적 파일 -->
+<th:block layout:fragment="addStatic">
 
-</head>
-<body>
+</th:block>
 
-<th:block th:replace="~{fragment/header :: commonHeader}"></th:block>
+<!-- 내용 -->
+<th:block layout:fragment="content">
+    <div class="uk-container">
 
-<div class="uk-container">
+        <div class="uk-flex uk-flex-center">
 
-    <div class="uk-flex uk-flex-center">
+            <div class="uk-form-horizontal uk-margin-top">
 
-        <div class="uk-form-horizontal uk-margin-top">
+                <h2 class="uk-text-center">계정생성</h2>
 
-            <h2 class="uk-text-center">계정생성</h2>
+                <form id="accountForm" method="POST">
 
-            <form id="accountForm" method="POST">
-
-                <div class="uk-flex uk-flex-center">
-                    <div class="uk-flex uk-flex-between uk-width-1-2">
-                        <label><input class="uk-radio" type="radio" name="accountRole" value="USER">이용자</label>
-                        <label><input class="uk-radio" type="radio" name="accountRole" value="MANAGER">게시자</label>
-                    </div>
-                </div>
-
-                <div class="uk-flex uk-flex-center uk-margin-top">
-                    <span id="accountRole" class="uk-text-danger"></span>
-                </div>
-
-                <div class="uk-margin">
-                    <legend class="uk-legend">계정이름</legend>
-                    <div class="uk-inline uk-width-1-1">
-                        <span class="uk-form-icon" uk-icon="icon: user"></span>
-                        <input class="uk-input" type="text" aria-label="Not clickable icon" id="accountName" name="accountName">
-                    </div>
-
-                    <div class="uk-grid uk-margin-top">
-                        <div class="uk-width-1-2">
-                            <legend class="uk-legend">비밀번호</legend>
-                            <div class="uk-inline">
-                                <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
-                                <input class="uk-input" type="password" aria-label="Not clickable icon" id="accountPassword" name="accountPassword">
-                            </div>
-                        </div>
-
-                        <div class="uk-width-1-2">
-                            <legend class="uk-legend">비밀번호 확인</legend>
-                            <div class="uk-inline">
-                                <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
-                                <input class="uk-input" type="password" aria-label="Not clickable icon" id="accountPasswordCheck" name="accountPasswordCheck">
-                            </div>
+                    <div class="uk-flex uk-flex-center">
+                        <div class="uk-flex uk-flex-between uk-width-1-2">
+                            <label><input class="uk-radio" type="radio" name="accountRole" value="USER">이용자</label>
+                            <label><input class="uk-radio" type="radio" name="accountRole" value="MANAGER">게시자</label>
                         </div>
                     </div>
 
-                </div>
-
-                <div class="uk-margin">
-                    <legend class="uk-legend">표시 이름</legend>
-                    <div class="uk-inline uk-width-1-1">
-                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
-                        <input class="uk-input" type="text" aria-label="Not clickable icon" id="accountDisplayName" name="accountDisplayName">
+                    <div class="uk-flex uk-flex-center uk-margin-top">
+                        <span id="accountRole" class="uk-text-danger"></span>
                     </div>
-                </div>
 
-                <div class="uk-flex uk-flex-center">
-                    <button class="uk-button uk-button-primary" type="button" id="submitButton">로그인</button>
-                </div>
+                    <div class="uk-margin">
+                        <legend class="uk-legend">계정이름</legend>
+                        <div class="uk-inline uk-width-1-1">
+                            <span class="uk-form-icon" uk-icon="icon: user"></span>
+                            <input class="uk-input" type="text" aria-label="Not clickable icon" id="accountName" name="accountName">
+                        </div>
 
-            </form>
+                        <div class="uk-grid uk-margin-top">
+                            <div class="uk-width-1-2">
+                                <legend class="uk-legend">비밀번호</legend>
+                                <div class="uk-inline">
+                                    <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
+                                    <input class="uk-input" type="password" aria-label="Not clickable icon" id="accountPassword" name="accountPassword">
+                                </div>
+                            </div>
 
+                            <div class="uk-width-1-2">
+                                <legend class="uk-legend">비밀번호 확인</legend>
+                                <div class="uk-inline">
+                                    <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
+                                    <input class="uk-input" type="password" aria-label="Not clickable icon" id="accountPasswordCheck" name="accountPasswordCheck">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="uk-margin">
+                        <legend class="uk-legend">표시 이름</legend>
+                        <div class="uk-inline uk-width-1-1">
+                            <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
+                            <input class="uk-input" type="text" aria-label="Not clickable icon" id="accountDisplayName" name="accountDisplayName">
+                        </div>
+                    </div>
+
+                    <div class="uk-flex uk-flex-center">
+                        <button class="uk-button uk-button-primary" type="button" id="submitButton">로그인</button>
+                    </div>
+
+                </form>
+
+            </div>
         </div>
+
     </div>
+</th:block>
 
-</div>
-
-</body>
 <script>
 
     document.getElementById("submitButton").addEventListener("click", function (event){
 
         let formData = new FormData(document.getElementById("accountForm"));
-        
+
         let data = JSON.stringify(Object.fromEntries(formData))
 
         console.log(data)
-        
+
         $.ajax({
             url: '/api/account',
             type: "POST",
@@ -95,41 +97,41 @@
             dataType: "json",
             contentType:'application/json'
         })
-        .done(function(response) {
+            .done(function(response) {
 
-            if (!response.result){
-                let selectorList = document.getElementById("accountForm").querySelectorAll("input:not([class='uk-radio'])");
-                selectorList.forEach(function (selector) {
-                    selector.classList.remove('uk-form-danger')
-                })
-                let accountRole = document.getElementById("accountRole");
-                accountRole.innerText = ""
+                if (!response.result){
+                    let selectorList = document.getElementById("accountForm").querySelectorAll("input:not([class='uk-radio'])");
+                    selectorList.forEach(function (selector) {
+                        selector.classList.remove('uk-form-danger')
+                    })
+                    let accountRole = document.getElementById("accountRole");
+                    accountRole.innerText = ""
 
-                console.log(response)
-                response.data.contents.forEach(function (content) {
+                    console.log(response)
+                    response.data.contents.forEach(function (content) {
 
-                    let element = document.getElementById(content.field);
+                        let element = document.getElementById(content.field);
 
-                    if (element.tagName !== 'INPUT'){
-                        element.innerText = content.defaultMessage
-                    } else {
-                        element.classList.add('uk-form-danger')
-                        element.value = ""
-                        element.placeholder = content.defaultMessage
-                    }
+                        if (element.tagName !== 'INPUT'){
+                            element.innerText = content.defaultMessage
+                        } else {
+                            element.classList.add('uk-form-danger')
+                            element.value = ""
+                            element.placeholder = content.defaultMessage
+                        }
 
-                })
-            } else {
-                location.href = "/account/login?successMessage=가입에 성공하였습니다.";
-            }
+                    })
+                } else {
+                    location.href = "/account/login?successMessage=가입에 성공하였습니다.";
+                }
 
-        }) 
-        .fail(function(error) { 
-            alert("가입에 실패하였습니다.")
-        })
-        .always(function() {
-        
-        });
+            })
+            .fail(function(error) {
+                alert("가입에 실패하였습니다.")
+            })
+            .always(function() {
+
+            });
     })
 
 </script>

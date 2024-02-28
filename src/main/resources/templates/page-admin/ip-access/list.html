@@ -1,131 +1,137 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/default}">
 
-    <th:block th:replace="~{fragment/common :: commonStatic}"></th:block>
-    <th:block th:replace="~{fragment/framework :: uikit}"></th:block>
-    <th:block th:replace="~{fragment/framework :: bootstrap}"></th:block>
+<!-- 추가 정적 파일 -->
+<th:block layout:fragment="addStatic">
     <th:block th:replace="~{fragment/library :: tui-grid}"></th:block>
+</th:block>
 
-</head>
-<body>
+<!-- 내용 -->
+<th:block layout:fragment="content">
+    <th:block th:replace="~{fragment/modalIpAccess :: ipAccessUpdate}"></th:block>
 
-<!-- 헤더 -->
-<th:block th:replace="~{fragment/header :: commonHeader}"></th:block>
-<!-- 타이틀 -->
-<th:block th:include="~{fragment/common :: commonTitle}"></th:block>
+    <div class="container mt-3">
 
-<th:block th:include="~{fragment/modalIpAccess :: ipAccessUpdate}"></th:block>
-
-<div class="container mt-3">
-
-    <div class="d-flex justify-content-between my-2">
-        <div id="buttons" class="row my-2">
-            <div class="col d-flex justify-content-between">
-                <div>
-                    <th:block th:replace="~{fragment/modalIpAccess :: ipAccessRegister}"></th:block>
+        <div class="d-flex justify-content-between my-2">
+            <div id="buttons" class="row my-2">
+                <div class="col d-flex justify-content-between">
+                    <div>
+                        <th:block th:replace="~{fragment/modalIpAccess :: ipAccessRegister}"></th:block>
+                    </div>
+                    <!--                <div>-->
+                    <!--                    <a type="button" href='/page-admin/page/auth/list'-->
+                    <!--                       class="link-secondary link-offset-2 link-underline-opacity-50 link-underline-opacity-100-hover">-->
+                    <!--                        권한 관리-->
+                    <!--                    </a>-->
+                    <!--                </div>-->
                 </div>
-<!--                <div>-->
-<!--                    <a type="button" href='/page-admin/page/auth/list'-->
-<!--                       class="link-secondary link-offset-2 link-underline-opacity-50 link-underline-opacity-100-hover">-->
-<!--                        권한 관리-->
-<!--                    </a>-->
-<!--                </div>-->
             </div>
         </div>
+
+        <div id="gridTarget"></div>
+
     </div>
+</th:block>
 
-    <div id="gridTarget"></div>
-
-</div>
-
-</body>
-
-<script type="application/javascript" th:inline="javascript">
-    // csrf token
-    let headers = {
-    /*[[${_csrf.headerName}]]*/
-    :
-    /*[[${_csrf.token}]]*/
-    }
-
-    const Grid = tui.Grid;
-    Grid.applyTheme('striped'); // Call API of static method
-
-    let gridTarget = new Grid({
-        el: document.getElementById("gridTarget"),
-        rowHeaders: ['rowNum'],
-        selectionUnit: 'row',
-        columns: [
-            {
-                header: 'id', name: 'ipAccessId', align: 'center', hidden: true
-            },
-            {
-                header : 'IP 주소', name: 'ipAddress', width : 150, align: 'center',
-                resizable : true,
-                sortable : true,
-                filter: 'select'
-            },
-            {
-                header: '상태', name: 'applyStatus', width: 150, align : 'center',
-                resizable : true,
-                sortable : true,
-                filter: 'select'
-            },
-            {
-                header: '메모', name: 'ipAccessDescription', width: 150, align: 'center',
-                resizable : true,
-                sortable : true
-            },
-            {
-                header: '등록일', name: 'registerDate', width: 150, align: 'center',
-                resizable : true,
-                sortable : true,
-                filter: 'date'
-            },
-            {
-                header: '수정일', name: 'lastModifyDate', width: 150, align: 'center',
-                resizable : true,
-                sortable : true,
-                filter: 'date'
-            },
-        ],
-        data: {
-            api: {
-                readData: {
-                    url : '/api/page-admin/ip-access',
-                    method : 'GET',
-                    initParams : {}
-                }
-            },
-            contentType: 'application/json',
-            headers : headers
-        },
-        pageOptions: {
-            perPage: 30
-        },
-        bodyHeight: 300
-    })
-
-    gridTarget.on('dblclick', function(ev) {
-        console.log(ev)
-        let rowKey = ev.rowKey;
-        let record = {
-            start : [rowKey, 0],
-            end : [rowKey, gridTarget.getColumns().length]
+<th:block layout:fragment="addScript">
+    <script type="application/javascript" th:inline="javascript">
+        // csrf token
+        let headers = {
+        /*[[${_csrf.headerName}]]*/
+        :
+        /*[[${_csrf.token}]]*/
         }
-        gridTarget.setSelectionRange(record);
 
-        ipAccessUpdate.show(gridTarget.getRow(rowKey).ipAccessId)
-    });
+        const Grid = tui.Grid;
+        Grid.applyTheme('striped'); // Call API of static method
 
-    ipAccessRegister.closeCallback = () => {
-        gridTarget.readData()
-    }
+        let gridTarget = new Grid({
+            el: document.getElementById("gridTarget"),
+            rowHeaders: ['rowNum'],
+            selectionUnit: 'row',
+            columns: [
+                {
+                    header: 'id', name: 'ipAccessId', align: 'center', hidden: true
+                },
+                {
+                    header : 'IP 주소', name: 'ipAddress', width : 150, align: 'center',
+                    resizable : true,
+                    sortable : true,
+                    filter: 'select'
+                },
+                {
+                    header: '상태', name: 'applyStatus', width: 150, align : 'center',
+                    resizable : true,
+                    sortable : true,
+                    filter: 'select',
+                    formatter: function (e) {
+                        pageAuthorityName = e.row.pageAuthorityName
+                        pageAuthorityCode = e.row.pageAuthorityCode
+                        if (!pageAuthorityCode && !pageAuthorityName){
+                            return  '-'
+                        }
+                        return pageAuthorityName + ' (' + pageAuthorityCode + ')'
+                    }
+                },
+                {
+                    header: '메모', name: 'ipAccessDescription', width: 150, align: 'center',
+                    resizable : true,
+                    sortable : true
+                },
+                {
+                    header: '등록일', name: 'registerDate', width: 150, align: 'center',
+                    resizable : true,
+                    sortable : true,
+                    filter: 'date'
+                },
+                {
+                    header: '수정일', name: 'lastModifyDate', width: 150, align: 'center',
+                    resizable : true,
+                    sortable : true,
+                    filter: 'date'
+                },
+            ],
+            data: {
+                api: {
+                    readData: {
+                        url : '/api/page-admin/ip-access',
+                        method : 'GET',
+                        initParams : {}
+                    }
+                },
+                contentType: 'application/json',
+                headers : headers
+            },
+            pageOptions: {
+                perPage: 30
+            },
+            bodyHeight: 300
+        })
 
-    ipAccessUpdate.closeCallback = () => {
-        gridTarget.readData()
-    }
-</script>
+        gridTarget.on('dblclick', function(ev) {
+            console.log(ev)
+            let rowKey = ev.rowKey;
+            let record = {
+                start : [rowKey, 0],
+                end : [rowKey, gridTarget.getColumns().length]
+            }
+            gridTarget.setSelectionRange(record);
+
+            ipAccessUpdate.show(gridTarget.getRow(rowKey).ipAccessId)
+        });
+
+        ipAccessRegister.closeCallback = () => {
+            gridTarget.readData()
+        }
+
+        ipAccessUpdate.closeCallback = () => {
+            gridTarget.readData()
+        }
+    </script>
+</th:block>
+
 </html>

@@ -1,224 +1,223 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/default}">
 
-    <th:block th:replace="~{fragment/common :: commonStatic}"></th:block>
-    <th:block th:replace="~{fragment/framework :: uikit}"></th:block>
-    <th:block th:replace="~{fragment/framework :: bootstrap}"></th:block>
+<!-- 추가 정적 파일 -->
+<th:block layout:fragment="addStatic">
     <th:block th:replace="~{fragment/library :: tui-grid}"></th:block>
+</th:block>
 
-</head>
-<body>
+<!-- 내용 -->
+<th:block layout:fragment="content">
+    <!-- 모달창 -->
+    <th:block th:replace="~{fragment/modalSubPage :: subPageUpdate}"></th:block>
+    <th:block th:replace="~{fragment/modalParentPage :: parentPageUpdate}"></th:block>
 
-<!-- 모달창 -->
-<th:block th:replace="~{fragment/modalSubPage :: subPageUpdate}"></th:block>
-<th:block th:replace="~{fragment/modalParentPage :: parentPageUpdate}"></th:block>
+    <div class="container mt-3">
 
-<!-- 헤더 -->
-<th:block th:replace="~{fragment/header :: commonHeader}"></th:block>
-<!-- 타이틀 -->
-<th:block th:include="~{fragment/common :: commonTitle}"></th:block>
-
-<div class="container mt-3">
-
-    <div id="buttons" class="row my-2">
-        <div class="col d-flex justify-content-between">
-            <div class="float-start">
-                <th:block th:replace="~{fragment/modalParentPage :: parentPageRegister}"></th:block>
+        <div id="buttons" class="row my-2">
+            <div class="col d-flex justify-content-between">
+                <div class="float-start">
+                    <th:block th:replace="~{fragment/modalParentPage :: parentPageRegister}"></th:block>
+                </div>
+                <div>
+                    <a type="button" href='/page-admin/page/auth/list'
+                       class="link-secondary link-offset-2 link-underline-opacity-50 link-underline-opacity-100-hover">
+                        권한 관리
+                    </a>
+                </div>
             </div>
-            <div>
-                <a type="button" href='/page-admin/page/auth/list'
-                   class="link-secondary link-offset-2 link-underline-opacity-50 link-underline-opacity-100-hover">
-                    권한 관리
-                </a>
-            </div>
-        </div>
-        <div class="col">
-            <div>
-                <th:block th:replace="~{fragment/modalSubPage :: subPageRegister}"></th:block>
+            <div class="col">
+                <div>
+                    <th:block th:replace="~{fragment/modalSubPage :: subPageRegister}"></th:block>
+                </div>
             </div>
         </div>
+
+        <div class="d-flex">
+            <div id = 'gridTarget' class="w-50"></div>
+            <div id = 'gridSub' class="w-50"></div>
+        </div>
+
     </div>
+</th:block>
 
-    <div class="d-flex">
-        <div id = 'gridTarget' class="w-50"></div>
-        <div id = 'gridSub' class="w-50"></div>
-    </div>
+<!-- 추가 스크립트 -->
+<th:block layout:fragment="addScript">
+    <script type="application/javascript" th:inline="javascript">
+        // csrf token
+        let headers = {
+        /*[[${_csrf.headerName}]]*/
+        :
+        /*[[${_csrf.token}]]*/
+        }
 
-</div>
+        const Grid = tui.Grid;
+        Grid.applyTheme('striped'); // Call API of static method
 
-</body>
-
-<script type="application/javascript" th:inline="javascript">
-    // csrf token
-    let headers = {
-    /*[[${_csrf.headerName}]]*/
-    :
-    /*[[${_csrf.token}]]*/
-    }
-
-    const Grid = tui.Grid;
-    Grid.applyTheme('striped'); // Call API of static method
-
-    let gridTarget = new Grid({
-        el: document.getElementById("gridTarget"),
-        rowHeaders: ['rowNum'],
-        columns: [
-            {
-                header: '상위 페이지 아이디', name: 'parentPageId', align: 'center', hidden: true
-            },
-            {
-                header : '페이지 명', name: 'parentPageTitle', width : 150, align: 'center',
-                resizable : true,
-                sortable : true,
-                filter: 'select'
-            },
-            {
-                header: '루트 경로', name: 'parentPageRootPath', width: 150, align : 'center',
-                resizable : true,
-                sortable : true,
-                filter: 'select'
-            },
-            {
-                header: '페이지 권한', width: 150, align : 'center',
-                resizable: true,
-                sortable: true,
-                filter: 'select',
-                formatter: function (e) {
-                    pageAuthorityName = e.row.pageAuthorityName
-                    pageAuthorityCode = e.row.pageAuthorityCode
-                    if (!pageAuthorityCode && !pageAuthorityName){
-                        return  '-'
+        let gridTarget = new Grid({
+            el: document.getElementById("gridTarget"),
+            rowHeaders: ['rowNum'],
+            columns: [
+                {
+                    header: '상위 페이지 아이디', name: 'parentPageId', align: 'center', hidden: true
+                },
+                {
+                    header : '페이지 명', name: 'parentPageTitle', width : 150, align: 'center',
+                    resizable : true,
+                    sortable : true,
+                    filter: 'select'
+                },
+                {
+                    header: '루트 경로', name: 'parentPageRootPath', width: 150, align : 'center',
+                    resizable : true,
+                    sortable : true,
+                    filter: 'select'
+                },
+                {
+                    header: '페이지 권한', width: 150, align : 'center',
+                    resizable: true,
+                    sortable: true,
+                    filter: 'select',
+                    formatter: function (e) {
+                        pageAuthorityName = e.row.pageAuthorityName
+                        pageAuthorityCode = e.row.pageAuthorityCode
+                        if (!pageAuthorityCode && !pageAuthorityName){
+                            return  '-'
+                        }
+                        return pageAuthorityName + ' (' + pageAuthorityCode + ')'
                     }
-                    return pageAuthorityName + ' (' + pageAuthorityCode + ')'
+                },
+                {
+                    header: '권한코드', name: 'pageAuthorityCode', hidden: true,
+                },
+                {
+                    header: '권한이름', name: 'pageAuthorityName', hidden: true
                 }
+            ],
+            data: {
+                api: {
+                    readData: {
+                        url : '/api/parent-page',
+                        method : 'GET',
+                        initParams : {}
+                    }
+                },
+                contentType: 'application/json',
+                headers : headers
             },
-            {
-                header: '권한코드', name: 'pageAuthorityCode', hidden: true,
+            pageOptions: {
+                perPage: 30
             },
-            {
-                header: '권한이름', name: 'pageAuthorityName', hidden: true
+            bodyHeight: 300
+        })
+
+        let gridSub = new Grid({
+            el: document.getElementById("gridSub"),
+            rowHeaders: ['rowNum'],
+            columns: [
+                {
+                    header: '하위 페이지 아이디', name: 'subPageId', align: 'center', hidden: true
+                },
+                {
+                    header : '페이지 명', name: 'subPageTitle', width : '150', align: 'center',
+                    resizable : true,
+                    sortable : true,
+                    filter: 'select'
+                },
+                {
+                    header: '서브 페이지 경로', name: 'subPagePath', width: 150, align : 'center',
+                    resizable : true,
+                    sortable : true,
+                    filter: 'select'
+                },
+                {
+                    header: '절대 경로', name: 'concatPagePath', width: 150, align : 'center',
+                    resizable : true,
+                    sortable : true,
+                    filter: 'select'
+                },
+            ],
+            data: {
+                api: {
+                    readData: {
+                        url : '/api/parent-page/sub-page',
+                        method : 'GET',
+                        initParams : {}
+                    }
+                },
+                initialRequest: false,
+                contentType: 'application/json',
+                headers : headers
+            },
+            pageOptions: {
+                perPage: 30
+            },
+            bodyHeight: 300,
+            selectionUnit: 'row'
+        })
+
+        // event
+        gridTarget.on('focusChange', function(ev) {
+            let rowKey = ev.rowKey;
+
+            let row = gridTarget.getRow(rowKey);
+
+            subPageRegister.submitForm.parentPageId = row.parentPageId;
+            let data = {
+                parentPageId : subPageRegister.submitForm.parentPageId
             }
-        ],
-        data: {
-            api: {
-                readData: {
-                    url : '/api/parent-page',
-                    method : 'GET',
-                    initParams : {}
-                }
-            },
-            contentType: 'application/json',
-            headers : headers
-        },
-        pageOptions: {
-            perPage: 30
-        },
-        bodyHeight: 300
-    })
+            gridSub.readData(null, data, true);
 
-    let gridSub = new Grid({
-        el: document.getElementById("gridSub"),
-        rowHeaders: ['rowNum'],
-        columns: [
-            {
-                header: '하위 페이지 아이디', name: 'subPageId', align: 'center', hidden: true
-            },
-            {
-                header : '페이지 명', name: 'subPageTitle', width : '150', align: 'center',
-                resizable : true,
-                sortable : true,
-                filter: 'select'
-            },
-            {
-                header: '서브 페이지 경로', name: 'subPagePath', width: 150, align : 'center',
-                resizable : true,
-                sortable : true,
-                filter: 'select'
-            },
-            {
-                header: '절대 경로', name: 'concatPagePath', width: 150, align : 'center',
-                resizable : true,
-                sortable : true,
-                filter: 'select'
-            },
-        ],
-        data: {
-            api: {
-                readData: {
-                    url : '/api/parent-page/sub-page',
-                    method : 'GET',
-                    initParams : {}
-                }
-            },
-            initialRequest: false,
-            contentType: 'application/json',
-            headers : headers
-        },
-        pageOptions: {
-            perPage: 30
-        },
-        bodyHeight: 300,
-        selectionUnit: 'row'
-    })
+            document.getElementById("parentPageTitle").innerText = row.parentPageTitle
+        });
 
-    // event
-    gridTarget.on('focusChange', function(ev) {
-        let rowKey = ev.rowKey;
+        gridTarget.on('dblclick', function(ev) {
+            console.log(ev)
+            let rowKey = ev.rowKey;
+            let record = {
+                start : [rowKey, 0],
+                end : [rowKey, gridTarget.getColumns().length]
+            }
+            gridTarget.setSelectionRange(record);
 
-        let row = gridTarget.getRow(rowKey);
+            parentPageUpdate.show(gridTarget.getRow(rowKey).parentPageId)
+        });
 
-        subPageRegister.submitForm.parentPageId = row.parentPageId;
-        let data = {
-            parentPageId : subPageRegister.submitForm.parentPageId
+        gridSub.on('dblclick', function(ev) {
+            let rowKey = ev.rowKey;
+            let record = {
+                start : [rowKey, 0],
+                end : [rowKey, gridSub.getColumns().length]
+            }
+            gridSub.setSelectionRange(record);
+
+            let subPageId = gridSub.getRow(rowKey).subPageId;
+            subPageUpdate.show(subPageId)
+        });
+
+        // modal callback
+        parentPageRegister.closeCallback = () => {
+            gridTarget.readData();
         }
-        gridSub.readData(null, data, true);
 
-        document.getElementById("parentPageTitle").innerText = row.parentPageTitle
-    });
-
-    gridTarget.on('dblclick', function(ev) {
-        console.log(ev)
-        let rowKey = ev.rowKey;
-        let record = {
-            start : [rowKey, 0],
-            end : [rowKey, gridTarget.getColumns().length]
+        parentPageUpdate.closeCallback = () => {
+            gridTarget.readData();
+            gridSub.readData()
         }
-        gridTarget.setSelectionRange(record);
 
-        parentPageUpdate.show(gridTarget.getRow(rowKey).parentPageId)
-    });
-
-    gridSub.on('dblclick', function(ev) {
-        let rowKey = ev.rowKey;
-        let record = {
-            start : [rowKey, 0],
-            end : [rowKey, gridSub.getColumns().length]
+        subPageRegister.closeCallback = () => {
+            gridSub.readData()
         }
-        gridSub.setSelectionRange(record);
 
-        let subPageId = gridSub.getRow(rowKey).subPageId;
-        subPageUpdate.show(subPageId)
-    });
+        subPageUpdate.closeCallback = () => {
+            gridSub.readData()
+        }
 
-    // modal callback
-    parentPageRegister.closeCallback = () => {
-        gridTarget.readData();
-    }
+    </script>
+</th:block>
 
-    parentPageUpdate.closeCallback = () => {
-        gridTarget.readData();
-        gridSub.readData()
-    }
-
-    subPageRegister.closeCallback = () => {
-        gridSub.readData()
-    }
-
-    subPageUpdate.closeCallback = () => {
-        gridSub.readData()
-    }
-
-</script>
 </html>
