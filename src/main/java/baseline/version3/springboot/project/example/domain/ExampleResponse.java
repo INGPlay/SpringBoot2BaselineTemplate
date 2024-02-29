@@ -18,11 +18,4 @@ public class ExampleResponse {
         private Long id;
         private String content;
     }
-
-    @Getter
-    @Setter
-    public static class Event {
-        private Long id;
-        private String content;
-    }
 }

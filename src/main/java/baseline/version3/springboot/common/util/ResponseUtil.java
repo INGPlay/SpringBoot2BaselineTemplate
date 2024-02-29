@@ -104,14 +104,27 @@ public final class ResponseUtil {
         return makeResponseEntity(true, contents);
     }
 
+    public static ResponseEntity<ResponseForm> makeResponseEntity(HttpStatus httpStatus){
+        ResponseForm responseForm = new ResponseForm(true);
+
+        return new ResponseEntity<>(responseForm, httpStatus);
+    }
+    public static ResponseEntity<ResponseForm> makeResponseEntity(Object contents, HttpStatus httpStatus){
+        return makeResponseEntity(true, contents, httpStatus);
+    }
+
+    public static ResponseEntity<ResponseForm> makeResponseEntity(boolean result, Object contents, HttpStatus httpStatus){
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("contents", contents);
+        ResponseForm responseForm = new ResponseForm(result, data);
+
+        return new ResponseEntity<>(responseForm, httpStatus);
+    }
+
     // -------------------------------------------------------------------------------------------------------------
 
     public static ResponseEntity<ExceptionForm> makeExceptionEntity(Object errorMessage) {
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("errorMessage", errorMessage);
-        ExceptionForm exceptionForm = new ExceptionForm(false, data);
-
-        return new ResponseEntity<>(exceptionForm, HttpStatus.INTERNAL_SERVER_ERROR);
+        return makeExceptionEntity(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     public static ResponseEntity<ExceptionForm> makeExceptionEntity(Object errorMessage, HttpStatus httpStatus) {

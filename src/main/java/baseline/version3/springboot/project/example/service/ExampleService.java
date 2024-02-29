@@ -5,7 +5,7 @@ import baseline.version3.springboot.project.example.domain.ExampleRequest;
 import baseline.version3.springboot.project.example.entity.Example;
 import baseline.version3.springboot.project.example.domain.ExampleResponse;
 import baseline.version3.springboot.project.example.repository.ExampleRepository;
-import baseline.version3.springboot.project.example.repository.queryDsl.QueryExampleRepository;
+import baseline.version3.springboot.project.example.repository.queryDsl.QExampleRepository;
 import baseline.version3.springboot.controllerAdvice.exception.ServiceLayerException;
 import baseline.version3.springboot.controllerAdvice.subType.ServiceException;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -26,46 +25,46 @@ public class ExampleService {
 
     private final ExampleMapper exampleMapper;
 
-    private final QueryExampleRepository queryExampleRepository;
+    private final QExampleRepository qExampleRepository;
     private final ExampleRepository exampleRepository;
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    public void exampleEvent(ExampleRequest.Request request){
-        ExampleRequest.Event event = exampleMapper.toEvent(request);
-        applicationEventPublisher.publishEvent(event);
-    }
-
     @Transactional(readOnly = true)
-    public ExampleResponse.Response findOne(Long id){
-        Example example = exampleRepository.findById(id).orElseThrow(
+    public ExampleResponse.Response findOne(ExampleRequest.RequestDynamicQueryOne requestDynamicQueryOne){
+
+        return qExampleRepository.selectOne(requestDynamicQueryOne).orElseThrow(
                 () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)
         );
-
-        return exampleMapper.toResponse(example);
     }
 
     @Transactional(readOnly = true)
-    public List<ExampleResponse.Response> findList(){
-        List<Example> all = exampleRepository.findAll();
-        return all.stream().map(example -> exampleMapper.toResponse(example))
-                .collect(Collectors.toList());
+    public List<ExampleResponse.Response> findList(ExampleRequest.RequestDynamicQuery requestDynamicQuery){
+        return qExampleRepository.selectList(requestDynamicQuery);
     }
 
-    public void insertOne(ExampleRequest.Request editExampleDTO){
+    public void insertOne(ExampleRequest.RequestInsert editExampleDTO){
         Example example = exampleMapper.requestInsert(editExampleDTO);
 
         exampleRepository.save(example);
     }
 
-    public void updateOne(ExampleRequest.Request editExampleDTO){
+    public void updateOne(ExampleRequest.RequestUpdate requestUpdate){
 
-        Example example = exampleRepository.findById(editExampleDTO.getId()).orElseThrow(
+        Example example = exampleRepository.findById(requestUpdate.getId()).orElseThrow(
                 () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)
         );
 
-        exampleMapper.requestUpdate(editExampleDTO, example);
+        exampleMapper.requestUpdate(requestUpdate, example);
 
         exampleRepository.save(example);
+    }
+
+    public void deleteOne(ExampleRequest.RequestDelete requestDelete){
+        Example example = exampleRepository.findById(requestDelete.getId()).orElseThrow(
+                () -> new ServiceLayerException(ServiceException.NOT_FOUND_IN_REPOSITORY)
+        );
+
+        exampleRepository.delete(example);
     }
 }
