@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
@@ -17,6 +17,7 @@ import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,6 +25,7 @@ import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMap
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -57,6 +59,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests(a -> a
+                        .requestMatchers(HttpMethod.TRACE).denyAll()
+                        .requestMatchers(HttpMethod.OPTIONS).denyAll()
+                        .requestMatchers(HttpMethod.HEAD).denyAll()
+                        .requestMatchers(HttpMethod.PATCH).denyAll()
                         // 기본 페이지
                         .anyRequest().access("@dynamicPageAuthorityHandler.isPageAuthorization(request, authentication)")
                 )
@@ -103,9 +109,16 @@ public class SecurityConfig {
                         e.accessDeniedPage("/?dinied")
                 )
                 .headers(h -> h
-                        .xssProtection()
-                        .and()
-                        .contentSecurityPolicy("script-src 'self'")
+                        .referrerPolicy(referrerPolicy ->
+                                referrerPolicy
+                                        .policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
+                        )
+                        .contentSecurityPolicy(contentSecurityPolicy ->
+                                contentSecurityPolicy
+                                        .policyDirectives("script-src 'self'")
+                        )
+                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin
+                        )
                 );
 
         return http.build();
@@ -116,6 +129,10 @@ public class SecurityConfig {
     public SecurityFilterChain keycloakChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests(a -> a
+                        .requestMatchers(HttpMethod.TRACE).denyAll()
+                        .requestMatchers(HttpMethod.OPTIONS).denyAll()
+                        .requestMatchers(HttpMethod.HEAD).denyAll()
+                        .requestMatchers(HttpMethod.PATCH).denyAll()
                         // 기본 페이지
                         .anyRequest().access("@dynamicPageAuthorityHandler.isPageAuthorization(request, authentication)")
                 )
@@ -134,9 +151,16 @@ public class SecurityConfig {
                         e.accessDeniedPage("/?dinied")
                 )
                 .headers(h -> h
-                        .xssProtection()
-                        .and()
-                        .contentSecurityPolicy("script-src 'self'")
+                        .referrerPolicy(referrerPolicy ->
+                                referrerPolicy
+                                        .policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
+                        )
+                        .contentSecurityPolicy(contentSecurityPolicy ->
+                                contentSecurityPolicy
+                                        .policyDirectives("script-src 'self'")
+                        )
+                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin
+                        )
                 );
 
         return http.build();

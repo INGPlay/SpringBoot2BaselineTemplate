@@ -3,11 +3,14 @@ package baseline.version3.springboot.pageAdmin.page.handler;
 import baseline.version3.springboot.config.security.authenticationManager.AccountContext;
 import baseline.version3.springboot.pageAdmin.page.domain.subPage.SubPageRequest;
 import baseline.version3.springboot.pageAdmin.page.domain.subPage.SubPageResponse;
+import baseline.version3.springboot.pageAdmin.page.properties.DynamicPageAuthorityAcceptedProperties;
 import baseline.version3.springboot.pageAdmin.page.service.SubPageService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,6 +18,7 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,33 +30,36 @@ public class DynamicPageAuthorityHandler {
 
     private final SubPageService subPageService;
 
-    private final List<String> staticPaths = new ArrayList<>(List.of(new String[]{
-            "/framework/**",
-            "/library/**",
-            "/img/**",
-            "/favicon.ico"
-    }));
+    private final DynamicPageAuthorityAcceptedProperties dynamicPageAuthorityAcceptedProperties;
 
-    public boolean isPageAuthorization(HttpServletRequest request, Authentication authentication){
+    public boolean isPageAuthorization(HttpServletRequest request, Authentication authentication) {
 
-        // GET 방식만 체크한다.
-        if (!request.getMethod().equalsIgnoreCase("GET") ||
-                staticPaths.stream().anyMatch(p -> antPathMatcher().match(p, request.getRequestURI()))
-        ){
+        checkHttpMethods(request);
+
+        return checkPageAuthority(request, authentication);
+    }
+
+    private boolean checkPageAuthority(HttpServletRequest request, Authentication authentication) {
+        // GET이 아니면 true -> Method Security로 권한 체크
+        if (isNotGet(request)) {
             return true;
         }
 
-        // 해당하는 URI 찾기
+        if (checkStaticPaths(request)) {
+            return true;
+        }
+
+        // URI를 통해 해당하는 페이지 찾기
         SubPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new SubPageRequest.RequestDynamicQueryOne(request.getRequestURI());
-        Optional<SubPageResponse.Response> response = subPageService.findOne(requestDynamicQueryOne);
+        Optional<SubPageResponse.Response> subPageResponse = subPageService.findOne(requestDynamicQueryOne);
 
-        // 등록해놓은 경로가 아닌 경우
-        if (response.isEmpty()){
+        // 등록해놓은 페이지가 아닌 경우
+        if (subPageResponse.isEmpty()){
             return true;
         }
-        SubPageResponse.Response subPage = response.get();
+        SubPageResponse.Response subPage = subPageResponse.get();
         Collection<? extends GrantedAuthority> authorities = getGrantedAuthorities(authentication.getPrincipal());
-        
+
         // 등록해놓은 페이지에 제한사항이 없을 경우
         if (!StringUtils.hasText(subPage.pageAuthorityCode())){
             return true;
@@ -62,7 +69,31 @@ public class DynamicPageAuthorityHandler {
             return false;
         }
 
+        // 사용자의 권한 중 페이지의 권한이 포함되어 있는지 확인
         return authorities.contains(new SimpleGrantedAuthority(getRoleString(subPage.pageAuthorityCode())));
+    }
+
+    private static boolean isNotGet(HttpServletRequest request) {
+        if (!request.getMethod().equalsIgnoreCase(HttpMethod.GET.name())){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkStaticPaths(HttpServletRequest request) {
+        // GET 방식만 체크한다.
+        return dynamicPageAuthorityAcceptedProperties.staticPaths().stream().anyMatch(
+                        p -> antPathMatcher().match(p, request.getRequestURI())
+                );
+    }
+
+    private void checkHttpMethods(HttpServletRequest request) {
+        boolean isNotAcceptedMethod = dynamicPageAuthorityAcceptedProperties.httpMethods().stream().noneMatch(
+                httpMethod -> httpMethod.equals(request.getMethod())
+        );
+        if (isNotAcceptedMethod){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
     }
 
     private static Collection<? extends GrantedAuthority> getGrantedAuthorities(Object principal) {
