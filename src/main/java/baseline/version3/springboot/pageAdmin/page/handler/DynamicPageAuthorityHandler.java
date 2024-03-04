@@ -47,10 +47,6 @@ public class DynamicPageAuthorityHandler {
             return true;
         }
 
-        if (checkStaticPaths(request)) {
-            return true;
-        }
-
         // URI를 통해 해당하는 페이지 찾기
         SubPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new SubPageRequest.RequestDynamicQueryOne(request.getRequestURI());
         Optional<SubPageResponse.Response> subPageResponse = subPageService.findOne(requestDynamicQueryOne);
@@ -80,13 +76,6 @@ public class DynamicPageAuthorityHandler {
             return true;
         }
         return false;
-    }
-
-    private boolean checkStaticPaths(HttpServletRequest request) {
-        // GET 방식만 체크한다.
-        return dynamicPageAuthorityAcceptedProperties.staticPaths().stream().anyMatch(
-                        p -> antPathMatcher().match(p, request.getRequestURI())
-                );
     }
 
     private boolean checkHttpMethods(HttpServletRequest request) {

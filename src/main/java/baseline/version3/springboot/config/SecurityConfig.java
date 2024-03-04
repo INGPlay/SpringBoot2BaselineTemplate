@@ -5,6 +5,7 @@ import baseline.version3.springboot.config.security.handler.CustomAuthentication
 import baseline.version3.springboot.config.security.handler.CustomAuthenticationSuccessHandler;
 import baseline.version3.springboot.config.security.handler.CustomLogoutHandler;
 import baseline.version3.springboot.config.security.handler.KeycloakLogoutHandler;
+import baseline.version3.springboot.pageAdmin.page.properties.DynamicPageAuthorityAcceptedProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -38,7 +39,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final CustomUserDetailsService customUserDetailsService;
+    private final DynamicPageAuthorityAcceptedProperties dynamicPageAuthorityAcceptedProperties;
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
     private final CustomLogoutHandler customLogoutHandler;
@@ -49,7 +50,7 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer(){
         return (web -> web.ignoring()
-                .requestMatchers("/css/*", "/js/*", "/favicon.ico")
+                .requestMatchers(String.valueOf(dynamicPageAuthorityAcceptedProperties.staticPaths()).split(","))
                 // 경로 잘 확인할 것. 정적 파일이 다 들어가지 않으면 통과된 정적파일이 URI로 들어가서 반환됨
         );
     }
