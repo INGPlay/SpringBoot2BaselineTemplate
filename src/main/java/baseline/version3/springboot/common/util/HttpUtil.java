@@ -34,4 +34,8 @@ public final class HttpUtil {
 
         return request.getRemoteAddr();
     }
+
+    public static String getReferrer(HttpServletRequest httpServletRequest) {
+        return httpServletRequest.getHeader("Referer");
+    }
 }

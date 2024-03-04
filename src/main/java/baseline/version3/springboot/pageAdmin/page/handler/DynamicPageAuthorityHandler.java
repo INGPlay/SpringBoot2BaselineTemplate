@@ -34,7 +34,9 @@ public class DynamicPageAuthorityHandler {
 
     public boolean isPageAuthorization(HttpServletRequest request, Authentication authentication) {
 
-        checkHttpMethods(request);
+        if (checkHttpMethods(request)){
+            return false;
+        }
 
         return checkPageAuthority(request, authentication);
     }
@@ -87,13 +89,11 @@ public class DynamicPageAuthorityHandler {
                 );
     }
 
-    private void checkHttpMethods(HttpServletRequest request) {
-        boolean isNotAcceptedMethod = dynamicPageAuthorityAcceptedProperties.httpMethods().stream().noneMatch(
+    private boolean checkHttpMethods(HttpServletRequest request) {
+        // 허용되지 않는 메소드는 False
+        return dynamicPageAuthorityAcceptedProperties.httpMethods().stream().noneMatch(
                 httpMethod -> httpMethod.equals(request.getMethod())
         );
-        if (isNotAcceptedMethod){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        }
     }
 
     private static Collection<? extends GrantedAuthority> getGrantedAuthorities(Object principal) {

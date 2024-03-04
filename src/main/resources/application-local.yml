@@ -97,3 +97,9 @@ custom:
         type: form      # form
     page:
         intro: /index
+
+
+page-admin:
+    accepted:
+        http-methods: GET, POST, PUT, DELETE
+#        static-paths:
