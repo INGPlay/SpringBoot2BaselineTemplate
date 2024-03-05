@@ -114,5 +114,12 @@ custom:
 
 page-admin:
     accepted:
-        http-methods: GET, POST, PUT, DELETE
-#        static-paths:
+        staticPaths :
+            - "/framework/**"
+            - "/library/**"
+            - "/favicon.ico"
+            - "/img/**"
+            - "/js/**"
+            - "/css/**"
+    denied:
+        httpMethods : HEAD, TRACE, OPTIONS

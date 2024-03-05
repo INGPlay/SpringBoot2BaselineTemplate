@@ -16,7 +16,7 @@ public class RootController {
     @Value("${custom.page.intro}")
     private String introPage;
 
-    @@GetMapping
+    @GetMapping
     public String rootPage(){
         return "redirect:" + introPage;
     }
