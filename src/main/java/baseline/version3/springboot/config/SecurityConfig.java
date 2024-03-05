@@ -54,6 +54,11 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer(){
+
+        String collect = pageAuthorityAcceptedProperties.staticPaths().stream()
+                .collect(Collectors.joining(", "));
+        log.info("Accepted Paths : {}", collect);
+
         return (web -> web.ignoring()
                 .requestMatchers(String.valueOf(pageAuthorityAcceptedProperties.staticPaths()).split(","))
                 // 경로 잘 확인할 것. 정적 파일이 다 들어가지 않으면 통과된 정적파일이 URI로 들어가서 반환됨
