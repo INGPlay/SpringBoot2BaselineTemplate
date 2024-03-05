@@ -3,14 +3,12 @@ package baseline.version3.springboot.pageAdmin.page.handler;
 import baseline.version3.springboot.config.security.authenticationManager.AccountContext;
 import baseline.version3.springboot.pageAdmin.page.domain.subPage.SubPageRequest;
 import baseline.version3.springboot.pageAdmin.page.domain.subPage.SubPageResponse;
-import baseline.version3.springboot.pageAdmin.page.properties.DynamicPageAuthorityAcceptedProperties;
 import baseline.version3.springboot.pageAdmin.page.service.SubPageService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,7 +16,6 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -30,13 +27,7 @@ public class DynamicPageAuthorityHandler {
 
     private final SubPageService subPageService;
 
-    private final DynamicPageAuthorityAcceptedProperties dynamicPageAuthorityAcceptedProperties;
-
     public boolean isPageAuthorization(HttpServletRequest request, Authentication authentication) {
-
-        if (checkHttpMethods(request)){
-            return false;
-        }
 
         return checkPageAuthority(request, authentication);
     }
@@ -76,13 +67,6 @@ public class DynamicPageAuthorityHandler {
             return true;
         }
         return false;
-    }
-
-    private boolean checkHttpMethods(HttpServletRequest request) {
-        // 허용되지 않는 메소드는 False
-        return dynamicPageAuthorityAcceptedProperties.httpMethods().stream().noneMatch(
-                httpMethod -> httpMethod.equals(request.getMethod())
-        );
     }
 
     private static Collection<? extends GrantedAuthority> getGrantedAuthorities(Object principal) {

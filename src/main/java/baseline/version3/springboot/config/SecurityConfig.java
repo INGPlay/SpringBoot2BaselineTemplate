@@ -1,15 +1,18 @@
 package baseline.version3.springboot.config;
 
-import baseline.version3.springboot.config.security.authenticationManager.CustomUserDetailsService;
+import baseline.version3.springboot.config.properties.PageAuthorityDeniedProperties;
 import baseline.version3.springboot.config.security.handler.CustomAuthenticationFailureHandler;
 import baseline.version3.springboot.config.security.handler.CustomAuthenticationSuccessHandler;
 import baseline.version3.springboot.config.security.handler.CustomLogoutHandler;
 import baseline.version3.springboot.config.security.handler.KeycloakLogoutHandler;
-import baseline.version3.springboot.pageAdmin.page.properties.DynamicPageAuthorityAcceptedProperties;
+import baseline.version3.springboot.config.properties.PageAuthorityAcceptedProperties;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
@@ -34,12 +37,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final DynamicPageAuthorityAcceptedProperties dynamicPageAuthorityAcceptedProperties;
+    private final PageAuthorityAcceptedProperties pageAuthorityAcceptedProperties;
+    private final PageAuthorityDeniedProperties pageAuthorityDeniedProperties;
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
     private final CustomLogoutHandler customLogoutHandler;
@@ -50,23 +55,59 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer(){
         return (web -> web.ignoring()
-                .requestMatchers(String.valueOf(dynamicPageAuthorityAcceptedProperties.staticPaths()).split(","))
+                .requestMatchers(String.valueOf(pageAuthorityAcceptedProperties.staticPaths()).split(","))
                 // 경로 잘 확인할 것. 정적 파일이 다 들어가지 않으면 통과된 정적파일이 URI로 들어가서 반환됨
         );
     }
 
     @Bean
-    @ConditionalOnProperty(value = "custom.account.type", havingValue = "form", matchIfMissing = false)
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests(a -> a
-                        .requestMatchers(HttpMethod.TRACE).denyAll()
-                        .requestMatchers(HttpMethod.OPTIONS).denyAll()
-                        .requestMatchers(HttpMethod.HEAD).denyAll()
-                        .requestMatchers(HttpMethod.PATCH).denyAll()
-                        // 기본 페이지
-                        .anyRequest().access("@dynamicPageAuthorityHandler.isPageAuthorization(request, authentication)")
+    @Primary
+    public HttpSecurity commonSecurity(HttpSecurity httpSecurity) throws Exception {
+
+        String collect = pageAuthorityDeniedProperties.httpMethods().stream()
+                .map(httpMethod -> httpMethod.strip().toUpperCase())
+                .collect(Collectors.joining(", "));
+        log.info("Denied Methods : {}", collect);
+
+        return httpSecurity
+                .authorizeRequests(a -> {
+                            // Http 메소드 제한
+                            pageAuthorityDeniedProperties.httpMethods().forEach(
+                                method -> a.requestMatchers(HttpMethod.valueOf(method.strip().toUpperCase())).denyAll()
+                            );
+                            // 페이지별 동적 권한 핸들러
+                            a.anyRequest().access("@dynamicPageAuthorityHandler.isPageAuthorization(request, authentication)");
+                        }
                 )
+                .logout(l -> l
+                        .logoutUrl("/account/logout")
+                        .logoutSuccessUrl("/")
+                        .deleteCookies("JSESSIONID", "remember-me")
+                )
+                .sessionManagement(m -> m
+                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                )
+                .exceptionHandling(e ->
+                        e.accessDeniedPage("/error")
+                )
+                .headers(h -> h
+                        .referrerPolicy(referrerPolicy ->
+                                referrerPolicy
+                                        .policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
+                        )
+                        .contentSecurityPolicy(contentSecurityPolicy ->
+                                contentSecurityPolicy
+                                        .policyDirectives("script-src 'self'")
+                        )
+                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin
+                        )
+                );
+    }
+
+    @Bean
+    @ConditionalOnProperty(value = "custom.account.type", havingValue = "form", matchIfMissing = false)
+    public SecurityFilterChain filterChain(@Qualifier("commonSecurity") HttpSecurity commonSecurity) throws Exception {
+        commonSecurity
                 .formLogin(f -> f
                         .loginPage("/account/login")
                         .defaultSuccessUrl("/")
@@ -86,12 +127,6 @@ public class SecurityConfig {
 //                        .successHandler(customAuthenticationSuccessHandler)
 //                        .failureHandler(customAuthenticationFailureHandler)
 //                )
-                .logout(l -> l
-                        .logoutUrl("/account/logout")
-                        .logoutSuccessUrl("/")
-                        .deleteCookies("JSESSIONID", "remember-me")
-                        .addLogoutHandler(customLogoutHandler)
-                )
                 .rememberMe(r -> r
                                 .rememberMeParameter("remember-me")         // 기본 파라미터명은 remember-me
                                 .tokenValiditySeconds(3600)              // Default 는 14일
@@ -105,66 +140,25 @@ public class SecurityConfig {
                                 .maximumSessions(1)
                                 .maxSessionsPreventsLogin(false)
 //                        .expiredUrl("expired")
-                )
-                .exceptionHandling(e ->
-                        e.accessDeniedPage("/?dinied")
-                )
-                .headers(h -> h
-                        .referrerPolicy(referrerPolicy ->
-                                referrerPolicy
-                                        .policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
-                        )
-                        .contentSecurityPolicy(contentSecurityPolicy ->
-                                contentSecurityPolicy
-                                        .policyDirectives("script-src 'self'")
-                        )
-                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin
-                        )
                 );
 
-        return http.build();
+        return commonSecurity.build();
     }
 
     @Bean
     @ConditionalOnProperty(value = "custom.account.type", havingValue = "keycloak", matchIfMissing = false)
-    public SecurityFilterChain keycloakChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests(a -> a
-                        .requestMatchers(HttpMethod.TRACE).denyAll()
-                        .requestMatchers(HttpMethod.OPTIONS).denyAll()
-                        .requestMatchers(HttpMethod.HEAD).denyAll()
-                        .requestMatchers(HttpMethod.PATCH).denyAll()
-                        // 기본 페이지
-                        .anyRequest().access("@dynamicPageAuthorityHandler.isPageAuthorization(request, authentication)")
-                )
+    public SecurityFilterChain keycloakChain(@Qualifier("commonSecurity") HttpSecurity commonSecurity) throws Exception {
+        commonSecurity
                 .oauth2Login()
                 .and()
                 .logout(l -> l
-                        .logoutUrl("/account/logout")
-                        .logoutSuccessUrl("/")
-                        .deleteCookies("JSESSIONID", "remember-me")
                         .addLogoutHandler(keycloakLogoutHandler)
                 )
                 .sessionManagement(m -> m
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-                )
-                .exceptionHandling(e ->
-                        e.accessDeniedPage("/?dinied")
-                )
-                .headers(h -> h
-                        .referrerPolicy(referrerPolicy ->
-                                referrerPolicy
-                                        .policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
-                        )
-                        .contentSecurityPolicy(contentSecurityPolicy ->
-                                contentSecurityPolicy
-                                        .policyDirectives("script-src 'self'")
-                        )
-                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin
-                        )
                 );
 
-        return http.build();
+        return commonSecurity.build();
     }
 
     @Bean
