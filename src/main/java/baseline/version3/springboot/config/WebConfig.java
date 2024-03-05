@@ -1,5 +1,6 @@
 package baseline.version3.springboot.config;
 
+import baseline.version3.springboot.config.properties.PageAuthorityAcceptedProperties;
 import baseline.version3.springboot.pageAdmin.ipAccess.interceptor.IpAccessInterceptor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final IpAccessInterceptor ipAccessInterceptor;
 
+    private final PageAuthorityAcceptedProperties pageAuthorityAcceptedProperties;
+
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
 
@@ -25,6 +28,6 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(ipAccessInterceptor)
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/framework/**", "/img/**", "/library/**", "/error");
+                .excludePathPatterns(String.valueOf(pageAuthorityAcceptedProperties.staticPaths()).split(","));
     }
 }
