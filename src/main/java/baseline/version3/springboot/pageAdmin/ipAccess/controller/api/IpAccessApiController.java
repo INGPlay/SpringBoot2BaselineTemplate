@@ -23,21 +23,21 @@ import java.util.List;
 public class IpAccessApiController {
     private final IpAccessService ipAccessService;
 
-    @Secured("ADMIN")
+    @Secured("ROLE_ADMIN")
     @GetMapping("/{id}")
     public ResponseEntity<ResponseForm> selectOne(@PathVariable Long id){
         IpAccessResponse.Response response = ipAccessService.findOne(id);
         return ResponseUtil.makeResponseEntity(response);
     }
 
-    @Secured("ADMIN")
+    @Secured("ROLE_ADMIN")
     @GetMapping
     public ResponseEntity<ResponseForm> selectList(){
         List<IpAccessResponse.Response> responseList = ipAccessService.findList();
         return ResponseUtil.makeResponseEntity(responseList);
     }
 
-    @Secured("ADMIN")
+    @Secured("ROLE_ADMIN")
     @PostMapping
     public ResponseEntity<ResponseForm> insert(@Valid @RequestBody IpAccessRequest.Request request,
                                                BindingResult bindingResult){
@@ -49,7 +49,7 @@ public class IpAccessApiController {
         return ResponseUtil.makeResponseEntity();
     }
 
-    @Secured("ADMIN")
+    @Secured("ROLE_ADMIN")
     @PutMapping
     public ResponseEntity<ResponseForm> update(@Valid @RequestBody IpAccessRequest.RequestUpdate requestUpdate,
                                                BindingResult bindingResult){
@@ -61,7 +61,7 @@ public class IpAccessApiController {
         return ResponseUtil.makeResponseEntity();
     }
 
-    @Secured("ADMIN")
+    @Secured("ROLE_ADMIN")
     @DeleteMapping
     public ResponseEntity<ResponseForm> delete(@Valid @RequestBody IpAccessRequest.RequestDelete requestDelete,
                                                BindingResult bindingResult){

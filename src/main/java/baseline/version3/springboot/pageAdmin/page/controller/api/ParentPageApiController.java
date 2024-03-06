@@ -27,14 +27,14 @@ public class ParentPageApiController {
 
     private final ParentPageService parentPageService;
 
-    @Secured("ADMIN")
+    @Secured("ROLE_ADMIN")
     @GetMapping
     public ResponseEntity<ResponseForm> list(){
         List<ParentPageResponse.Response> list = parentPageService.findList();
         return ResponseUtil.makeResponseEntity(list);
     }
 
-    @Secured("ADMIN")
+    @Secured("ROLE_ADMIN")
     @GetMapping("/{id}")
     public ResponseEntity<ResponseForm> one(@PathVariable Long id){
         ParentPageResponse.Response response = parentPageService.findOneById(id).orElseThrow(() ->
@@ -43,7 +43,7 @@ public class ParentPageApiController {
         return ResponseUtil.makeResponseEntity(response);
     }
 
-    @Secured("ADMIN")
+    @Secured("ROLE_ADMIN")
     @PostMapping
     public ResponseEntity<ResponseForm> create(@Valid @RequestBody ParentPageRequest.RequestInsert requestInsert,
                                                BindingResult bindingResult){
@@ -74,7 +74,7 @@ public class ParentPageApiController {
         }
     }
 
-    @Secured("ADMIN")
+    @Secured("ROLE_ADMIN")
     @PutMapping
     public ResponseEntity<ResponseForm> update(@Valid @RequestBody ParentPageRequest.RequestUpdate requestUpdate,
                                                BindingResult bindingResult){
@@ -88,7 +88,7 @@ public class ParentPageApiController {
         checkHasErrors(bindingResult);
     }
 
-    @Secured("ADMIN")
+    @Secured("ROLE_ADMIN")
     @DeleteMapping
     public ResponseEntity<ResponseForm> delete(@RequestBody ParentPageRequest.RequestDelete requestDelete){
         parentPageService.deleteParentPageById(requestDelete.getParentPageId());

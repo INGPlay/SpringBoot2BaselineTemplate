@@ -25,21 +25,21 @@ public class PageAuthorityApiController {
 
     private final PageAuthorityService pageAuthorityService;
 
-    @Secured("ADMIN")
+    @Secured("ROLE_ADMIN")
     @GetMapping
     public ResponseEntity<ResponseForm> findList(){
         List<PageAuthorityResponse.Response> list = pageAuthorityService.findList();
         return ResponseUtil.makeResponseEntity(list);
     }
 
-    @Secured("ADMIN")
+    @Secured("ROLE_ADMIN")
     @GetMapping("/{id}")
     public ResponseEntity<ResponseForm> findOne(@PathVariable Long id){
         PageAuthorityResponse.Response response = pageAuthorityService.findById(id);
         return ResponseUtil.makeResponseEntity(response);
     }
 
-    @Secured("ADMIN")
+    @Secured("ROLE_ADMIN")
     @PostMapping
     public ResponseEntity<ResponseForm> createAuth(@Valid @RequestBody PageAuthorityRequest.RequestInsert requestInsert,
                                                    BindingResult bindingResult){
@@ -69,7 +69,7 @@ public class PageAuthorityApiController {
         }
     }
 
-    @Secured("ADMIN")
+    @Secured("ROLE_ADMIN")
     @PutMapping
     public ResponseEntity<ResponseForm> updateAuth(@Valid @RequestBody PageAuthorityRequest.RequestUpdate requestUpdate,
                                                    BindingResult bindingResult){
@@ -81,7 +81,7 @@ public class PageAuthorityApiController {
         return ResponseUtil.makeResponseEntity();
     }
 
-    @Secured("ADMIN")
+    @Secured("ROLE_ADMIN")
     @DeleteMapping
     public ResponseEntity<ResponseForm> removeAuth(@RequestBody PageAuthorityRequest.RequestDelete requestDelete){
         pageAuthorityService.delete(requestDelete);

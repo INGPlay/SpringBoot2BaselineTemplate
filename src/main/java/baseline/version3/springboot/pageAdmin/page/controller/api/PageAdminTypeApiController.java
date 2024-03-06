@@ -20,7 +20,7 @@ public class PageAdminTypeApiController {
 
     private final PageAuthorityService pageAuthorityService;
 
-    @Secured("ADMIN")
+    @Secured("ROLE_ADMIN")
     @GetMapping("/authority")
     public ResponseEntity<ResponseForm> authorityType(){
         List<ResponseTypeForm> responseTypeList = pageAuthorityService.findList().stream().map(authority -> {
