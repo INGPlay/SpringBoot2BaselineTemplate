@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +27,15 @@ import java.util.List;
 public class SubPageApiController {
 
     private final SubPageService subPageService;
+
+    @Secured("ADMIN")
     @GetMapping
     public ResponseEntity<ResponseForm> list(SubPageRequest.RequestDynamicQuery requestDynamicQuery){
         List<SubPageResponse.Response> list = subPageService.findList(requestDynamicQuery);
         return ResponseUtil.makeResponseEntity(list);
     }
 
+    @Secured("ADMIN")
     @GetMapping("/{id}")
     public ResponseEntity<ResponseForm> one(@PathVariable Long id){
 
@@ -43,6 +47,7 @@ public class SubPageApiController {
         return ResponseUtil.makeResponseEntity(response);
     }
 
+    @Secured("ADMIN")
     @PostMapping
     public ResponseEntity<ResponseForm> register(@Valid @RequestBody SubPageRequest.RequestInsert requestInsert,
                                                  BindingResult bindingResult){
@@ -65,6 +70,7 @@ public class SubPageApiController {
         }
     }
 
+    @Secured("ADMIN")
     @PutMapping
     public ResponseEntity<ResponseForm> update(@Valid @RequestBody SubPageRequest.RequestUpdate requestUpdate,
                                                BindingResult bindingResult){
@@ -100,6 +106,7 @@ public class SubPageApiController {
         }
     }
 
+    @Secured("ADMIN")
     @DeleteMapping
     public ResponseEntity<ResponseForm> delete(@RequestBody SubPageRequest.RequestDelete requestDelete){
         subPageService.deleteParentPageById(requestDelete.getSubPageId());

@@ -31,7 +31,6 @@ public class ParentPageService {
     private final QParentPageRepository qParentPageRepository;
     private final ParentPageMapper parentPageMapper;
 
-    @PreAuthorize("hasRole('ADMIN')")
     @Transactional(readOnly = true)
     @Cacheable(cacheNames = "ParentPageService.findList")
     public List<ParentPageResponse.Response> findList(){
@@ -39,13 +38,11 @@ public class ParentPageService {
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
     @Transactional(readOnly = true)
     public Optional<ParentPageResponse.Response> findOne(ParentPageRequest.RequestDynamicQueryOne requestDynamicQueryOne){
         return qParentPageRepository.selectOne(requestDynamicQueryOne);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @Transactional(readOnly = true)
     public Optional<ParentPageResponse.Response> findOneById(Long id){
 
@@ -53,7 +50,6 @@ public class ParentPageService {
         return qParentPageRepository.selectOne(requestDynamicQueryOne);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @Caching(
             evict = {
                     @CacheEvict(cacheNames = "ParentPageService.findList", allEntries = true),
@@ -66,7 +62,6 @@ public class ParentPageService {
         parentPageRepository.save(entity);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @Caching(
             evict = {
                     @CacheEvict(cacheNames = "ParentPageService.findList", allEntries = true),
@@ -83,7 +78,6 @@ public class ParentPageService {
         parentPageRepository.save(parentPage);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @Caching(
             evict = {
                     @CacheEvict(cacheNames = "ParentPageService.findList", allEntries = true),

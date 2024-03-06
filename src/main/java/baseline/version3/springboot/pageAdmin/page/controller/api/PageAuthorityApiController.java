@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -24,18 +25,21 @@ public class PageAuthorityApiController {
 
     private final PageAuthorityService pageAuthorityService;
 
+    @Secured("ADMIN")
     @GetMapping
     public ResponseEntity<ResponseForm> findList(){
         List<PageAuthorityResponse.Response> list = pageAuthorityService.findList();
         return ResponseUtil.makeResponseEntity(list);
     }
 
+    @Secured("ADMIN")
     @GetMapping("/{id}")
     public ResponseEntity<ResponseForm> findOne(@PathVariable Long id){
         PageAuthorityResponse.Response response = pageAuthorityService.findById(id);
         return ResponseUtil.makeResponseEntity(response);
     }
 
+    @Secured("ADMIN")
     @PostMapping
     public ResponseEntity<ResponseForm> createAuth(@Valid @RequestBody PageAuthorityRequest.RequestInsert requestInsert,
                                                    BindingResult bindingResult){
@@ -65,6 +69,7 @@ public class PageAuthorityApiController {
         }
     }
 
+    @Secured("ADMIN")
     @PutMapping
     public ResponseEntity<ResponseForm> updateAuth(@Valid @RequestBody PageAuthorityRequest.RequestUpdate requestUpdate,
                                                    BindingResult bindingResult){
@@ -76,6 +81,7 @@ public class PageAuthorityApiController {
         return ResponseUtil.makeResponseEntity();
     }
 
+    @Secured("ADMIN")
     @DeleteMapping
     public ResponseEntity<ResponseForm> removeAuth(@RequestBody PageAuthorityRequest.RequestDelete requestDelete){
         pageAuthorityService.delete(requestDelete);

@@ -7,6 +7,7 @@ import baseline.version3.springboot.pageAdmin.page.service.PageAuthorityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,8 @@ import java.util.List;
 public class PageAdminTypeApiController {
 
     private final PageAuthorityService pageAuthorityService;
+
+    @Secured("ADMIN")
     @GetMapping("/authority")
     public ResponseEntity<ResponseForm> authorityType(){
         List<ResponseTypeForm> responseTypeList = pageAuthorityService.findList().stream().map(authority -> {

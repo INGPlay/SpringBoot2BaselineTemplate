@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,18 +23,21 @@ import java.util.List;
 public class IpAccessApiController {
     private final IpAccessService ipAccessService;
 
+    @Secured("ADMIN")
     @GetMapping("/{id}")
     public ResponseEntity<ResponseForm> selectOne(@PathVariable Long id){
         IpAccessResponse.Response response = ipAccessService.findOne(id);
         return ResponseUtil.makeResponseEntity(response);
     }
 
+    @Secured("ADMIN")
     @GetMapping
     public ResponseEntity<ResponseForm> selectList(){
         List<IpAccessResponse.Response> responseList = ipAccessService.findList();
         return ResponseUtil.makeResponseEntity(responseList);
     }
 
+    @Secured("ADMIN")
     @PostMapping
     public ResponseEntity<ResponseForm> insert(@Valid @RequestBody IpAccessRequest.Request request,
                                                BindingResult bindingResult){
@@ -45,6 +49,7 @@ public class IpAccessApiController {
         return ResponseUtil.makeResponseEntity();
     }
 
+    @Secured("ADMIN")
     @PutMapping
     public ResponseEntity<ResponseForm> update(@Valid @RequestBody IpAccessRequest.RequestUpdate requestUpdate,
                                                BindingResult bindingResult){
@@ -56,6 +61,7 @@ public class IpAccessApiController {
         return ResponseUtil.makeResponseEntity();
     }
 
+    @Secured("ADMIN")
     @DeleteMapping
     public ResponseEntity<ResponseForm> delete(@Valid @RequestBody IpAccessRequest.RequestDelete requestDelete,
                                                BindingResult bindingResult){

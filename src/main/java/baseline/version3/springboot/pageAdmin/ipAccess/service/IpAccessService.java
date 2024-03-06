@@ -67,14 +67,12 @@ public class IpAccessService {
                 .anyMatch(ip -> ip.matches(clientIp));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     public void insertOne(IpAccessRequest.Request request){
         IpAccess ipAccess = ipAccessMapper.requestInsert(request);
 
         ipAccessRepository.save(ipAccess);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @CacheEvict(cacheNames = "IpAccessService.isAppliedIp", allEntries = true)
     public void updateOne(IpAccessRequest.RequestUpdate request){
 
@@ -87,7 +85,6 @@ public class IpAccessService {
         ipAccessRepository.save(ipAccess);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @CacheEvict(cacheNames = "IpAccessService.isAppliedIp", allEntries = true)
     public void deleteOne(IpAccessRequest.RequestDelete request){
         IpAccess ipAccess = ipAccessRepository.findById(request.getIpAccessId()).orElseThrow(

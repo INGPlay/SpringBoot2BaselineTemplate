@@ -47,7 +47,6 @@ public class SubPageService {
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
     @Caching(
             evict = {
                     @CacheEvict(cacheNames = "ParentPageService.findList", allEntries = true),
@@ -60,7 +59,6 @@ public class SubPageService {
         subPageRepository.save(entity);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @Caching(
             evict = {
                     @CacheEvict(cacheNames = "SubPageService.findList", allEntries = true),
@@ -75,7 +73,6 @@ public class SubPageService {
         subPageRepository.save(subPage);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @Caching(
             evict = {
                     @CacheEvict(cacheNames = "ParentPageService.findList", allEntries = true),

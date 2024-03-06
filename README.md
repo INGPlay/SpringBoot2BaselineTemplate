@@ -45,7 +45,6 @@
 ### CSS
 - BootStrap 5
 - UIKit
-- Vuetify
 
 
 # 기록
@@ -139,3 +138,6 @@
 
 ## 404나 500 같은 HttpStatus는 ErrorController로 잡는 게 좋은 것 같다
 - HttpStatus는 기본적으로 Exception으로 잡히지 않고, 잡는다 하더라도 여러 설정이 필요함
+
+## 메소드 시큐리티는 API Controller 계층에 추가해준다.
+- API에서 쓰이는 서비스 메소드가 다른 여러 곳에 쓰이는 경우가 많다.
