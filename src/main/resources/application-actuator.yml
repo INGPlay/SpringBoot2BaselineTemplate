@@ -7,5 +7,3 @@ management:
             base-path: "/conditioner"
             exposure:
                 include: "*"
-        health:
-            show-details: always
