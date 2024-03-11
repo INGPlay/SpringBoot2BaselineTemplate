@@ -1,0 +1,11 @@
+# Acturator
+management:
+    server:
+        port: 9898
+    endpoints:
+        web:
+            base-path: "/conditioner"
+            exposure:
+                include: "*"
+        health:
+            show-details: always

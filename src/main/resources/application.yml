@@ -3,15 +3,15 @@ spring:
         group:
             local:
                 - local
-
+                - actuator
 
             dev:
                 - dev
+                - actuator
 
             prod:
                 - prod
-                - customProd
-                - commonProd
+                - actuator
 ---
 spring:
     profiles:
