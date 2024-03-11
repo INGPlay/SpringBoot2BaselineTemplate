@@ -1,6 +1,5 @@
 package baseline.version3.springboot.pageAdmin.page.aspect;
 
-import baseline.version3.springboot.pageAdmin.page.domain.subPage.SubPageRequest;
 import baseline.version3.springboot.pageAdmin.page.domain.subPage.SubPageResponse;
 import baseline.version3.springboot.pageAdmin.page.service.SubPageService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import java.util.Optional;
+import java.io.IOException;
 
 @Slf4j
 @ControllerAdvice(annotations = Controller.class)
@@ -24,19 +23,16 @@ public class PageAdminAdvice {
      * 모든 컨트롤러 매핑 공통
      */
     @ModelAttribute
-    public void handleRequest(HttpServletRequest request, Model model) {
+    public void handleRequest(HttpServletRequest request, Model model) throws IOException {
 
         log.info("Request : {} {}", request.getMethod(), request.getRequestURI());
 
         if (request.getMethod().equalsIgnoreCase("GET")) {
-            SubPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new SubPageRequest.RequestDynamicQueryOne(request.getRequestURI());
-            Optional<SubPageResponse.Response> response = subPageService.findOne(requestDynamicQueryOne);
+            SubPageResponse.Response matchedPage = subPageService.findMatchedPage(request);
 
-            if (response.isPresent()){
-                SubPageResponse.Response subPage = response.get();
-                model.addAttribute("pageInfo", subPage);
+            if (matchedPage != null){
+                model.addAttribute("pageInfo", matchedPage);
             }
         }
     }
-
 }

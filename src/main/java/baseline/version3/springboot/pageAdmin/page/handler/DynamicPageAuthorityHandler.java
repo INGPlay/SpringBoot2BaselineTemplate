@@ -5,10 +5,10 @@ import baseline.version3.springboot.pageAdmin.page.domain.subPage.SubPageRequest
 import baseline.version3.springboot.pageAdmin.page.domain.subPage.SubPageResponse;
 import baseline.version3.springboot.pageAdmin.page.service.SubPageService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,7 +16,10 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,31 +29,31 @@ import java.util.stream.Collectors;
 public class DynamicPageAuthorityHandler {
 
     private final SubPageService subPageService;
+    private final AntPathMatcher antPathMatcher;
 
-    public boolean isPageAuthorization(HttpServletRequest request, Authentication authentication) {
+    private final List<String> staticPaths = new ArrayList<>(List.of(new String[]{
+            "/framework/**",
+            "/library/**",
+            "/img/**",
+            "/favicon.ico"
+    }));
 
-        return checkPageAuthority(request, authentication);
-    }
+    public boolean isPageAuthorization(HttpServletRequest request, Authentication authentication) throws IOException {
 
-    private boolean checkPageAuthority(HttpServletRequest request, Authentication authentication) {
-        // GET이 아니면 true -> Method Security로 권한 체크
-        if (isNotGet(request)) {
+        // GET 방식만 체크한다.
+        if (!request.getMethod().equalsIgnoreCase("GET") ||
+                staticPaths.stream().anyMatch(p -> antPathMatcher.match(p, request.getRequestURI()))
+        ){
             return true;
         }
 
-        // URI를 통해 해당하는 페이지 찾기
-        SubPageRequest.RequestDynamicQueryOne requestDynamicQueryOne = new SubPageRequest.RequestDynamicQueryOne(request.getRequestURI());
-        Optional<SubPageResponse.Response> subPageResponse = subPageService.findOne(requestDynamicQueryOne);
+        SubPageResponse.Response subPage = subPageService.findMatchedPage(request);
+        if (subPage == null) return true;
 
-        // 등록해놓은 페이지가 아닌 경우
-        if (subPageResponse.isEmpty()){
-            return true;
-        }
-        SubPageResponse.Response subPage = subPageResponse.get();
         Collection<? extends GrantedAuthority> authorities = getGrantedAuthorities(authentication.getPrincipal());
-
+        
         // 등록해놓은 페이지에 제한사항이 없을 경우
-        if (!StringUtils.hasText(subPage.pageAuthorityCode())){
+        if (!StringUtils.hasText(Objects.requireNonNull(subPage).pageAuthorityCode())){
             return true;
 
         // 제한사항은 있는데, 사용자의 권한이 없을 경우
@@ -58,15 +61,7 @@ public class DynamicPageAuthorityHandler {
             return false;
         }
 
-        // 사용자의 권한 중 페이지의 권한이 포함되어 있는지 확인
         return authorities.contains(new SimpleGrantedAuthority(getRoleString(subPage.pageAuthorityCode())));
-    }
-
-    private static boolean isNotGet(HttpServletRequest request) {
-        if (!request.getMethod().equalsIgnoreCase(HttpMethod.GET.name())){
-            return true;
-        }
-        return false;
     }
 
     private static Collection<? extends GrantedAuthority> getGrantedAuthorities(Object principal) {
@@ -83,12 +78,6 @@ public class DynamicPageAuthorityHandler {
         }
         return authorities;
     }
-
-    @Bean
-    private AntPathMatcher antPathMatcher(){
-        return new AntPathMatcher();
-    }
-
     private String getRoleString(String roleCode){
         return "ROLE_" + roleCode;
     }

@@ -30,6 +30,7 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
+import org.springframework.util.AntPathMatcher;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -78,7 +79,7 @@ public class SecurityConfig {
                 .authorizeRequests(a -> {
                             // Http 메소드 제한
                             pageAuthorityDeniedProperties.httpMethods().forEach(
-                                method -> a.requestMatchers(HttpMethod.valueOf(method.strip().toUpperCase())).denyAll()
+                                    method -> a.requestMatchers(HttpMethod.valueOf(method.strip().toUpperCase())).denyAll()
                             );
                             // 페이지별 동적 권한 핸들러
                             a.anyRequest().access("@dynamicPageAuthorityHandler.isPageAuthorization(request, authentication)");
@@ -212,6 +213,12 @@ public class SecurityConfig {
             return mappedAuthorities;
         };
     }
+
+    @Bean
+    public AntPathMatcher antPathMatcher(){
+        return new AntPathMatcher();
+    }
+
 
     Collection<GrantedAuthority> generateAuthoritiesFromClaim(Collection<String> roles) {
         return roles.stream()
