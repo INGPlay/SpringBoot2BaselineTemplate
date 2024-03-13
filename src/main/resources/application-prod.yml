@@ -29,7 +29,7 @@ spring:
         restart:
             enabled: false
     thymeleaf:
-        cache: false
+        cache: true
         prefix: file:src/main/resources/templates/
     web:
         resources:
