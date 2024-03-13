@@ -2,7 +2,10 @@ package baseline.version3.springboot.common.util;
 
 import com.querydsl.core.types.dsl.*;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 @Component
 public class QueryDslNullableUtil {
@@ -74,4 +77,31 @@ public class QueryDslNullableUtil {
 
         return path.ne(e);
     }
+
+    // -------------------------------------------------------------------------------------------------------------
+    // contain
+    public BooleanExpression in(StringExpression path, String... string){
+        if (ObjectUtils.isEmpty(string)){
+            return null;
+        }
+
+        return path.in(string);
+    }
+
+    public <T extends Number & Comparable<?>>BooleanExpression in(NumberPath<Long> path, List<Long> number){
+        if (ObjectUtils.isEmpty(number)){
+            return null;
+        }
+
+        return path.in(number);
+    }
+
+    public <T>BooleanExpression in (SimpleExpression<T> path, T... t) {
+        if (ObjectUtils.isEmpty(t)){
+            return null;
+        }
+
+        return path.in(t);
+    }
+
 }
