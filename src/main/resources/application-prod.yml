@@ -26,12 +26,14 @@ spring:
     devtools:
         livereload:
             enabled: true
+        restart:
+            enabled: false
     thymeleaf:
         cache: false
-        prefix: classpath:templates/
+        prefix: file:src/main/resources/templates/
     web:
         resources:
-            static-locations: classpath:static/
+            static-locations: file:src/main/resources/static/
 
     redis:
         host: #
