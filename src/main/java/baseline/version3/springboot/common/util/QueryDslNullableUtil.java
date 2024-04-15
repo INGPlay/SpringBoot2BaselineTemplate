@@ -104,4 +104,30 @@ public class QueryDslNullableUtil {
         return path.in(t);
     }
 
+    // -------------------------------------------------------------------------------------------------------------
+    // contains, like, startsWith
+    public BooleanExpression contains(StringExpression path, String string){
+        if (ObjectUtils.isEmpty(string)){
+            return null;
+        }
+
+        return path.contains(string);
+    }
+
+    public BooleanExpression like(StringExpression path, String string){
+        if (ObjectUtils.isEmpty(string)){
+            return null;
+        }
+
+        return path.like(string);
+    }
+
+    public BooleanExpression startsWith(StringExpression path, String string){
+        if (ObjectUtils.isEmpty(string)){
+            return null;
+        }
+
+        return path.startsWith(string);
+    }
+
 }
