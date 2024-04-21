@@ -8,6 +8,10 @@ build/
 application-test.yml
 .jpb/
 
+# Frontend
+node_modules/**
+src/main/resources/static/js/dist/
+
 ### STS ###
 .apt_generated
 .classpath

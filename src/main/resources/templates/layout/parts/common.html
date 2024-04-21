@@ -5,8 +5,8 @@
 <th:block th:fragment="commonStatic">
     <meta charset="UTF-8">
     <title th:text="${pageInfo?.parentPageTitle + ' - ' + pageInfo?.subPageTitle}">페이지</title>
-
-    <script src="/library/jquery/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/commonjs-require@1.4.6/commonjs-require.min.js"></script>
+    <script src="/js/lib/module/jquery/jquery-3.7.1.min.js"></script>
 
     <!-- csrf 헤더 추가 -->
     <script type="application/javascript" th:inline="javascript">
@@ -19,8 +19,8 @@
         });
     </script>
 
-    <script src="/library/jquery/api/api.js"></script>
-    <script src="/library/custom/submit.js"></script>
+    <script src="/js/dist/module/custom/api.js"></script>
+    <script src="/js/dist/module/custom/submit.js"></script>
     <th:block th:replace="~{fragment/framework :: vue}"></th:block>
     <th:block th:replace="~{fragment/framework :: uikit}"></th:block>
     <th:block th:replace="~{fragment/framework :: bootstrap}"></th:block>

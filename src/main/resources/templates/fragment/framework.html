@@ -3,29 +3,24 @@
                 xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <th:block th:fragment="bootstrap">
-    <link rel="stylesheet" href="/framework/bootstrap-5.3.2/css/bootstrap.css" />
-    <script src="/framework/bootstrap-5.3.2/js/bootstrap.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
-    <script src="/framework/bootstrap-5.3.2/js/bootstrap.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
-    <script src="/framework/bootstrap-5.3.2/js/bootstrap.bundle.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
-    <script src="/framework/bootstrap-5.3.2/js/bootstrap.bundle.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
+    <link rel="stylesheet" href="/css/bootstrap-5.3.2/bootstrap.css" />
+    <script src="/js/dist/module/bootstrap-5.3.2/bootstrap.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
+    <script src="/js/dist/module/bootstrap-5.3.2/bootstrap.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
+    <script src="/js/dist/module/bootstrap-5.3.2/bootstrap.bundle.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
+    <script src="/js/dist/module/bootstrap-5.3.2/bootstrap.bundle.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
 </th:block>
 
 <th:block th:fragment="uikit">
-    <link rel="stylesheet" href="/framework/uikit-3.17.11/css/uikit.css" />
-    <script src="/framework/uikit-3.17.11/js/uikit.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
-    <script src="/framework/uikit-3.17.11/js/uikit.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
-    <script src="/framework/uikit-3.17.11/js/uikit-icons.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
-    <script src="/framework/uikit-3.17.11/js/uikit-icons.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
+    <link rel="stylesheet" href="/css/uikit-3.17.11/uikit.css" />
+    <script src="/js/dist/module/uikit-3.17.11/uikit.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
+    <script src="/js/dist/module/uikit-3.17.11/uikit.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
+    <script src="/js/dist/module/uikit-3.17.11/uikit-icons.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
+    <script src="/js/dist/module/uikit-3.17.11/uikit-icons.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
 </th:block>
 
 <th:block th:fragment="vue">
-    <script src="/framework/vue/vue.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
-    <script src="/framework/vue/vue.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
-
-    <!--  Vue module  -->
-<!--    <script src="/framework/vue/module/vue-multiselect_2.1.6/vue-multiselect.min.js"></script>-->
-<!--    <link rel="stylesheet" href="/framework/vue/module/vue-multiselect_2.1.6/vue-multiselect.min.css" />-->
-
-<th:block>
+    <script src="/js/dist/module/vue/vue.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
+    <script src="/js/dist/module/vue/vue.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
+</th:block>
 
 </html>
