@@ -26,6 +26,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.security.web.SecurityFilterChain;
@@ -140,11 +142,12 @@ public class SecurityConfig {
 //                        .userDetailsService(customUserDetailsService)
                 )
                 .sessionManagement(m -> m
-//                        .sessionFixation().changeSessionId()
+                       .sessionFixation().changeSessionId()
                                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
 //                        .invalidSessionUrl("/invalid")
                                 .maximumSessions(1)
-                                .maxSessionsPreventsLogin(false)
+                                .maxSessionsPreventsLogin(true)
+                                .sessionRegistry(sessionRegistry())
 //                        .expiredUrl("expired")
                 );
 
@@ -162,6 +165,10 @@ public class SecurityConfig {
                 )
                 .sessionManagement(m -> m
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                        .sessionFixation().changeSessionId()
+                        .maximumSessions(1)
+                        .maxSessionsPreventsLogin(true)
+                        .sessionRegistry(sessionRegistry())
                 );
 
         return commonSecurity.build();
@@ -213,6 +220,12 @@ public class SecurityConfig {
             return mappedAuthorities;
         };
     }
+
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
+
 
     @Bean
     public AntPathMatcher antPathMatcher(){

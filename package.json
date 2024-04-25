@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel src/main/resources/static/js/lib -d src/main/resources/static/js/dist"
+    "build": "babel src/main/frontend -d src/main/resources/static/js/dist"
   },
   "author": "",
   "license": "ISC",
