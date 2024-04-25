@@ -4,23 +4,23 @@
 
 <th:block th:fragment="bootstrap">
     <link rel="stylesheet" href="/css/bootstrap-5.3.2/bootstrap.css" />
-    <script src="/js/dist/module/bootstrap-5.3.2/bootstrap.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
-    <script src="/js/dist/module/bootstrap-5.3.2/bootstrap.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
-    <script src="/js/dist/module/bootstrap-5.3.2/bootstrap.bundle.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
-    <script src="/js/dist/module/bootstrap-5.3.2/bootstrap.bundle.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
+    <script src="/js/module/bootstrap-5.3.2/bootstrap.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
+    <script src="/js/module/bootstrap-5.3.2/bootstrap.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
+    <script src="/js/module/bootstrap-5.3.2/bootstrap.bundle.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
+    <script src="/js/module/bootstrap-5.3.2/bootstrap.bundle.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
 </th:block>
 
 <th:block th:fragment="uikit">
     <link rel="stylesheet" href="/css/uikit-3.17.11/uikit.css" />
-    <script src="/js/dist/module/uikit-3.17.11/uikit.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
-    <script src="/js/dist/module/uikit-3.17.11/uikit.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
-    <script src="/js/dist/module/uikit-3.17.11/uikit-icons.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
-    <script src="/js/dist/module/uikit-3.17.11/uikit-icons.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
+    <script src="/js/module/uikit-3.17.11/uikit.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
+    <script src="/js/module/uikit-3.17.11/uikit.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
+    <script src="/js/module/uikit-3.17.11/uikit-icons.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
+    <script src="/js/module/uikit-3.17.11/uikit-icons.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
 </th:block>
 
 <th:block th:fragment="vue">
-    <script src="/js/dist/module/vue/vue.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
-    <script src="/js/dist/module/vue/vue.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
+    <script src="/js/module/vue/vue.js" th:if = "${!@environment.acceptsProfiles('prod')}"></script>
+    <script src="/js/module/vue/vue.min.js" th:if = "${@environment.acceptsProfiles('prod')}"></script>
 </th:block>
 
 </html>
