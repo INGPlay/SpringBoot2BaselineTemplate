@@ -114,8 +114,8 @@ node {
     download = true
 }
 
-task buildFrontend(type: NpmTask, dependsOn: 'npmInstall') {
+task npmBuild(type: NpmTask, dependsOn: 'npmInstall') {
     args = ['run', 'build']
 }
 
-processResources.dependsOn('buildFrontend')
+processResources.dependsOn('npmBuild')
