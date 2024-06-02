@@ -25,7 +25,7 @@ public class ProcessLoggingAspect {
         log.info("Start ['{}'] in ['{}']", methodName, className);
 
         for(int i = 0; i < params.length; i++){
-            String param = params[i].toString();
+            Object param = params[i];
             log.info(" - ['{}'] Param {} : {}", methodName, i, param);
         }
     }
